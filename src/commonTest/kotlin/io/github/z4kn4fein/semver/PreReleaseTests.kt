@@ -28,10 +28,4 @@ class PreReleaseTests {
     fun testComponents() {
         assertEquals("alpha-3.Beta.0", "alpha-3.Beta.0".toPreRelease().preReleaseText)
     }
-
-    @Test
-    fun testClone() {
-        assertEquals("alpha-3.Beta.0", "alpha-3.Beta.0".toPreRelease().clone().preReleaseText)
-        assertEquals("alpha-3.14.Beta", "alpha-3.Beta.0".toPreRelease().clone("alpha-3.14.Beta").preReleaseText)
-    }
 }

@@ -5,7 +5,7 @@ import kotlin.math.min
 private const val ANY_BUT_NUMBER_REGEX: String = "[^0-9]"
 private const val ANY_BUT_ALPHANUMERIC_AND_HYPHEN_REGEX: String = "[^0-9A-Za-z-]"
 
-public class PreRelease(public val preReleaseText: String) : Comparable<PreRelease>  {
+internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
 
     private val parts: List<String>
 
@@ -18,7 +18,7 @@ public class PreRelease(public val preReleaseText: String) : Comparable<PreRelea
         validate()
     }
 
-    public fun increment(): PreRelease {
+    fun increment(): PreRelease {
         val newParts = parts.toMutableList()
 
         var lastNumericIndex = 0
@@ -38,10 +38,6 @@ public class PreRelease(public val preReleaseText: String) : Comparable<PreRelea
         }
 
         return PreRelease(newParts.joinToString("."))
-    }
-
-    public fun clone(preReleaseText: String = this.preReleaseText): PreRelease {
-        return PreRelease(preReleaseText)
     }
 
     override fun compareTo(other: PreRelease): Int {
@@ -107,16 +103,16 @@ public class PreRelease(public val preReleaseText: String) : Comparable<PreRelea
         }
     }
 
-    public companion object {
+    companion object {
         private val anyButNumberRegex: Regex = ANY_BUT_NUMBER_REGEX.toRegex()
         private val anyButAlphaNumericAndHyphenRegex: Regex = ANY_BUT_ALPHANUMERIC_AND_HYPHEN_REGEX.toRegex()
 
-        public fun default(): PreRelease {
+        fun default(): PreRelease {
             return PreRelease("0")
         }
     }
 }
 
-public fun String.toPreRelease(): PreRelease {
+internal fun String.toPreRelease(): PreRelease {
     return PreRelease(this)
 }

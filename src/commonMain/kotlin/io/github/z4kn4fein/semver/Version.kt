@@ -7,7 +7,8 @@ public class Version(
     public val minor: Int,
     public val patch: Int,
     public val preRelease: String? = null,
-    public val buildMetadata: String? = null) : Comparable<Version> {
+    public val buildMetadata: String? = null
+) : Comparable<Version> {
 
     init {
         when {
@@ -47,7 +48,8 @@ public class Version(
         minor: Int = this.minor,
         patch: Int = this.patch,
         preRelease: String? = this.preRelease,
-        buildMetadata: String? = this.buildMetadata): Version = Version(major, minor, patch, preRelease, buildMetadata)
+        buildMetadata: String? = this.buildMetadata
+    ): Version = Version(major, minor, patch, preRelease, buildMetadata)
 
     override fun compareTo(other: Version): Int {
         return when {
@@ -88,7 +90,7 @@ public class Version(
     public companion object {
         private val versionRegex: Regex = VERSION_REGEX.toRegex()
 
-        public fun parse(versionText: String) : Version {
+        public fun parse(versionText: String): Version {
             val result = versionRegex.matchEntire(versionText) ?: throw VersionFormatException("Invalid version: $versionText")
             val major = result.groups[1]?.value?.toIntOrNull() ?: throw VersionFormatException("Invalid version: $versionText")
             val minor = result.groups[2]?.value?.toIntOrNull() ?: throw VersionFormatException("Invalid version: $versionText")

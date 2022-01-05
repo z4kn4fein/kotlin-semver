@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
 
 plugins {
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     kotlin("multiplatform") version "1.6.10"
 }
 

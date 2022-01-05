@@ -1,6 +1,11 @@
 package io.github.z4kn4fein.semver
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class VersionTests {
     @Test
@@ -15,10 +20,10 @@ class VersionTests {
         assertFailsWith<VersionFormatException> { "a1.0.0".toVersion() }
         assertFailsWith<VersionFormatException> { "1.a0.0".toVersion() }
         assertFailsWith<VersionFormatException> { "1.0.a0".toVersion() }
-        assertFailsWith<VersionFormatException> { Version(1,2,3, ".alpha") }
-        assertFailsWith<VersionFormatException> { Version(1,2,3, "alpha.") }
-        assertFailsWith<VersionFormatException> { Version(1,2,3, ".alpha.") }
-        assertFailsWith<VersionFormatException> { Version(1,2,3, "alpha. ") }
+        assertFailsWith<VersionFormatException> { Version(1, 2, 3, ".alpha") }
+        assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha.") }
+        assertFailsWith<VersionFormatException> { Version(1, 2, 3, ".alpha.") }
+        assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha. ") }
     }
 
     @Test
