@@ -45,13 +45,14 @@ version.toString()      // "3.5.2-alpha.2+build"
 ```
 `Version` also supports destructuring.
 ```kotlin
-val (
-   major,           // 2
-   minor,           // 3
-   patch,           // 1
-   preRelease,      // alpha.2
-   buildMetadata    // build.1
-) = "2.3.1-alpha.2+build.1".toVersion()
+val version = "2.3.1-alpha.2+build.1".toVersion()
+val (major, minor, patch, preRelease, buildMetadata) = version 
+
+// major: 2
+// minor: 3
+// patch: 1
+// preRelease: 'alpha'
+// buildMetadata: 'build.1'
 ```
 
 ## Compare / Sort
