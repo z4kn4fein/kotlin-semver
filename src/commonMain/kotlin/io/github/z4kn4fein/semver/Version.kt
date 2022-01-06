@@ -65,6 +65,12 @@ public class Version(
         buildMetadata: String? = this.buildMetadata
     ): Version = Version(major, minor, patch, preRelease, buildMetadata)
 
+    public operator fun component1(): Int = major
+    public operator fun component2(): Int = minor
+    public operator fun component3(): Int = patch
+    public operator fun component4(): String? = preRelease
+    public operator fun component5(): String? = buildMetadata
+
     /**
      * Compares the version with an [other] version.
      */

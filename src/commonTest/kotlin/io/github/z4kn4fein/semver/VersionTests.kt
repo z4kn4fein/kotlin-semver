@@ -1,11 +1,6 @@
 package io.github.z4kn4fein.semver
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class VersionTests {
     @Test
@@ -94,5 +89,20 @@ class VersionTests {
         assertEquals("1.2.4+build", "1.2.4".toVersion().clone(buildMetadata = "build").toString())
         assertEquals("1.2.4+build12", "1.2.4+build".toVersion().clone(buildMetadata = "build12").toString())
         assertEquals("1.2.4-alpha+build", "1.2.4-alpha".toVersion().clone(buildMetadata = "build").toString())
+    }
+
+    @Test
+    fun testDestructuring() {
+        val (major, minor, patch, preRelease, build) = "1.2.3-alpha+build".toVersion()
+        assertEquals(1, major)
+        assertEquals(2, minor)
+        assertEquals(3, patch)
+        assertEquals("alpha", preRelease)
+        assertEquals("build", build)
+
+        val (ma, mi, pa) = "3.4.2".toVersion()
+        assertEquals(3, ma)
+        assertEquals(4, mi)
+        assertEquals(2, pa)
     }
 }

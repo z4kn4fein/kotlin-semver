@@ -34,13 +34,24 @@ The following options are supported to construct a `Version`:
    ```
 The following information is accessible on a constructed `Version` object:
 ```kotlin
-val version = "3.5.2-alpha.2+build".toVersion()
+val version = "3.5.2-alpha.2+build.1".toVersion()
 version.major           // 3
 version.minor           // 5
 version.patch           // 2
 version.preRelease      // 'alpha.2'
 version.buildMetadata   // 'build'
 version.isStable        // false
+version.toString()      // "3.5.2-alpha.2+build"
+```
+`Version` also supports destructuring.
+```kotlin
+val (
+   major,           // 2
+   minor,           // 3
+   patch,           // 1
+   preRelease,      // alpha.2
+   buildMetadata    // build.1
+) = "2.3.1-alpha.2+build.1".toVersion()
 ```
 
 ### Compare / Sort
