@@ -54,7 +54,7 @@ val (
 ) = "2.3.1-alpha.2+build.1".toVersion()
 ```
 
-### Compare / Sort
+## Compare / Sort
 It is possible to compare two `Version` objects with [comparison operators](https://kotlinlang.org/docs/operator-overloading.html#comparison-operators) or with `.compareTo()`.
 ```kotlin
 "0.1.1".toVersion() > "0.1.0".toVersion()                   // true
@@ -95,8 +95,8 @@ val list: List<Version> = listOf(
 //   "1.1.0+build"
 ```
 
-### Increment
-A `Version` is able to produce an incremented version of itself. 
+## Increment
+A `Version` is able to produce incremented versions of itself. 
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
@@ -107,7 +107,7 @@ val nextPreRelease = version.nextPreRelease()   // 1.0.0-alpha.3
 ```
 > `Version` objects are immutable, so every incremented version creates a new `Version`.
 
-### Clone
+## Clone
 It is possible to clone a `Version` with optionally different parts.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
@@ -120,5 +120,5 @@ val withDifferentBuildMetadata = version.clone(buildMetadata = "build.3")  // 1.
 ```
 > Without setting any optional parameters, the `clone()` will produce an exact copy of the original version.
 
-### Invalid Versions
+## Invalid Versions
 When the version parsing fails due to an invalid format, the library throws a specific `VersionFormatException`.
