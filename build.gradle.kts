@@ -6,7 +6,6 @@ plugins {
 }
 
 group = "io.github.z4kn4fein"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

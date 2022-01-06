@@ -20,7 +20,7 @@ class VersionTests {
         assertFailsWith<VersionFormatException> { "a1.0.0".toVersion() }
         assertFailsWith<VersionFormatException> { "1.a0.0".toVersion() }
         assertFailsWith<VersionFormatException> { "1.0.a0".toVersion() }
-        assertFailsWith<VersionFormatException> { Version(1, 2, 3, ".alpha") }
+        assertFailsWith<VersionFormatException> { Version(major = 1, minor = 2, patch = 3, preRelease = ".alpha") }
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha.") }
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, ".alpha.") }
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha. ") }

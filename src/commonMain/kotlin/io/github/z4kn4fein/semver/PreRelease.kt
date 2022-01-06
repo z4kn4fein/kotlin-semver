@@ -63,13 +63,9 @@ internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
         }
     }
 
-    override fun hashCode(): Int {
-        return preReleaseText.hashCode()
-    }
+    override fun hashCode(): Int = preReleaseText.hashCode()
 
-    override fun toString(): String {
-        return preReleaseText
-    }
+    override fun toString(): String = preReleaseText
 
     private fun validate() {
         for (part in parts) {
@@ -113,6 +109,4 @@ internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
     }
 }
 
-internal fun String.toPreRelease(): PreRelease {
-    return PreRelease(this)
-}
+internal fun String.toPreRelease(): PreRelease = PreRelease(this)

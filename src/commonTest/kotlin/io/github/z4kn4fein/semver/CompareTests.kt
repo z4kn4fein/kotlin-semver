@@ -1,6 +1,7 @@
 package io.github.z4kn4fein.semver
 
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -65,5 +66,31 @@ class CompareTests {
     fun testEqualIgnoreBuild() {
         assertEquals("5.2.3-alpha.2+build.34".toVersion(), "5.2.3-alpha.2".toVersion())
         assertEquals("5.2.3-alpha.2+build.34".toVersion(), "5.2.3-alpha.2+build.35".toVersion())
+    }
+
+    @Test
+    fun testListOrder() {
+        val list: List<Version> = listOf(
+            "1.0.1".toVersion(),
+            "1.0.1-alpha".toVersion(),
+            "1.0.1-alpha.beta".toVersion(),
+            "1.0.1-alpha.3".toVersion(),
+            "1.0.1-alpha.2".toVersion(),
+            "1.1.0".toVersion(),
+            "1.1.0+build".toVersion(),
+        )
+
+        assertContentEquals(
+            listOf(
+                "1.0.1-alpha".toVersion(),
+                "1.0.1-alpha.2".toVersion(),
+                "1.0.1-alpha.3".toVersion(),
+                "1.0.1-alpha.beta".toVersion(),
+                "1.0.1".toVersion(),
+                "1.1.0".toVersion(),
+                "1.1.0+build".toVersion(),
+            ),
+            list.sorted()
+        )
     }
 }
