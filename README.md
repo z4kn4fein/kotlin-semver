@@ -98,12 +98,19 @@ val list: List<Version> = listOf(
 ## Increment
 A `Version` is able to produce incremented versions of itself. 
 ```kotlin
-val version = "1.0.0-alpha.2+build.1".toVersion()
+val stableVersion = "1.0.0".toVersion()
 
-val nextMajor = version.nextMajor()             // 2.0.0
-val nextMinor = version.nextMinor()             // 1.1.0
-val nextPatch = version.nextPatch()             // 1.0.1
-val nextPreRelease = version.nextPreRelease()   // 1.0.0-alpha.3
+val nextMajor = stableVersion.nextMajor()             // 2.0.0
+val nextMinor = stableVersion.nextMinor()             // 1.1.0
+val nextPatch = stableVersion.nextPatch()             // 1.0.1
+val nextPreRelease = stableVersion.nextPreRelease()   // 1.0.1-0
+
+val unstableVersion = "1.0.0-alpha.2+build.1".toVersion()
+
+val nextMajor = unstableVersion.nextMajor()             // 2.0.0
+val nextMinor = unstableVersion.nextMinor()             // 1.1.0
+val nextPatch = unstableVersion.nextPatch()             // 1.0.0
+val nextPreRelease = unstableVersion.nextPreRelease()   // 1.0.0-alpha.3
 ```
 > `Version` objects are immutable, so every incremented version creates a new `Version`.
 
