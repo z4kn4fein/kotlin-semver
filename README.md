@@ -48,7 +48,7 @@ It is possible to compare two `Version` objects with [comparison operators](http
 ```kotlin
 "0.1.1".toVersion() > "0.1.0".toVersion()                   // true
 "0.1.1".toVersion() <= "0.1.1".toVersion()                  // true
-"0.1.1-alpha.3".toVersion() < "0.1.0-alpha.4".toVersion()   // true
+"0.1.0-alpha.3".toVersion() < "0.1.0-alpha.4".toVersion()   // true
 
 "0.1.1".toVersion().compareTo("0.1.0".toVersion())  // 1
 "0.1.0".toVersion().compareTo("0.1.1".toVersion())  // -1
@@ -60,7 +60,7 @@ The equality of two `Version` objects can be determined with [equality operators
 "0.1.1".toVersion() != "0.1.1".toVersion()  // false
 
 "0.1.1".toVersion().equals("0.1.1".toVersion())  // true
-"0.1.1".toVersion().equals("0.1.1".toVersion())  // false
+"0.1.0".toVersion().equals("0.1.1".toVersion())  // false
 ```
 As `Version` objects are comparable, they can be sorted in a collection.
 ```kotlin
