@@ -41,11 +41,7 @@ kotlin {
                 }
             }
         }
-        nodejs {
-            testTask {
-                useKarma()
-            }
-        }
+        nodejs()
     }
 
     sourceSets {
