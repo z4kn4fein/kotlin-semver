@@ -10,42 +10,42 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
-    - name: Run all tests
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: allTests
+#  test:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ macos-latest, ubuntu-latest, windows-latest ]
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up JDK
+#      uses: actions/setup-java@v2
+#      with:
+#        java-version: 11
+#        distribution: zulu
+#    - name: Kotlin native cache
+#      uses: actions/cache@v2
+#      with:
+#        path: ~/.konan
+#        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+#        restore-keys: ${{ runner.os }}-gradle
+#    - name: Run all tests
+#      uses: gradle/gradle-build-action@v2
+#      with:
+#        arguments: allTests
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: zulu
-    - name: Run format check
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: ktlintCheck
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up JDK
+#      uses: actions/setup-java@v2
+#      with:
+#        java-version: 11
+#        distribution: zulu
+#    - name: Run format check
+#      uses: gradle/gradle-build-action@v2
+#      with:
+#        arguments: ktlintCheck
 
   analysis:
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
         path: build/reports/detekt
 
   coverage:
-    needs: [test, lint, analysis]
+#    needs: [test, lint, analysis]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -102,32 +102,33 @@ jobs:
         name: coverage-report
         path: build/reports/kover
 
-  assemble:
-    needs: [ test, lint, analysis ]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
-    - name: Run assemble
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: assemble
+#  assemble:
+#    needs: [ test, lint, analysis ]
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ macos-latest, ubuntu-latest, windows-latest ]
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up JDK
+#      uses: actions/setup-java@v2
+#      with:
+#        java-version: 11
+#        distribution: zulu
+#    - name: Kotlin native cache
+#      uses: actions/cache@v2
+#      with:
+#        path: ~/.konan
+#        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+#        restore-keys: ${{ runner.os }}-gradle
+#    - name: Run assemble
+#      uses: gradle/gradle-build-action@v2
+#      with:
+#        arguments: assemble
 
   upload-reports:
-    needs: [ test, lint, analysis, assemble, coverage ]
+#    needs: [ test, lint, analysis, assemble, coverage ]
+    needs: [ analysis, coverage ]
     runs-on: ubuntu-latest
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -168,7 +169,7 @@ jobs:
         arguments: sonarqube
       
   deploy-snapshot:
-    needs: [ test, lint, analysis, assemble, coverage ]
+#    needs: [ test, lint, analysis, assemble, coverage ]
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -198,33 +199,33 @@ jobs:
       with:
         arguments: publish -Dsnapshot=true
       
-  deploy-release:
-    needs: [ test, lint, analysis, assemble, coverage ]
-    if: startsWith(github.ref, 'refs/tags')
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
-    env:
-      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
-      BUILD_NUMBER: ${{ github.run_number }}
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
-    - name: Deploy snapshot
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: publish
+#  deploy-release:
+#    needs: [ test, lint, analysis, assemble, coverage ]
+#    if: startsWith(github.ref, 'refs/tags')
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ macos-latest, ubuntu-latest, windows-latest ]
+#    env:
+#      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+#      SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+#      BUILD_NUMBER: ${{ github.run_number }}
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up JDK
+#      uses: actions/setup-java@v2
+#      with:
+#        java-version: 11
+#        distribution: zulu
+#    - name: Kotlin native cache
+#      uses: actions/cache@v2
+#      with:
+#        path: ~/.konan
+#        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+#        restore-keys: ${{ runner.os }}-gradle
+#    - name: Deploy snapshot
+#      uses: gradle/gradle-build-action@v2
+#      with:
+#        arguments: publish
