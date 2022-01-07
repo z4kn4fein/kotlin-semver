@@ -21,6 +21,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
@@ -40,6 +41,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Run format check
       uses: gradle/gradle-build-action@v2
       with:
@@ -53,6 +55,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
@@ -82,6 +85,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
@@ -107,6 +111,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
@@ -127,6 +132,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: SonarCloud cache
       uses: actions/cache@v2
       with:
@@ -170,6 +176,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
@@ -199,6 +206,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 11
+        distribution: zulu
     - name: Kotlin native cache
       uses: actions/cache@v2
       with:
