@@ -1,0 +1,216 @@
+name: Semver CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v[0-9]+.[0-9]+.[0-9]+' ]
+  pull_request:
+    branches: [ main ]
+    
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Run all tests
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: allTests
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Run format check
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: ktlintCheck
+
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Run code analysis
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: detekt
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: build/reports/detekt/detekt.sarif
+    - name: Upload analysis report
+      uses: actions/upload-artifact@v2
+      with:
+        name: analysis-report
+        path: build/reports/detekt
+
+  coverage:
+    needs: [test, lint, analysis]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Calculate coverage
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: koverReport
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-report
+        path: build/reports/kover
+
+  assemble:
+    needs: [ test, lint, analysis ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Run assemble
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: assemble
+
+  upload-reports:
+    needs: [ test, lint, analysis, assemble, coverage ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: SonarCloud cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Download coverage report
+      uses: actions/download-artifact@v2
+      with:
+        name: coverage-report
+        path: build/reports/kover
+    - name: Download analysis report
+      uses: actions/download-artifact@v2
+      with:
+        name: analysis-report
+        path: build/reports/detekt
+    - name: Upload reports to SonarCloud
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: sonarqube -Dbuild.number=$GITHUB_RUN_NUMBER
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+  deploy-snapshot:
+    needs: [ test, lint, analysis, assemble, coverage ]
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Deploy snapshot
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: publish -Dsnapshot=true -Dbuild.number=$GITHUB_RUN_NUMBER
+      env:
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+      
+  deploy-release:
+    needs: [ test, lint, analysis, assemble, coverage ]
+    if: startsWith(github.ref, 'refs/tags')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    - name: Kotlin native cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle
+    - name: Deploy snapshot
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: publish -Dsnapshot=true -Dbuild.number=$GITHUB_RUN_NUMBER
+      env:
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}

@@ -3,6 +3,7 @@ package io.github.z4kn4fein.semver
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
@@ -60,6 +61,9 @@ class CompareTests {
         assertEquals("5.2.3".toVersion(), "5.2.3".toVersion())
         assertNotEquals("5.2.3".toVersion(), "5.2.4".toVersion())
         assertEquals("0.0.0".toVersion(), "0.0.0".toVersion())
+        assertEquals("0.0.0-alpha.2".toVersion().hashCode(), "0.0.0-alpha.2".toVersion().hashCode())
+        assertEquals("0.0.0".toVersion().hashCode(), "0.0.0".toVersion().hashCode())
+        assertFalse("0.0.0".toVersion().equals(null))
     }
 
     @Test

@@ -2,8 +2,8 @@ package io.github.z4kn4fein.semver
 
 import kotlin.math.min
 
-private const val ANY_BUT_NUMBER_REGEX: String = "[^0-9]"
-private const val ANY_BUT_ALPHANUMERIC_AND_HYPHEN_REGEX: String = "[^0-9A-Za-z-]"
+private const val ONLY_NUMBER_REGEX: String = "^[0-9]+$"
+private const val ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX: String = "^[0-9A-Za-z-]+$"
 
 internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
 
@@ -21,18 +21,10 @@ internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
     fun increment(): PreRelease {
         val newParts = parts.toMutableList()
 
-        var lastNumericIndex = 0
-        var lastNumericItem = 0
-        for (i in newParts.indices) {
-            val numericPart = newParts[i].toIntOrNull()
-            if (numericPart != null) {
-                lastNumericIndex = i
-                lastNumericItem = numericPart
-            }
-        }
-
-        if (lastNumericIndex != 0) {
-            newParts[lastNumericIndex] = (lastNumericItem + 1).toString()
+        val lastNumericItem = newParts.lastOrNull { it.toIntOrNull() != null }
+        if (lastNumericItem != null) {
+            val lastNumericIndex = newParts.indexOf(lastNumericItem)
+            newParts[lastNumericIndex] = (lastNumericItem.toInt() + 1).toString()
         } else {
             newParts.add("0")
         }
@@ -54,35 +46,21 @@ internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
         return thisSize.compareTo(otherSize)
     }
 
-    override fun equals(other: Any?): Boolean {
-        val version = other as? PreRelease
-        return when {
-            version == null -> false
-            version.preReleaseText == preReleaseText -> true
-            else -> false
-        }
-    }
-
-    override fun hashCode(): Int = preReleaseText.hashCode()
-
     override fun toString(): String = preReleaseText
 
     private fun validate() {
         for (part in parts) {
-            if (part.trim().isEmpty()) {
-                throw VersionFormatException("Empty pre-release part found.")
+            val error = when {
+                part.trim().isEmpty() -> "Empty pre-release part found."
+                part.matches(onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
+                    "The pre-release part '$part' is numeric but contains a leading zero."
+                !part.matches(onlyAlphaNumericAndHyphenRegex) ->
+                    "The pre-release part '$part' contains an invalid character."
+                else -> null
             }
 
-            if (!part.matches(anyButNumberRegex)) {
-                if (part.length > 1 && part[0] == '0') {
-                    throw VersionFormatException("The pre-release part '$part' is numeric but contains a leading zero.")
-                } else {
-                    continue
-                }
-            }
-
-            if (part.matches(anyButAlphaNumericAndHyphenRegex)) {
-                throw VersionFormatException("The pre-release part '$part' contains an invalid character.")
+            if (error != null) {
+                throw VersionFormatException(error)
             }
         }
     }
@@ -100,8 +78,8 @@ internal class PreRelease(val preReleaseText: String) : Comparable<PreRelease> {
     }
 
     companion object {
-        private val anyButNumberRegex: Regex = ANY_BUT_NUMBER_REGEX.toRegex()
-        private val anyButAlphaNumericAndHyphenRegex: Regex = ANY_BUT_ALPHANUMERIC_AND_HYPHEN_REGEX.toRegex()
+        private val onlyNumberRegex: Regex = ONLY_NUMBER_REGEX.toRegex()
+        private val onlyAlphaNumericAndHyphenRegex: Regex = ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX.toRegex()
 
         fun default(): PreRelease {
             return PreRelease("0")

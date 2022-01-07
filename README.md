@@ -2,7 +2,7 @@
 
 Semantic Version utility library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html). 
 This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards. 
-It provides ability to **parse**, **compare/sort**, and produce **incremented** semantic versions.
+It provides ability to **parse**, **compare/sort**, and **increment** semantic versions.
 
 ## Install with Gradle
 This library is available in Maven Central, so you have to add it to your repositories.
@@ -21,14 +21,17 @@ dependencies {
 ## Usage
 The following options are supported to construct a `Version`:
 1. Building part by part. 
+
    ```kotlin
    Version(major = 3, minor = 5, patch = 2, preRelease = "alpha", buildMetadata = "build")
    ```
 2. Parsing from a version string with `Version.parse()`.
+
    ```kotlin
    Version.parse("3.5.2-alpha+build")
    ```
 3. Using the `toVersion()` extension method on a version string.
+
    ```kotlin
    "3.5.2-alpha+build".toVersion()
    ```
@@ -62,14 +65,14 @@ It is possible to compare two `Version` objects with [comparison operators](http
 "0.1.1".toVersion() <= "0.1.1".toVersion()                  // true
 "0.1.0-alpha.3".toVersion() < "0.1.0-alpha.4".toVersion()   // true
 
-"0.1.1".toVersion().compareTo("0.1.0".toVersion())  // 1
-"0.1.0".toVersion().compareTo("0.1.1".toVersion())  // -1
-"0.1.1".toVersion().compareTo("0.1.1".toVersion())  // 0
+"0.1.1".toVersion().compareTo("0.1.0".toVersion())          //  1
+"0.1.0".toVersion().compareTo("0.1.1".toVersion())          // -1
+"0.1.1".toVersion().compareTo("0.1.1".toVersion())          //  0
 ```
 The equality of two `Version` objects can be determined with [equality operators](https://kotlinlang.org/docs/operator-overloading.html#equality-and-inequality-operators) or with `equals()`.
 ```kotlin
-"0.1.1".toVersion() == "0.1.1".toVersion()  // true
-"0.1.1".toVersion() != "0.1.1".toVersion()  // false
+"0.1.1".toVersion() == "0.1.1".toVersion()       // true
+"0.1.1".toVersion() != "0.1.1".toVersion()       // false
 
 "0.1.1".toVersion().equals("0.1.1".toVersion())  // true
 "0.1.0".toVersion().equals("0.1.1".toVersion())  // false
@@ -97,14 +100,15 @@ val list: List<Version> = listOf(
 ```
 
 ## Increment
-A `Version` is able to produce incremented versions of itself. 
+`Version` objects are able to produce incremented versions with the `next{Major|Minor|Path|PreRelease}` methods.
+These methods can be used to determine the next version for a particular `Version` object by incrementing the according part.
 ```kotlin
 val stableVersion = "1.0.0".toVersion()
 
-val nextStableMajor = stableVersion.nextMajor()             // 2.0.0
-val nextStableMinor = stableVersion.nextMinor()             // 1.1.0
-val nextStablePatch = stableVersion.nextPatch()             // 1.0.1
-val nextStablePreRelease = stableVersion.nextPreRelease()   // 1.0.1-0
+val nextStableMajor = stableVersion.nextMajor()                 // 2.0.0
+val nextStableMinor = stableVersion.nextMinor()                 // 1.1.0
+val nextStablePatch = stableVersion.nextPatch()                 // 1.0.1
+val nextStablePreRelease = stableVersion.nextPreRelease()       // 1.0.1-0
 
 val unstableVersion = "1.0.0-alpha.2+build.1".toVersion()
 
@@ -113,18 +117,20 @@ val nextUnstableMinor = unstableVersion.nextMinor()             // 1.1.0
 val nextUnstablePatch = unstableVersion.nextPatch()             // 1.0.0
 val nextUnstablePreRelease = unstableVersion.nextPreRelease()   // 1.0.0-alpha.3
 ```
-> `Version` objects are immutable, so every incremented version creates a new `Version`.
+> `Version` objects are immutable, so each incrementing function creates a new `Version`.
 
-## Clone
-It is possible to clone a `Version` with optionally different parts.
+## Copy
+As `Version` is a `data class` it's possible to make a copy of a particular version.
+It allows altering the copied version's properties.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
-val withDifferentMajor = version.clone(major = 3)                          // 3.0.0
-val withDifferentMinor = version.clone(minor = 4)                          // 1.4.0
-val withDifferentPatch = version.clone(patch = 5)                          // 1.0.5
-val withDifferentPreRelease = version.clone(preRelease = "alpha.4")        // 1.0.0-alpha.4
-val withDifferentBuildMetadata = version.clone(buildMetadata = "build.3")  // 1.0.0-alpha.2+build.3
+val withDifferentMajor = version.copy(major = 3)                          // 3.0.0
+val withDifferentMinor = version.copy(minor = 4)                          // 1.4.0
+val withDifferentPatch = version.copy(patch = 5)                          // 1.0.5
+val withDifferentPreRelease = version.copy(preRelease = "alpha.4")        // 1.0.0-alpha.4
+val withDifferentBuildMetadata = version.copy(buildMetadata = "build.3")  // 1.0.0-alpha.2+build.3
+val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4.5-alpha.2+build.1
 ```
 > Without setting any optional parameters, the `clone()` will produce an exact copy of the original version.
 

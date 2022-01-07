@@ -13,6 +13,7 @@ class PreReleaseTests {
         assertFailsWith<VersionFormatException> { "alpha. ".toPreRelease() }
         assertFailsWith<VersionFormatException> { "alpha.01".toPreRelease() }
         assertFailsWith<VersionFormatException> { "+alpha.01".toPreRelease() }
+        assertFailsWith<VersionFormatException> { "%alpha".toPreRelease() }
         assertFailsWith<VersionFormatException> { "".toPreRelease() }
         assertFailsWith<VersionFormatException> { " ".toPreRelease() }
     }
