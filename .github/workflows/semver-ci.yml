@@ -104,7 +104,10 @@ jobs:
 
   assemble:
     needs: [ test, lint, analysis ]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
@@ -158,10 +161,11 @@ jobs:
     - name: Upload reports to SonarCloud
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: sonarqube -Dbuild.number=$GITHUB_RUN_NUMBER
+        arguments: sonarqube
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_NUMBER: ${{ github.run_number }}
       
   deploy-snapshot:
     needs: [ test, lint, analysis, assemble, coverage ]
@@ -186,12 +190,13 @@ jobs:
     - name: Deploy snapshot
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: publish -Dsnapshot=true -Dbuild.number=$GITHUB_RUN_NUMBER
+        arguments: publish -Dsnapshot=true
       env:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+        BUILD_NUMBER: ${{ github.run_number }}
       
   deploy-release:
     needs: [ test, lint, analysis, assemble, coverage ]
@@ -216,9 +221,10 @@ jobs:
     - name: Deploy snapshot
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: publish -Dsnapshot=true -Dbuild.number=$GITHUB_RUN_NUMBER
+        arguments: publish
       env:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+        BUILD_NUMBER: ${{ github.run_number }}

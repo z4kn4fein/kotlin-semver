@@ -15,7 +15,7 @@ plugins {
 
 object Prop {
     val isSnapshot: Boolean get() = System.getProperty("snapshot") != null
-    val buildNumber: String get() = System.getProperty("build.number")?.toString() ?: ""
+    val buildNumber: String get() = System.getenv("BUILD_NUMBER") ?: ""
 }
 
 group = "io.github.z4kn4fein"
