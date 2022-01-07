@@ -100,7 +100,6 @@ public data class Version(
         /**
          * Parses the [versionText] string into a semantic version [Version].
          */
-        @Suppress("MagicNumber")
         public fun parse(versionText: String): Version {
             val result = versionRegex.matchEntire(versionText)
                 ?: throw VersionFormatException("Invalid version: $versionText")

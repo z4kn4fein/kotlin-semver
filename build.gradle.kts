@@ -82,6 +82,7 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
 detekt {
     buildUponDefaultConfig = true
     parallel = true
+    isIgnoreFailures = true
 }
 
 tasks.withType<Detekt>().configureEach {
