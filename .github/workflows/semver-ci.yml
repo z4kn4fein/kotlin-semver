@@ -129,6 +129,10 @@ jobs:
   upload-reports:
     needs: [ test, lint, analysis, assemble, coverage ]
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUILD_NUMBER: ${{ github.run_number }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
@@ -162,10 +166,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: sonarqube
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BUILD_NUMBER: ${{ github.run_number }}
       
   deploy-snapshot:
     needs: [ test, lint, analysis, assemble, coverage ]
@@ -174,6 +174,12 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
+    env:
+      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+      BUILD_NUMBER: ${{ github.run_number }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
@@ -191,12 +197,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: publish -Dsnapshot=true
-      env:
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
-        BUILD_NUMBER: ${{ github.run_number }}
       
   deploy-release:
     needs: [ test, lint, analysis, assemble, coverage ]
@@ -205,6 +205,12 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
+    env:
+      SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
+      BUILD_NUMBER: ${{ github.run_number }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
@@ -222,9 +228,3 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: publish
-      env:
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
-        BUILD_NUMBER: ${{ github.run_number }}

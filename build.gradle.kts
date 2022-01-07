@@ -1,5 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
 import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
 
 plugins {
@@ -39,7 +41,11 @@ kotlin {
                 }
             }
         }
-        nodejs()
+        nodejs {
+            testTask {
+                useKarma()
+            }
+        }
     }
 
     sourceSets {
@@ -57,9 +63,11 @@ kotlin {
     }
 
     presets.withType<AbstractKotlinNativeTargetPreset<*>>().forEach {
-        targetFromPreset(it) {
-            compilations.getByName("main") {
-                defaultSourceSet.dependsOn(sourceSets["nativeMain"])
+        if (it.isTargetAllowedOnHost()) {
+            targetFromPreset(it) {
+                compilations.getByName("main") {
+                    defaultSourceSet.dependsOn(sourceSets["nativeMain"])
+                }
             }
         }
     }
@@ -158,4 +166,36 @@ signing {
         useInMemoryPgpKeys(signingKey, signingPassphrase)
         sign(publishing.publications)
     }
+}
+
+tasks.withType(AbstractPublishToMaven::class).configureEach {
+    enabled = isTargetAllowedOnHost()
+}
+
+fun getTargetHostType(name: String): HostType =
+    when {
+        name.startsWith("mingw") -> HostType.WINDOWS
+        name.startsWith("macos") || name.startsWith("ios") || name.startsWith("watchos") ||
+            name.startsWith("tvos") -> HostType.MAC_OS
+        else -> HostType.LINUX
+    }
+
+fun AbstractPublishToMaven.isTargetAllowedOnHost(): Boolean {
+    return isTargetAllowedOnHost(publication.name)
+}
+
+fun KotlinTargetPreset<*>.isTargetAllowedOnHost(): Boolean {
+    return isTargetAllowedOnHost(name)
+}
+
+fun isTargetAllowedOnHost(name: String): Boolean {
+    return when (getTargetHostType(name)) {
+        HostType.LINUX -> Os.isFamily(Os.FAMILY_UNIX)
+        HostType.WINDOWS -> Os.isFamily(Os.FAMILY_WINDOWS)
+        HostType.MAC_OS -> Os.isFamily(Os.FAMILY_MAC)
+    }
+}
+
+enum class HostType {
+    MAC_OS, LINUX, WINDOWS
 }
