@@ -21,7 +21,7 @@ object Prop {
 }
 
 group = "io.github.z4kn4fein"
-version = "$version${if (Prop.isSnapshot) "-SNAPSHOT${if (Prop.buildNumber.isNotEmpty()) "+${Prop.buildNumber}" else ""}" else ""}"
+version = "$version${if (Prop.isSnapshot) "-SNAPSHOT" else ""}"
 
 repositories {
     mavenCentral()
