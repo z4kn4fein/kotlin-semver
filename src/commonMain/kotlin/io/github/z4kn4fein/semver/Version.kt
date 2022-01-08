@@ -106,8 +106,8 @@ public class Version private constructor(
          * if the string is not a valid representation of a semantic version.
          */
         public fun parse(versionText: String): Version {
-            val result = versionRegex.matchEntire(versionText) ?:
-                throw VersionFormatException("Invalid version: $versionText")
+            val result = versionRegex.matchEntire(versionText)
+                ?: throw VersionFormatException("Invalid version: $versionText")
             val major = result.groupValues[1].toIntOrNull()
             val minor = result.groupValues[2].toIntOrNull()
             val patch = result.groupValues[3].toIntOrNull()
