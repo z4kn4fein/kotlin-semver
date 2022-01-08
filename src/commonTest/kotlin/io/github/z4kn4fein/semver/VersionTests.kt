@@ -27,9 +27,26 @@ class VersionTests {
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha.") }
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, ".alpha.") }
         assertFailsWith<VersionFormatException> { Version(1, 2, 3, "alpha. ") }
-        assertFailsWith<VersionFormatException> { Version(-1, 2, 3, "alpha.") }
-        assertFailsWith<VersionFormatException> { Version(1, -2, 3, ".alpha.") }
-        assertFailsWith<VersionFormatException> { Version(1, 2, -3, "alpha. ") }
+        assertFailsWith<VersionFormatException> { Version(-1, 2, 3) }
+        assertFailsWith<VersionFormatException> { Version(1, -2, 3) }
+        assertFailsWith<VersionFormatException> { Version(1, 2, -3) }
+    }
+
+    @Test
+    fun testInvalidVersionsWithNull() {
+        assertNull("-1.0.0".toVersionOrNull())
+        assertNull("1.-1.0".toVersionOrNull())
+        assertNull("0.0.-1".toVersionOrNull())
+        assertNull("1".toVersionOrNull())
+        assertNull("1.0".toVersionOrNull())
+        assertNull("1.0-alpha".toVersionOrNull())
+        assertNull("1.0-alpha.01".toVersionOrNull())
+        assertNull("a1.0.0".toVersionOrNull())
+        assertNull("1.a0.0".toVersionOrNull())
+        assertNull("1.0.a0".toVersionOrNull())
+        assertNull("92233720368547758072.0.0".toVersionOrNull())
+        assertNull("0.92233720368547758072.0".toVersionOrNull())
+        assertNull("0.0.92233720368547758072".toVersionOrNull())
     }
 
     @Test
@@ -37,9 +54,9 @@ class VersionTests {
         "0.0.0".toVersion()
         "1.2.3-alpha.1+build".toVersion()
 
-        assertTrue { "2.3.1".toVersion().isStable }
-        assertFalse { "2.3.1-alpha".toVersion().isStable }
-        assertFalse { "2.3.1+build".toVersion().isStable }
+        assertFalse { "2.3.1".toVersion().isPreRelease }
+        assertTrue { "2.3.1-alpha".toVersion().isPreRelease }
+        assertFalse { "2.3.1+build".toVersion().isPreRelease }
     }
 
     @Test
@@ -47,6 +64,7 @@ class VersionTests {
         assertEquals("1.2.3", "1.2.3".toVersion().toString())
         assertEquals("1.2.3-alpha.b.3", "1.2.3-alpha.b.3".toVersion().toString())
         assertEquals("1.2.3-alpha+build", "1.2.3-alpha+build".toVersion().toString())
+        assertEquals("1.2.3+build", "1.2.3+build".toVersion().toString())
     }
 
     @Test
@@ -57,6 +75,7 @@ class VersionTests {
         assertEquals(3, version.patch)
         assertEquals("alpha.b.3", version.preRelease)
         assertEquals("build", version.buildMetadata)
+        assertTrue(version.isPreRelease)
     }
 
     @Test
@@ -117,5 +136,16 @@ class VersionTests {
         assertEquals(3, ma)
         assertEquals(4, mi)
         assertEquals(2, pa)
+    }
+
+    @Test
+    fun testRange() {
+        assertTrue("1.0.1".toVersion() in "1.0.0".toVersion().."1.1.0".toVersion())
+        assertFalse("1.1.1".toVersion() in "1.0.0".toVersion().."1.1.0".toVersion())
+        assertTrue("1.0.0".toVersion() in "1.0.0".toVersion().."1.1.0".toVersion())
+        assertTrue("1.0.0-alpha.3".toVersion() in "1.0.0-alpha.2".toVersion().."1.0.0-alpha.5".toVersion())
+        assertFalse("1.0.0-alpha.1".toVersion() in "1.0.0-alpha.2".toVersion().."1.0.0-alpha.5".toVersion())
+        assertTrue(("1.0.0".toVersion().."1.1.0".toVersion()).contains("1.0.1".toVersion()))
+        assertTrue("1.1.0-alpha".toVersion() in "1.0.0".toVersion().."1.1.0".toVersion())
     }
 }

@@ -3,6 +3,8 @@ package io.github.z4kn4fein.semver
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 
 class PreReleaseTests {
     @Test
@@ -27,6 +29,13 @@ class PreReleaseTests {
 
     @Test
     fun testComponents() {
-        assertEquals("alpha-3.Beta.0", "alpha-3.Beta.0".toPreRelease().preReleaseText)
+        assertEquals("alpha-3.Beta.0", "alpha-3.Beta.0".toPreRelease().toString())
+    }
+
+    @Test
+    fun testEquals() {
+        assertEquals("alpha-3.Beta.0".toPreRelease(), "alpha-3.Beta.0".toPreRelease())
+        assertNotEquals("alpha-3.Beta.1".toPreRelease(), "alpha-3.Beta.0".toPreRelease())
+        assertFalse("alpha-3.Beta.1".toPreRelease().equals(null))
     }
 }

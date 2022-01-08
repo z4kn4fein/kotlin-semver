@@ -128,7 +128,7 @@ publishing {
         artifact(javadocJar.get())
 
         pom {
-            name.set("Semantic Version Kotlin")
+            name.set("Kotlin Semantic Version")
             description.set("Kotlin Multiplatform semantic versioning library")
             url.set("https://github.com/z4kn4fein/kotlin-semver")
 

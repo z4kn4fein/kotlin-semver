@@ -1,8 +1,8 @@
 # kotlin-semver (work in progress)
 
-Semantic Version utility library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html). 
+Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html). 
 This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards. 
-It provides ability to **parse**, **compare/sort**, and **increment** semantic versions.
+It provides the ability to **parse**, **compare**, and **increment** semantic versions.
 
 ## Install with Gradle
 This library is available in Maven Central, so you have to add it to your repositories.
@@ -25,16 +25,17 @@ The following options are supported to construct a `Version`:
    ```kotlin
    Version(major = 3, minor = 5, patch = 2, preRelease = "alpha", buildMetadata = "build")
    ```
-2. Parsing from a version string with `Version.parse()`.
+2. Parsing from a string with `Version.parse()`.
 
    ```kotlin
    Version.parse("3.5.2-alpha+build")
    ```
-3. Using the `toVersion()` extension method on a version string.
+3. Using the `toVersion()` or `toVersionOrNull()` extension methods on a string.
 
    ```kotlin
    "3.5.2-alpha+build".toVersion()
    ```
+
 The following information is accessible on a constructed `Version` object:
 ```kotlin
 val version = "3.5.2-alpha.2+build.1".toVersion()
@@ -43,9 +44,11 @@ version.minor           // 5
 version.patch           // 2
 version.preRelease      // 'alpha.2'
 version.buildMetadata   // 'build'
-version.isStable        // false
+
+version.isPreRelease    // true
 version.toString()      // "3.5.2-alpha.2+build"
 ```
+
 `Version` also supports destructuring.
 ```kotlin
 val version = "2.3.1-alpha.2+build.1".toVersion()
@@ -58,7 +61,8 @@ val (major, minor, patch, preRelease, buildMetadata) = version
 // buildMetadata: 'build.1'
 ```
 
-## Compare / Sort
+## Compare / Sort / Range
+
 It is possible to compare two `Version` objects with [comparison operators](https://kotlinlang.org/docs/operator-overloading.html#comparison-operators) or with `.compareTo()`.
 ```kotlin
 "0.1.1".toVersion() > "0.1.0".toVersion()                   // true
@@ -69,6 +73,7 @@ It is possible to compare two `Version` objects with [comparison operators](http
 "0.1.0".toVersion().compareTo("0.1.1".toVersion())          // -1
 "0.1.1".toVersion().compareTo("0.1.1".toVersion())          //  0
 ```
+
 The equality of two `Version` objects can be determined with [equality operators](https://kotlinlang.org/docs/operator-overloading.html#equality-and-inequality-operators) or with `equals()`.
 ```kotlin
 "0.1.1".toVersion() == "0.1.1".toVersion()       // true
@@ -77,7 +82,8 @@ The equality of two `Version` objects can be determined with [equality operators
 "0.1.1".toVersion().equals("0.1.1".toVersion())  // true
 "0.1.0".toVersion().equals("0.1.1".toVersion())  // false
 ```
-As `Version` objects are comparable, they can be sorted in a collection.
+
+As `Version` objects are comparable, a collection of them can be sorted easily like in the following example.
 ```kotlin
 val list: List<Version> = listOf(
     "1.0.1".toVersion(),
@@ -89,7 +95,7 @@ val list: List<Version> = listOf(
     "1.1.0+build".toVersion(),
 ).sorted()
 
-// The content of the list variable will be:
+// The content will be:
 //   "1.0.1-alpha"
 //   "1.0.1-alpha.2"
 //   "1.0.1-alpha.3"
@@ -99,9 +105,17 @@ val list: List<Version> = listOf(
 //   "1.1.0+build"
 ```
 
+Having an order provides the ability to determine whether a `Version` is in the range between two given versions.
+```kotlin
+val range = "1.0.0".toVersion().."1.1.0".toVersion()
+
+"1.0.1".toVersion() in range          // true
+"1.1.1".toVersion() in range          // false
+```
+
 ## Increment
-`Version` objects are able to produce incremented versions with the `next{Major|Minor|Path|PreRelease}` methods.
-These methods can be used to determine the next version for a particular `Version` object by incrementing the according part.
+`Version` objects can produce incremented versions of themselves with the `next{Major|Minor|Patch|PreRelease}` methods.
+These methods can be used to determine the next version in order incremented by the according part.
 ```kotlin
 val stableVersion = "1.0.0".toVersion()
 
@@ -120,8 +134,8 @@ val nextUnstablePreRelease = unstableVersion.nextPreRelease()   // 1.0.0-alpha.3
 > `Version` objects are immutable, so each incrementing function creates a new `Version`.
 
 ## Copy
-As `Version` is a `data class` it's possible to make a copy of a particular version.
-It allows altering the copied version's properties.
+It's possible to make a copy of a particular version with the `copy()` method.
+It allows altering the copied version's properties with optional parameters.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
@@ -132,7 +146,8 @@ val withDifferentPreRelease = version.copy(preRelease = "alpha.4")        // 1.0
 val withDifferentBuildMetadata = version.copy(buildMetadata = "build.3")  // 1.0.0-alpha.2+build.3
 val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4.5-alpha.2+build.1
 ```
-> Without setting any optional parameters, the `clone()` will produce an exact copy of the original version.
+> Without setting any optional parameter, the `copy()` method will produce an exact copy of the original version.
 
 ## Invalid Versions
 When the version parsing fails due to an invalid format, the library throws a specific `VersionFormatException`.
+> The `toVersionOrNull()` method can be used for exception-less conversions as it returns `null` when the version parsing fails.

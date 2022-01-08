@@ -1,24 +1,35 @@
 package io.github.z4kn4fein.semver
 
-private const val VERSION_REGEX: String = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)" +
-    "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
-    "(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?\$"
-
 /**
  * This class describes a semantic version and related operations.
  */
-public data class Version(
+public class Version private constructor(
     /** The MAJOR number of the version. */
     public val major: Int,
+
     /** The MINOR number of the version. */
     public val minor: Int,
+
     /** The PATCH number of the version. */
     public val patch: Int,
-    /** The PRE-RELEASE part of the version. */
-    public val preRelease: String? = null,
+
+    internal val parsedPreRelease: PreRelease? = null,
+
     /** The BUILD-METADATA part of the version. */
     public val buildMetadata: String? = null
 ) : Comparable<Version> {
+
+    /**
+     * Constructs a semantic version from the given arguments following the pattern:
+     * <[major]>.<[minor]>.<[patch]>-<[preRelease]>+<[buildMetadata]>
+     */
+    public constructor(
+        major: Int,
+        minor: Int,
+        patch: Int,
+        preRelease: String? = null,
+        buildMetadata: String? = null
+    ) : this(major, minor, patch, preRelease?.toPreRelease(), buildMetadata)
 
     init {
         when {
@@ -28,35 +39,24 @@ public data class Version(
         }
     }
 
-    /**
-     * Returns true when the version is considered stable.
-     * (When it doesn't have pre-release and build-metadata part.)
-     */
-    public val isStable: Boolean = preRelease == null && buildMetadata == null
-
-    private val parsedPreRelease: PreRelease? = preRelease?.toPreRelease()
+    /** The PRE-RELEASE part of the version. */
+    public val preRelease: String? = parsedPreRelease?.toString()
 
     /**
-     * Increments the version by its MAJOR number. Returns a new version while the original remains unchanged.
+     * Returns true when the version is a pre-release version.
      */
-    public fun nextMajor(): Version = Version(major + 1, 0, 0)
+    public val isPreRelease: Boolean = parsedPreRelease != null
+
     /**
-     * Increments the version by its MINOR number. Returns a new version while the original remains unchanged.
+     * Constructs a copy of the [Version]. The copied object's properties can be altered with the optional parameters.
      */
-    public fun nextMinor(): Version = Version(major, minor + 1, 0)
-    /**
-     * Increments the version by its PATCH number. Returns a new version while the original remains unchanged.
-     */
-    public fun nextPatch(): Version = Version(major, minor, if (parsedPreRelease != null) patch else patch + 1)
-    /**
-     * Increments the version by its PRE-RELEASE part. Returns a new version while the original remains unchanged.
-     */
-    public fun nextPreRelease(): Version = Version(
-        major,
-        minor,
-        if (parsedPreRelease != null) patch else patch + 1,
-        parsedPreRelease?.increment()?.toString() ?: PreRelease.default().toString()
-    )
+    public fun copy(
+        major: Int = this.major,
+        minor: Int = this.minor,
+        patch: Int = this.patch,
+        preRelease: String? = this.preRelease,
+        buildMetadata: String? = this.buildMetadata
+    ): Version = Version(major, minor, patch, preRelease, buildMetadata)
 
     public override fun compareTo(other: Version): Int =
         when {
@@ -86,28 +86,37 @@ public data class Version(
         var hash = major.hashCode()
         hash *= 31 + minor.hashCode()
         hash *= 31 + patch.hashCode()
-        hash *= if (preRelease != null) 31 + preRelease.hashCode() else 1
+        hash *= parsedPreRelease?.let { 31 + parsedPreRelease.hashCode() } ?: 1
         return hash
     }
 
     public override fun toString(): String =
-        "$major.$minor.$patch${if (parsedPreRelease != null)
-            "-$parsedPreRelease" else ""}${if (buildMetadata != null) "+$buildMetadata" else ""}"
+        "$major.$minor.$patch${parsedPreRelease?.let { "-$parsedPreRelease" } ?: ""}" +
+            (buildMetadata?.let { "+$buildMetadata" } ?: "")
+
+    public operator fun component1(): Int = major
+    public operator fun component2(): Int = minor
+    public operator fun component3(): Int = patch
+    public operator fun component4(): String? = preRelease
+    public operator fun component5(): String? = buildMetadata
 
     public companion object {
+        private const val VERSION_REGEX: String = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)" +
+            "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
+            "(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?\$"
         private val versionRegex: Regex = VERSION_REGEX.toRegex()
 
         /**
-         * Parses the [versionText] string into a semantic version [Version].
+         * Parses the [versionText] as a [Version] and returns the result or throws a [VersionFormatException]
+         * if the string is not a valid representation of a semantic version.
          */
         public fun parse(versionText: String): Version {
             val result = versionRegex.matchEntire(versionText)
-                ?: throw VersionFormatException("Invalid version: $versionText")
-            val major = result.groups[1]?.value?.toIntOrNull()
-            val minor = result.groups[2]?.value?.toIntOrNull()
-            val patch = result.groups[3]?.value?.toIntOrNull()
-            val preRelease = result.groups[4]?.value
-            val buildMetadata = result.groups[5]?.value
+            val major = result?.groups?.get(1)?.value?.toIntOrNull()
+            val minor = result?.groups?.get(2)?.value?.toIntOrNull()
+            val patch = result?.groups?.get(3)?.value?.toIntOrNull()
+            val preRelease = result?.groups?.get(4)?.value
+            val buildMetadata = result?.groups?.get(5)?.value
 
             if (major == null || minor == null || patch == null) {
                 throw VersionFormatException("Invalid version: $versionText")
@@ -115,10 +124,13 @@ public data class Version(
 
             return Version(major, minor, patch, preRelease, buildMetadata)
         }
+
+        internal operator fun invoke(
+            major: Int,
+            minor: Int,
+            patch: Int,
+            preRelease: PreRelease?,
+            buildMetadata: String? = null
+        ): Version = Version(major, minor, patch, preRelease, buildMetadata)
     }
 }
-
-/**
- * Converts the [String] into a [Version].
- */
-public fun String.toVersion(): Version = Version.parse(this)
