@@ -38,3 +38,14 @@ public fun Version.nextPreRelease(): Version = Version(
     parsedPreRelease?.let { patch } ?: (patch + 1),
     parsedPreRelease?.increment() ?: PreRelease.default()
 )
+
+/**
+ * Constructs a copy of the [Version]. The copied object's properties can be altered with the optional parameters.
+ */
+public fun Version.copy(
+    major: Int = this.major,
+    minor: Int = this.minor,
+    patch: Int = this.patch,
+    preRelease: String? = this.preRelease,
+    buildMetadata: String? = this.buildMetadata
+): Version = Version(major, minor, patch, preRelease, buildMetadata)

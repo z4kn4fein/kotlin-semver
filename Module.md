@@ -1,7 +1,8 @@
-# kotlin-semver (work in progress)
+# Module semver
 
-Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html). 
-This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and 
+Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
+
+This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and
 provides ability to **parse**, **compare**, and **increment** semantic versions.
 
 ## Install with Gradle
@@ -11,6 +12,8 @@ repositories {
     mavenCentral()
 }
 ```
+<br/>
+
 Then, you can add it to the dependencies list.
 ```kotlin
 dependencies {
@@ -20,23 +23,23 @@ dependencies {
 
 ## Usage
 The following options are supported to construct a `Version`:
-1. Building part by part.
-
+- Building part by part.
    ```kotlin
    Version(major = 3, minor = 5, patch = 2, preRelease = "alpha", buildMetadata = "build")
-   ```
-   
-2. Parsing from a string with `Version.parse()`.
+   ```  
+<br/>
 
+- Parsing from a string with `Version.parse()`.
    ```kotlin
    Version.parse("3.5.2-alpha+build")
-   ```
-   
-3. Using the `toVersion()` or `toVersionOrNull()` extension methods on a string.
+   ```  
+<br/>
 
+- Using the `toVersion()` or `toVersionOrNull()` extension methods on a string.
    ```kotlin
    "3.5.2-alpha+build".toVersion()
-   ```
+   ```  
+<br/>
 
 The following information is accessible on a constructed `Version` object:
 ```kotlin
@@ -50,6 +53,7 @@ version.buildMetadata   // "build"
 version.isPreRelease    // true
 version.toString()      // "3.5.2-alpha.2+build"
 ```
+<br/>
 
 `Version` also supports destructuring.
 ```kotlin
@@ -75,6 +79,7 @@ It is possible to compare two `Version` objects with [comparison operators](http
 "0.1.0".toVersion().compareTo("0.1.1".toVersion())          // -1
 "0.1.1".toVersion().compareTo("0.1.1".toVersion())          //  0
 ```
+<br/>
 
 The equality of two `Version` objects can be determined with [equality operators](https://kotlinlang.org/docs/operator-overloading.html#equality-and-inequality-operators) or with `equals()`.
 ```kotlin
@@ -84,6 +89,7 @@ The equality of two `Version` objects can be determined with [equality operators
 "0.1.1".toVersion().equals("0.1.1".toVersion())  // true
 "0.1.0".toVersion().equals("0.1.1".toVersion())  // false
 ```
+<br/>
 
 As `Version` objects are comparable, a collection of them can be sorted easily like in the following example.
 ```kotlin
@@ -106,6 +112,7 @@ val list: List<Version> = listOf(
 //   "1.1.0"
 //   "1.1.0+build"
 ```
+<br/>
 
 Having an order provides the ability to determine whether a `Version` is in the range between two given versions.
 ```kotlin

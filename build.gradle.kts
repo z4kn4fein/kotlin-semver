@@ -3,6 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
 import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
+import java.net.URL
 
 plugins {
     kotlin("multiplatform") version "1.6.10"
@@ -71,6 +72,17 @@ kotlin {
 
 tasks.getByName<DokkaTask>("dokkaHtml") {
     outputDirectory.set(file(buildDir.resolve("dokka")))
+    dokkaSourceSets.configureEach {
+        includes.from("Module.md")
+
+        displayName.set("Common")
+
+        sourceLink {
+            localDirectory.set(file("src/commonMain/kotlin"))
+            remoteUrl.set(URL("https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin"))
+            remoteLineSuffix.set("#L")
+        }
+    }
 }
 
 val javadocJar = tasks.register<Jar>("javadocJar") {
@@ -100,7 +112,7 @@ sonarqube {
     properties {
         property("sonar.projectKey", "z4kn4fein_kotlin-semver")
         property("sonar.projectName", "kotlin-semver")
-        property("sonar.projectVersion", "$version-${Prop.buildNumber}")
+        property("sonar.projectVersion", "${project.version}")
         property("sonar.organization", "z4kn4fein")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")

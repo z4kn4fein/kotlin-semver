@@ -47,17 +47,6 @@ public class Version private constructor(
      */
     public val isPreRelease: Boolean = parsedPreRelease != null
 
-    /**
-     * Constructs a copy of the [Version]. The copied object's properties can be altered with the optional parameters.
-     */
-    public fun copy(
-        major: Int = this.major,
-        minor: Int = this.minor,
-        patch: Int = this.patch,
-        preRelease: String? = this.preRelease,
-        buildMetadata: String? = this.buildMetadata
-    ): Version = Version(major, minor, patch, preRelease, buildMetadata)
-
     public override fun compareTo(other: Version): Int =
         when {
             major > other.major -> 1
@@ -94,12 +83,18 @@ public class Version private constructor(
         "$major.$minor.$patch${parsedPreRelease?.let { "-$parsedPreRelease" } ?: ""}" +
             (buildMetadata?.let { "+$buildMetadata" } ?: "")
 
+    /** Component function that returns the MAJOR number of the version upon destructuring. */
     public operator fun component1(): Int = major
+    /** Component function that returns the MINOR number of the version upon destructuring. */
     public operator fun component2(): Int = minor
+    /** Component function that returns the PATCH number of the version upon destructuring. */
     public operator fun component3(): Int = patch
+    /** Component function that returns the PRE-RELEASE part of the version upon destructuring. */
     public operator fun component4(): String? = preRelease
+    /** Component function that returns the BUILD-METADATA part of the version upon destructuring. */
     public operator fun component5(): String? = buildMetadata
 
+    /** Companion object of [Version]. */
     public companion object {
         private const val VERSION_REGEX: String = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)" +
             "(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
@@ -111,12 +106,13 @@ public class Version private constructor(
          * if the string is not a valid representation of a semantic version.
          */
         public fun parse(versionText: String): Version {
-            val result = versionRegex.matchEntire(versionText)
-            val major = result?.groups?.get(1)?.value?.toIntOrNull()
-            val minor = result?.groups?.get(2)?.value?.toIntOrNull()
-            val patch = result?.groups?.get(3)?.value?.toIntOrNull()
-            val preRelease = result?.groups?.get(4)?.value
-            val buildMetadata = result?.groups?.get(5)?.value
+            val result = versionRegex.matchEntire(versionText) ?:
+                throw VersionFormatException("Invalid version: $versionText")
+            val major = result.groupValues[1].toIntOrNull()
+            val minor = result.groupValues[2].toIntOrNull()
+            val patch = result.groupValues[3].toIntOrNull()
+            val preRelease = result.groups[4]?.value
+            val buildMetadata = result.groups[5]?.value
 
             if (major == null || minor == null || patch == null) {
                 throw VersionFormatException("Invalid version: $versionText")
