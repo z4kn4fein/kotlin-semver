@@ -4,6 +4,8 @@ import kotlin.math.min
 
 internal class PreRelease private constructor(private val parts: List<String>) : Comparable<PreRelease> {
 
+    val identity: String get() = parts[0]
+
     fun increment(): PreRelease {
         val newParts = parts.toMutableList()
 
@@ -65,7 +67,9 @@ internal class PreRelease private constructor(private val parts: List<String>) :
 
         operator fun invoke(preReleaseText: String): PreRelease = PreRelease(validate(preReleaseText))
 
-        fun default(): PreRelease = PreRelease(listOf("0"))
+        fun default(preRelease: String? = null): PreRelease =
+            preRelease?.let { if (it.isEmpty()) PreRelease(listOf("0")) else PreRelease(listOf(it, "0")) }
+                ?: PreRelease(listOf("0"))
 
         private fun validate(preReleaseText: String): List<String> {
             if (preReleaseText.isEmpty()) {

@@ -51,6 +51,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("io.kotest:kotest-assertions-core:5.+")
             }
         }
 
@@ -139,7 +140,7 @@ publishing {
 
         pom {
             name.set("Kotlin Semantic Versioning")
-            description.set("Semantic Versioning library for Kotlin Multiplatform.")
+            description.set("Semantic Versioning library for Kotlin Multiplatform. It implements the full semantic version 2.0.0 specification and provides ability to parse, compare, and increment semantic versions.")
             url.set("https://github.com/z4kn4fein/kotlin-semver")
 
             issueManagement {

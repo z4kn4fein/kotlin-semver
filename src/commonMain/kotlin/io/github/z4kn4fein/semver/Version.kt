@@ -15,7 +15,7 @@ public class Version private constructor(
 
     internal val parsedPreRelease: PreRelease? = null,
 
-    /** The BUILD-METADATA part of the version. */
+    /** The BUILD metadata of the version. */
     public val buildMetadata: String? = null
 ) : Comparable<Version> {
 
@@ -39,7 +39,7 @@ public class Version private constructor(
         }
     }
 
-    /** The PRE-RELEASE part of the version. */
+    /** The PRE-RELEASE identifier of the version. */
     public val preRelease: String? = parsedPreRelease?.toString()
 
     /**
@@ -89,9 +89,9 @@ public class Version private constructor(
     public operator fun component2(): Int = minor
     /** Component function that returns the PATCH number of the version upon destructuring. */
     public operator fun component3(): Int = patch
-    /** Component function that returns the PRE-RELEASE part of the version upon destructuring. */
+    /** Component function that returns the PRE-RELEASE identifier of the version upon destructuring. */
     public operator fun component4(): String? = preRelease
-    /** Component function that returns the BUILD-METADATA part of the version upon destructuring. */
+    /** Component function that returns the BUILD metadata of the version upon destructuring. */
     public operator fun component5(): String? = buildMetadata
 
     /** Companion object of [Version]. */
