@@ -75,8 +75,6 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
     dokkaSourceSets.configureEach {
         includes.from("Module.md")
 
-        displayName.set("Common")
-
         sourceLink {
             localDirectory.set(file("src/commonMain/kotlin"))
             remoteUrl.set(URL("https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin"))
@@ -112,7 +110,7 @@ sonarqube {
     properties {
         property("sonar.projectKey", "z4kn4fein_kotlin-semver")
         property("sonar.projectName", "kotlin-semver")
-        property("sonar.projectVersion", "${project.version}")
+        property("sonar.projectVersion", "$version-${Prop.buildNumber}")
         property("sonar.organization", "z4kn4fein")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")
@@ -140,7 +138,7 @@ publishing {
         artifact(javadocJar.get())
 
         pom {
-            name.set("Kotlin Semantic Version")
+            name.set("Kotlin Semantic Versioning")
             description.set("Kotlin Multiplatform semantic versioning library")
             url.set("https://github.com/z4kn4fein/kotlin-semver")
 

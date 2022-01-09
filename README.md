@@ -1,7 +1,14 @@
 # kotlin-semver (work in progress)
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.z4kn4fein/semver?label=maven%20central)](https://search.maven.org/artifact/io.github.z4kn4fein/semver/)
+[![Snapshot](https://img.shields.io/nexus/s/io.github.z4kn4fein/semver?label=snapshot&server=https%3A%2F%2Fs01.oss.sonatype.org)](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/z4kn4fein/semver/)
+[![Build](https://img.shields.io/github/workflow/status/z4kn4fein/kotlin-semver/Semver%20CI?logo=GitHub)](https://github.com/z4kn4fein/kotlin-semver/actions/workflows/semver-ci.yml)
+[![Quality Gate Status](https://img.shields.io/sonar/quality_gate/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
+[![SonarCloud Coverage](https://img.shields.io/sonar/coverage/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.6-blueviolet.svg?logo=kotlin)](http://kotlinlang.org)
+
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html). 
-This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and 
+It fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and 
 provides ability to **parse**, **compare**, and **increment** semantic versions.
 
 ## Install with Gradle
@@ -11,10 +18,10 @@ repositories {
     mavenCentral()
 }
 ```
-Then, you can add it to the dependencies list.
+Then, you can add the package to the dependencies list.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:$version")
+    implementation("io.github.z4kn4fein:semver:1.0.0")
 }
 ```
 
@@ -59,7 +66,7 @@ val (major, minor, patch, preRelease, buildMetadata) = version
 // major: 2
 // minor: 3
 // patch: 1
-// preRelease: "alpha"
+// preRelease: "alpha.2"
 // buildMetadata: "build.1"
 ```
 

@@ -1,12 +1,10 @@
 # Module semver
-
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
-
-This library fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and
+It fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and
 provides ability to **parse**, **compare**, and **increment** semantic versions.
 
 ## Install with Gradle
-This library is available in Maven Central, so you have to add it to your repositories.
+The library is available in Maven Central, so you have to add it to your repositories.
 ```kotlin
 repositories {
     mavenCentral()
@@ -14,10 +12,10 @@ repositories {
 ```
 <br/>
 
-Then, you can add it to the dependencies list.
+Then, you can add the package to the dependencies list.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:$version")
+    implementation("io.github.z4kn4fein:semver:1.0.0")
 }
 ```
 
@@ -63,7 +61,7 @@ val (major, minor, patch, preRelease, buildMetadata) = version
 // major: 2
 // minor: 3
 // patch: 1
-// preRelease: "alpha"
+// preRelease: "alpha.2"
 // buildMetadata: "build.1"
 ```
 
@@ -71,7 +69,7 @@ val (major, minor, patch, preRelease, buildMetadata) = version
 
 It is possible to compare two `Version` objects with [comparison operators](https://kotlinlang.org/docs/operator-overloading.html#comparison-operators) or with `.compareTo()`.
 ```kotlin
-"0.1.1".toVersion() > "0.1.0".toVersion()                   // true
+"0.1.0".toVersion() < "0.1.1".toVersion()                   // true
 "0.1.1".toVersion() <= "0.1.1".toVersion()                  // true
 "0.1.0-alpha.3".toVersion() < "0.1.0-alpha.4".toVersion()   // true
 
