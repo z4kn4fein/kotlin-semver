@@ -11,6 +11,8 @@ Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/do
 It fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and 
 provides ability to **parse**, **compare**, and **increment** semantic versions.
 
+The API Documentation is available [here](https://z4kn4fein.github.io/kotlin-semver/).
+
 ## Install with Gradle
 This library is available in Maven Central, so you have to add it to your repositories.
 ```kotlin
