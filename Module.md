@@ -1,6 +1,6 @@
 # Module semver
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
-It fully supports the [semver 2.0.0](https://semver.org/spec/v2.0.0.html) standards and
+It implements the full [semantic version 2.0.0](https://semver.org/spec/v2.0.0.html) specification and
 provides ability to **parse**, **compare**, and **increment** semantic versions.
 
 ## Install with Gradle

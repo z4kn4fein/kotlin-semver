@@ -139,7 +139,7 @@ publishing {
 
         pom {
             name.set("Kotlin Semantic Versioning")
-            description.set("Kotlin Multiplatform semantic versioning library")
+            description.set("Semantic Versioning library for Kotlin Multiplatform.")
             url.set("https://github.com/z4kn4fein/kotlin-semver")
 
             issueManagement {
