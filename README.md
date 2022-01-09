@@ -148,10 +148,11 @@ It allows altering the copied version's properties with optional parameters.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
-val withDifferentMajor = version.copy(major = 3)                          // 3.0.0
-val withDifferentMinor = version.copy(minor = 4)                          // 1.4.0
-val withDifferentPatch = version.copy(patch = 5)                          // 1.0.5
-val withDifferentPreRelease = version.copy(preRelease = "alpha.4")        // 1.0.0-alpha.4
+val exactCopy = version.copy()                                            // 1.0.0-alpha.2+build.1
+val withDifferentMajor = version.copy(major = 3)                          // 3.0.0-alpha.2+build.1
+val withDifferentMinor = version.copy(minor = 4)                          // 1.4.0-alpha.2+build.1
+val withDifferentPatch = version.copy(patch = 5)                          // 1.0.5-alpha.2+build.1
+val withDifferentPreRelease = version.copy(preRelease = "alpha.4")        // 1.0.0-alpha.4+build.1
 val withDifferentBuildMetadata = version.copy(buildMetadata = "build.3")  // 1.0.0-alpha.2+build.3
 val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4.5-alpha.2+build.1
 ```

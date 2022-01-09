@@ -111,6 +111,7 @@ class VersionTests {
     @Test
     fun testClone() {
         assertEquals("1.2.3-alpha+build", "1.2.3-alpha+build".toVersion().copy().toString())
+        assertEquals("2.2.3-alpha+build", "1.2.3-alpha+build".toVersion().copy(major = 2).toString())
         assertEquals("2.2.4", "1.2.4".toVersion().copy(major = 2).toString())
         assertEquals("1.3.4", "1.2.4".toVersion().copy(minor = 3).toString())
         assertEquals("1.2.5", "1.2.4".toVersion().copy(patch = 5).toString())
