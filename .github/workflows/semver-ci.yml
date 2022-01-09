@@ -231,8 +231,7 @@ jobs:
 
   deploy-gh-pages:
     needs: [ assemble, coverage ]
-    #if: startsWith(github.ref, 'refs/tags')
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
