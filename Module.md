@@ -15,7 +15,7 @@ repositories {
 Then, you can add the package to the dependencies list.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.0.0")
+    implementation("io.github.z4kn4fein:semver:1.+")
 }
 ```
 
