@@ -1,5 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
 import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
@@ -196,10 +196,11 @@ fun KotlinTargetPreset<*>.isTargetAllowedOnHost(): Boolean {
 }
 
 fun isTargetAllowedOnHost(name: String): Boolean {
+    val os = OperatingSystem.current()
     return when (getTargetHostType(name)) {
-        HostType.LINUX -> Os.isFamily(Os.FAMILY_UNIX)
-        HostType.WINDOWS -> Os.isFamily(Os.FAMILY_WINDOWS)
-        HostType.MAC_OS -> Os.isFamily(Os.FAMILY_MAC)
+        HostType.LINUX -> os.isLinux
+        HostType.WINDOWS -> os.isWindows
+        HostType.MAC_OS -> os.isMacOsX
     }
 }
 
