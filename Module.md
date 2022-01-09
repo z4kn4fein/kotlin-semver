@@ -123,31 +123,36 @@ val range = "1.0.0".toVersion().."1.1.0".toVersion()
 ## Increment
 `Version` objects can produce incremented versions of themselves with the `next{Major|Minor|Patch|PreRelease}()` and `inc()` methods.
 These methods can be used to determine the next version in order by increasing the appropriate identifier.
+
+When the version is stable:
 ```kotlin
 val stableVersion = "1.0.0".toVersion()
 
-val nextStableMajor = stableVersion.nextMajor()                     // 2.0.0
-val nextStableMinor = stableVersion.nextMinor()                     // 1.1.0
-val nextStablePatch = stableVersion.nextPatch()                     // 1.0.1
-val nextStablePreRelease = stableVersion.nextPreRelease()           // 1.0.1-0
+val nextMajor = stableVersion.nextMajor()                     // 2.0.0
+val nextMinor = stableVersion.nextMinor()                     // 1.1.0
+val nextPatch = stableVersion.nextPatch()                     // 1.0.1
+val nextPreRelease = stableVersion.nextPreRelease()           // 1.0.1-0
 // or with the inc() method:
-val incStableMajor = stableVersion.inc(by = Inc.MAJOR)              // 2.0.0
-val incStableMinor = stableVersion.inc(by = Inc.MINOR)              // 1.1.0
-val incStablePatch = stableVersion.inc(by = Inc.PATCH)              // 1.0.1
-val incStablePreRelease = stableVersion.inc(by = Inc.PRE_RELEASE)   // 1.0.1-0
+val incrementedByMajor = stableVersion.inc(by = Inc.MAJOR)              // 2.0.0
+val incrementedByMinor = stableVersion.inc(by = Inc.MINOR)              // 1.1.0
+val incrementedByPatch = stableVersion.inc(by = Inc.PATCH)              // 1.0.1
+val incrementedByPreRelease = stableVersion.inc(by = Inc.PRE_RELEASE)   // 1.0.1-0
+```
+<br/>
 
-
+When the version is unstable:
+```kotlin
 val unstableVersion = "1.0.0-alpha.2+build.1".toVersion()
 
-val nextUnstableMajor = unstableVersion.nextMajor()                     // 2.0.0
-val nextUnstableMinor = unstableVersion.nextMinor()                     // 1.1.0
-val nextUnstablePatch = unstableVersion.nextPatch()                     // 1.0.0
-val nextUnstablePreRelease = unstableVersion.nextPreRelease()           // 1.0.0-alpha.3
+val nextMajor = unstableVersion.nextMajor()                     // 2.0.0
+val nextMinor = unstableVersion.nextMinor()                     // 1.1.0
+val nextPatch = unstableVersion.nextPatch()                     // 1.0.0
+val nextPreRelease = unstableVersion.nextPreRelease()           // 1.0.0-alpha.3
 // or with the inc() method:
-val incUnstableMajor = unstableVersion.inc(by = Inc.MAJOR)              // 2.0.0
-val incUnstableMinor = unstableVersion.inc(by = Inc.MINOR)              // 1.1.0
-val incUnstablePatch = unstableVersion.inc(by = Inc.PATCH)              // 1.0.0
-val incUnstablePreRelease = unstableVersion.inc(by = Inc.PRE_RELEASE)   // 1.0.0-alpha.3
+val incrementedByMajor = unstableVersion.inc(by = Inc.MAJOR)              // 2.0.0
+val incrementedByMinor = unstableVersion.inc(by = Inc.MINOR)              // 1.1.0
+val incrementedByPatch = unstableVersion.inc(by = Inc.PATCH)              // 1.0.0
+val incrementedByPreRelease = unstableVersion.inc(by = Inc.PRE_RELEASE)   // 1.0.0-alpha.3
 ```
 > `Version` objects are immutable, so each incrementing function creates a new `Version`.
 

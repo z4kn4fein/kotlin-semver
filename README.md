@@ -127,21 +127,25 @@ val range = "1.0.0".toVersion().."1.1.0".toVersion()
 ## Increment
 `Version` objects can produce incremented versions of themselves with the `next{Major|Minor|Patch|PreRelease}()` methods.
 These methods can be used to determine the next version in order by increasing the appropriate identifier.
+
+When the version is stable:
 ```kotlin
 val stableVersion = "1.0.0".toVersion()
 
-val nextStableMajor = stableVersion.nextMajor()                     // 2.0.0
-val nextStableMinor = stableVersion.nextMinor()                     // 1.1.0
-val nextStablePatch = stableVersion.nextPatch()                     // 1.0.1
-val nextStablePreRelease = stableVersion.nextPreRelease()           // 1.0.1-0
+val nextMajor = stableVersion.nextMajor()                     // 2.0.0
+val nextMinor = stableVersion.nextMinor()                     // 1.1.0
+val nextPatch = stableVersion.nextPatch()                     // 1.0.1
+val nextPreRelease = stableVersion.nextPreRelease()           // 1.0.1-0
+```
 
-
+When the version is unstable:
+```kotlin
 val unstableVersion = "1.0.0-alpha.2+build.1".toVersion()
 
-val nextUnstableMajor = unstableVersion.nextMajor()                     // 2.0.0
-val nextUnstableMinor = unstableVersion.nextMinor()                     // 1.1.0
-val nextUnstablePatch = unstableVersion.nextPatch()                     // 1.0.0
-val nextUnstablePreRelease = unstableVersion.nextPreRelease()           // 1.0.0-alpha.3
+val nextMajor = unstableVersion.nextMajor()                   // 2.0.0
+val nextMinor = unstableVersion.nextMinor()                   // 1.1.0
+val nextPatch = unstableVersion.nextPatch()                   // 1.0.0
+val nextPreRelease = unstableVersion.nextPreRelease()         // 1.0.0-alpha.3
 ```
 > `Version` objects are immutable, so each incrementing function creates a new `Version`.
 
