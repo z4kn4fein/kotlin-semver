@@ -13,7 +13,7 @@ internal class PreRelease private constructor(private val parts: List<String>) :
         lastNumericItem?.let {
             val lastNumericIndex = newParts.indexOf(lastNumericItem)
             newParts[lastNumericIndex] = (lastNumericItem.toInt() + 1).toString()
-        } ?: newParts.add("0")
+        } ?: newParts.add(DEFAULT_INIT_PART)
 
         return PreRelease(newParts)
     }
@@ -62,14 +62,16 @@ internal class PreRelease private constructor(private val parts: List<String>) :
     companion object {
         private const val ONLY_NUMBER_REGEX: String = "^[0-9]+$"
         private const val ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX: String = "^[0-9A-Za-z-]+$"
+        private const val DEFAULT_INIT_PART = "0"
         private val onlyNumberRegex: Regex = ONLY_NUMBER_REGEX.toRegex()
         private val onlyAlphaNumericAndHyphenRegex: Regex = ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX.toRegex()
 
         operator fun invoke(preReleaseText: String): PreRelease = PreRelease(validate(preReleaseText))
 
         fun default(preRelease: String? = null): PreRelease =
-            preRelease?.let { if (it.isEmpty()) PreRelease(listOf("0")) else PreRelease(listOf(it, "0")) }
-                ?: PreRelease(listOf("0"))
+            preRelease?.let {
+                if (it.isEmpty()) PreRelease(listOf(DEFAULT_INIT_PART)) else PreRelease(listOf(it, DEFAULT_INIT_PART))
+            } ?: PreRelease(listOf(DEFAULT_INIT_PART))
 
         private fun validate(preReleaseText: String): List<String> {
             if (preReleaseText.isEmpty()) {
