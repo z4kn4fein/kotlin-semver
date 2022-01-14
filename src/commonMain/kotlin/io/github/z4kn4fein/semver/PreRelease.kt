@@ -13,7 +13,7 @@ internal class PreRelease private constructor(private val parts: List<String>) :
         lastNumericItem?.let {
             val lastNumericIndex = newParts.indexOf(lastNumericItem)
             newParts[lastNumericIndex] = (lastNumericItem.toInt() + 1).toString()
-        } ?: newParts.add("0")
+        } ?: newParts.add(DEFAULT_INIT_PART)
 
         return PreRelease(newParts)
     }
@@ -60,15 +60,19 @@ internal class PreRelease private constructor(private val parts: List<String>) :
     }
 
     companion object {
+        private const val DEFAULT_INIT_PART = "0"
+
         operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
 
         fun default(preRelease: String? = null): PreRelease =
-            preRelease?.let { if (it.isBlank()) PreRelease(listOf("0")) else PreRelease(listOf(it, "0")) }
-                ?: PreRelease(listOf("0"))
+            preRelease?.let {
+                if (it.isBlank()) PreRelease(listOf(DEFAULT_INIT_PART))
+                else PreRelease(listOf(it, DEFAULT_INIT_PART))
+            } ?: PreRelease(listOf(DEFAULT_INIT_PART))
 
         private fun validate(preReleaseString: String): List<String> {
             if (preReleaseString.isBlank()) {
-                return listOf("0")
+                return listOf(DEFAULT_INIT_PART)
             }
 
             val parts = preReleaseString.trim().split('.')
