@@ -1,25 +1,32 @@
 package io.github.z4kn4fein.semver
 
-internal fun String.toPreRelease(): PreRelease = PreRelease(this)
+import io.github.z4kn4fein.semver.constraints.Constraint
+import io.github.z4kn4fein.semver.constraints.satisfiedBy
 
 /**
  * Parses the string as a [Version] and returns the result or throws a [VersionFormatException]
  * if the string is not a valid representation of a semantic version.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.toVersion
  */
 public fun String.toVersion(): Version = Version.parse(this)
 
 /**
- * Parses the string as a [Version] and returns the result or `null`
+ * Parses the string as a [Version] and returns the result or null
  * if the string is not a valid representation of a semantic version.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.toVersionOrNull
  */
 public fun String.toVersionOrNull(): Version? = try { this.toVersion() } catch (_: Exception) { null }
 
 /**
  * Increments the version by its MAJOR number. When the [preRelease] parameter is set, a pre-release version
  * will be produced from the next MAJOR version. The value of [preRelease] will be the first
- * pre-release identifier of the new version suffixed with a `0`.
+ * pre-release identifier of the new version suffixed with zero.
  *
  * Returns a new version while the original remains unchanged.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextMajor
  */
 public fun Version.nextMajor(preRelease: String? = null): Version = Version(
     major + 1,
@@ -31,9 +38,11 @@ public fun Version.nextMajor(preRelease: String? = null): Version = Version(
 /**
  * Increments the version by its MINOR number. When the [preRelease] parameter is set, a pre-release version
  * will be produced from the next MINOR version. The value of [preRelease] will be the first
- * pre-release identifier of the new version suffixed with a `0`.
+ * pre-release identifier of the new version suffixed with zero.
  *
  * Returns a new version while the original remains unchanged.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextMinor
  */
 public fun Version.nextMinor(preRelease: String? = null): Version = Version(
     major,
@@ -47,9 +56,11 @@ public fun Version.nextMinor(preRelease: String? = null): Version = Version(
  * incremented, only the pre-release identifier will be removed.
  *
  * When the [preRelease] parameter is set, a pre-release version will be produced from the next PATCH version.
- * The value of [preRelease] will be the first pre-release identifier of the new version suffixed with a `0`.
+ * The value of [preRelease] will be the first pre-release identifier of the new version suffixed with zero.
  *
  * Returns a new version while the original remains unchanged.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextPatch
  */
 public fun Version.nextPatch(preRelease: String? = null): Version = Version(
     major,
@@ -65,6 +76,8 @@ public fun Version.nextPatch(preRelease: String? = null): Version = Version(
  * the [preRelease] parameter, a simple incrementation will apply.
  *
  * Returns a new version while the original remains unchanged.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextPreRelease
  */
 public fun Version.nextPreRelease(preRelease: String? = null): Version = Version(
     major,
@@ -78,17 +91,6 @@ public fun Version.nextPreRelease(preRelease: String? = null): Version = Version
 )
 
 /**
- * Constructs a copy of the [Version]. The copied object's properties can be altered with the optional parameters.
- */
-public fun Version.copy(
-    major: Int = this.major,
-    minor: Int = this.minor,
-    patch: Int = this.patch,
-    preRelease: String? = this.preRelease,
-    buildMetadata: String? = this.buildMetadata
-): Version = Version(major, minor, patch, preRelease, buildMetadata)
-
-/**
  * Increases the version [by] its [Inc.MAJOR], [Inc.MINOR], [Inc.PATCH], or [Inc.PRE_RELEASE] segment.
  *
  * [Inc.MAJOR] -> [nextMajor]
@@ -100,6 +102,8 @@ public fun Version.copy(
  * [Inc.PRE_RELEASE] -> [nextPreRelease]
  *
  * Returns a new version while the original remains unchanged.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.inc
  */
 public fun Version.inc(by: Inc, preRelease: String? = null): Version =
     when (by) {
@@ -108,3 +112,26 @@ public fun Version.inc(by: Inc, preRelease: String? = null): Version =
         Inc.PATCH -> nextPatch(preRelease)
         Inc.PRE_RELEASE -> nextPreRelease(preRelease)
     }
+
+/**
+ * Determines whether a [Version] satisfies a [Constraint] or not.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfies
+ */
+public infix fun Version.satisfies(constraint: Constraint): Boolean = constraint satisfiedBy this
+
+/**
+ * Determines whether a [Version] satisfies each [Constraint] in a collection or not.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfiesAll
+ */
+public infix fun Version.satisfiesAll(constraints: Iterable<Constraint>): Boolean =
+    constraints.all { constraint -> constraint satisfiedBy this }
+
+/**
+ * Determines whether a [Version] satisfies at least one [Constraint] in a collection or not.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfiesAny
+ */
+public infix fun Version.satisfiesAny(constraints: Iterable<Constraint>): Boolean =
+    constraints.any { constraint -> constraint satisfiedBy this }

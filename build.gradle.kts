@@ -75,12 +75,26 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
     outputDirectory.set(file(buildDir.resolve("dokka")))
     dokkaSourceSets.configureEach {
         includes.from("Module.md")
-
+        samples.from("src/commonTest/kotlin/io/github/z4kn4fein/semver/samples")
         sourceLink {
             localDirectory.set(file("src/commonMain/kotlin"))
             remoteUrl.set(URL("https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin"))
             remoteLineSuffix.set("#L")
         }
+    }
+
+    doLast {
+        outputDirectory.get().walk()
+            .filter { it.extension == "html" }
+            .forEach { file ->
+                val text = file.readText()
+                file.writeText(
+                    text.replace(
+                        "<script src=\"https://unpkg.com/kotlin-playground@1\"></script>",
+                        "<script src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" data-server=\"http://pcsajtai-kotlin-compiler.herokuapp.com\"></script>"
+                    )
+                )
+            }
     }
 }
 

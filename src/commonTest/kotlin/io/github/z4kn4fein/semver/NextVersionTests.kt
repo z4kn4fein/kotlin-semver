@@ -52,7 +52,7 @@ class NextVersionTests {
                 row("1.2.3", Inc.MAJOR, "2.0.0", null),
                 row("1.2.3", Inc.MINOR, "1.3.0", null),
                 row("1.2.3", Inc.PATCH, "1.2.4", null),
-                row("1.2.3-tag", Inc.MAJOR, "2.0.0", null),
+                row("1.2.3-alpha", Inc.MAJOR, "2.0.0", null),
                 row("1.2.0-0", Inc.PATCH, "1.2.0", null),
                 row("1.2.3-4", Inc.MAJOR, "2.0.0", null),
                 row("1.2.3-4", Inc.MINOR, "1.3.0", null),
@@ -110,7 +110,7 @@ class NextVersionTests {
                 row("1.2.3-1", Inc.MAJOR, "2.0.0-dev.0", "dev"),
                 row("1.2.0-1", Inc.MINOR, "1.3.0", null),
                 row("1.0.0-1", Inc.MAJOR, "2.0.0", null),
-                row("1.2.3-dev.bar", Inc.PRE_RELEASE, "1.2.3-dev.bar.0", "dev"),
+                row("1.2.3-dev.beta", Inc.PRE_RELEASE, "1.2.3-dev.beta.0", "dev"),
             )
         ) { source: String, inc: Inc, expected: String, preRelease: String? ->
             source.toVersion().inc(by = inc, preRelease) shouldBe expected.toVersion()

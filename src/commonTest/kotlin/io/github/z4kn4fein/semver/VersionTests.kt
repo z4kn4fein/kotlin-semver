@@ -76,6 +76,7 @@ class VersionTests {
             preRelease shouldBe "alpha.b.3"
             buildMetadata shouldBe "build"
             isPreRelease.shouldBeTrue()
+            isStable.shouldBeFalse()
         }
     }
 
@@ -87,6 +88,8 @@ class VersionTests {
             patch shouldBe 3
             preRelease.shouldBeNull()
             buildMetadata.shouldBeNull()
+            isStable.shouldBeTrue()
+            isPreRelease.shouldBeFalse()
         }
     }
 
@@ -98,6 +101,71 @@ class VersionTests {
             patch shouldBe 3
             preRelease.shouldBeNull()
             buildMetadata shouldBe "build"
+            isStable.shouldBeTrue()
+            isPreRelease.shouldBeFalse()
+        }
+    }
+
+    @Test
+    fun testVersionDefault() {
+        with(Version()) {
+            major shouldBe 0
+            minor shouldBe 0
+            patch shouldBe 0
+            preRelease.shouldBeNull()
+            buildMetadata.shouldBeNull()
+            isStable.shouldBeFalse()
+            isPreRelease.shouldBeFalse()
+        }
+
+        with(Version(major = 1)) {
+            major shouldBe 1
+            minor shouldBe 0
+            patch shouldBe 0
+            preRelease.shouldBeNull()
+            buildMetadata.shouldBeNull()
+            isStable.shouldBeTrue()
+            isPreRelease.shouldBeFalse()
+        }
+
+        with(Version(major = 1, minor = 2)) {
+            major shouldBe 1
+            minor shouldBe 2
+            patch shouldBe 0
+            preRelease.shouldBeNull()
+            buildMetadata.shouldBeNull()
+            isStable.shouldBeTrue()
+            isPreRelease.shouldBeFalse()
+        }
+
+        with(Version(major = 1, minor = 2, patch = 3)) {
+            major shouldBe 1
+            minor shouldBe 2
+            patch shouldBe 3
+            preRelease.shouldBeNull()
+            buildMetadata.shouldBeNull()
+            isStable.shouldBeTrue()
+            isPreRelease.shouldBeFalse()
+        }
+
+        with(Version(major = 1, minor = 2, patch = 3, preRelease = "alpha")) {
+            major shouldBe 1
+            minor shouldBe 2
+            patch shouldBe 3
+            preRelease shouldBe "alpha"
+            buildMetadata.shouldBeNull()
+            isStable.shouldBeFalse()
+            isPreRelease.shouldBeTrue()
+        }
+
+        with(Version(major = 1, minor = 2, patch = 3, preRelease = "alpha", buildMetadata = "build")) {
+            major shouldBe 1
+            minor shouldBe 2
+            patch shouldBe 3
+            preRelease shouldBe "alpha"
+            buildMetadata shouldBe "build"
+            isStable.shouldBeFalse()
+            isPreRelease.shouldBeTrue()
         }
     }
 

@@ -16,8 +16,6 @@ class PreReleaseTests {
         shouldThrow<VersionFormatException> { "alpha.01".toPreRelease() }
         shouldThrow<VersionFormatException> { "+alpha.01".toPreRelease() }
         shouldThrow<VersionFormatException> { "%alpha".toPreRelease() }
-        shouldThrow<VersionFormatException> { "".toPreRelease() }
-        shouldThrow<VersionFormatException> { " ".toPreRelease() }
     }
 
     @Test
@@ -51,6 +49,7 @@ class PreReleaseTests {
     fun testDefault() {
         PreRelease.default().toString() shouldBe "0"
         PreRelease.default("").toString() shouldBe "0"
+        PreRelease.default(" ").toString() shouldBe "0"
         PreRelease.default("alpha").toString() shouldBe "alpha.0"
     }
 }

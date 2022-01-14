@@ -1,0 +1,87 @@
+package io.github.z4kn4fein.semver.constraints
+
+import io.github.z4kn4fein.semver.Patterns
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.satisfies
+
+/**
+ * This class describes a semantic version constraint. It provides ability to verify whether a [Version]
+ * [satisfies] one or more conditions within a constraint or not.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
+ */
+public class Constraint private constructor(private val comparators: List<List<VersionComparator>>) {
+    /**
+     * Determines whether a [Constraint] is satisfied by a [Version] or not.
+     *
+     * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.satisfiedBy
+     */
+    public fun isSatisfiedBy(version: Version): Boolean =
+        comparators.any { comparator -> comparator.all { condition -> condition.isSatisfiedBy(version) } }
+
+    override fun toString(): String = comparators.joinToString(" || ") { it.joinToString(" ") }
+
+    /** Companion object of [Constraint]. */
+    public companion object {
+        /**
+         * Parses the [constraintsString] as a [Constraint] and returns the result or throws
+         * a [ConstraintFormatException] if the string is not a valid representation of a constraint.
+         *
+         * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.parse
+         */
+        public fun parse(constraintsString: String): Constraint {
+            if (constraintsString.isBlank()) {
+                return default()
+            }
+
+            val orParts = constraintsString.split("||")
+            val comparators = orParts.map { comparator ->
+                val conditionsResult = mutableListOf<VersionComparator>()
+                val hyphensEscaped = Patterns.hyphenConditionRegex.replace(comparator) { hyphenCondition ->
+                    conditionsResult.add(hyphenToComparator(hyphenCondition))
+                    ""
+                }
+
+                val operatorConditions = Patterns.operatorConditionRegex.findAll(hyphensEscaped)
+                conditionsResult.addAll(operatorConditions.map { condition -> operatorToComparator(condition) })
+                conditionsResult
+            }
+
+            return if (comparators.isEmpty() || comparators.all { it.isEmpty() }) default() else Constraint(comparators)
+        }
+
+        private fun operatorToComparator(result: MatchResult): VersionComparator {
+            val operator = result.groups[1]?.value ?: ""
+            val major = result.groups[2]?.value ?: ""
+            val minor = result.groups[3]?.value
+            val patch = result.groups[4]?.value
+            val preRelease = result.groups[5]?.value
+            val buildMetadata = result.groups[6]?.value
+            return VersionComparator.createFromOperator(
+                operator,
+                VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
+            )
+        }
+
+        private fun hyphenToComparator(result: MatchResult): VersionComparator =
+            VersionComparator.createFromHyphenRange(
+                VersionDescriptor(
+                    majorString = result.groups[1]?.value ?: "",
+                    minorString = result.groups[2]?.value,
+                    patchString = result.groups[3]?.value,
+                    preRelease = result.groups[4]?.value,
+                    buildMetadata = result.groups[5]?.value
+                ),
+                VersionDescriptor(
+                    majorString = result.groups[6]?.value ?: "",
+                    minorString = result.groups[7]?.value,
+                    patchString = result.groups[8]?.value,
+                    preRelease = result.groups[9]?.value,
+                    buildMetadata = result.groups[10]?.value
+                )
+            )
+
+        private fun default(): Constraint =
+            Constraint(listOf(listOf(VersionComparator.default())))
+    }
+}

@@ -60,37 +60,34 @@ internal class PreRelease private constructor(private val parts: List<String>) :
     }
 
     companion object {
-        private const val ONLY_NUMBER_REGEX: String = "^[0-9]+$"
-        private const val ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX: String = "^[0-9A-Za-z-]+$"
-        private val onlyNumberRegex: Regex = ONLY_NUMBER_REGEX.toRegex()
-        private val onlyAlphaNumericAndHyphenRegex: Regex = ONLY_ALPHANUMERIC_AND_HYPHEN_REGEX.toRegex()
-
-        operator fun invoke(preReleaseText: String): PreRelease = PreRelease(validate(preReleaseText))
+        operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
 
         fun default(preRelease: String? = null): PreRelease =
-            preRelease?.let { if (it.isEmpty()) PreRelease(listOf("0")) else PreRelease(listOf(it, "0")) }
+            preRelease?.let { if (it.isBlank()) PreRelease(listOf("0")) else PreRelease(listOf(it, "0")) }
                 ?: PreRelease(listOf("0"))
 
-        private fun validate(preReleaseText: String): List<String> {
-            if (preReleaseText.isEmpty()) {
-                throw VersionFormatException("The pre-release string cannot be empty.")
+        private fun validate(preReleaseString: String): List<String> {
+            if (preReleaseString.isBlank()) {
+                return listOf("0")
             }
 
-            val parts = preReleaseText.trim().split('.')
+            val parts = preReleaseString.trim().split('.')
             for (part in parts) {
                 val error = when {
-                    part.trim().isEmpty() -> "Empty pre-release part found."
-                    part.matches(onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
-                        "The pre-release part '$part' is numeric but contains a leading zero."
-                    !part.matches(onlyAlphaNumericAndHyphenRegex) ->
-                        "The pre-release part '$part' contains an invalid character."
+                    part.isBlank() -> "Pre-release identity contains an empty part."
+                    part.matches(Patterns.onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
+                        "Pre-release part '$part' is numeric but contains a leading zero."
+                    !part.matches(Patterns.onlyAlphaNumericAndHyphenRegex) ->
+                        "Pre-release part '$part' contains an invalid character."
                     else -> null
                 }
 
-                error?.let { throw VersionFormatException(error) } ?: continue
+                error?.let { throw VersionFormatException("$error ($preReleaseString)") } ?: continue
             }
 
             return parts
         }
     }
 }
+
+internal fun String.toPreRelease(): PreRelease = PreRelease(this)
