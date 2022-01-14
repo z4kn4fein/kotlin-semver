@@ -22,12 +22,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Run all tests
       uses: gradle/gradle-build-action@v2
       with:
@@ -56,12 +52,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Run code analysis
       uses: gradle/gradle-build-action@v2
       with:
@@ -86,12 +78,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Calculate coverage
       uses: gradle/gradle-build-action@v2
       with:
@@ -115,12 +103,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Run assemble
       uses: gradle/gradle-build-action@v2
       with:
@@ -146,12 +130,8 @@ jobs:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Download coverage report
       uses: actions/download-artifact@v2
       with:
@@ -187,12 +167,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Deploy snapshot
       uses: gradle/gradle-build-action@v2
       with:
@@ -218,12 +194,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Deploy release
       uses: gradle/gradle-build-action@v2
       with:
@@ -240,12 +212,8 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
-    - name: Kotlin native cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
     - name: Generate HTML docs
       uses: gradle/gradle-build-action@v2
       with:
