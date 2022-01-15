@@ -1,14 +1,135 @@
 package io.github.z4kn4fein.semver
 
+import io.github.z4kn4fein.semver.constraints.Condition
+import io.github.z4kn4fein.semver.constraints.ConstraintFormatException
+import io.github.z4kn4fein.semver.constraints.Op
+import io.github.z4kn4fein.semver.constraints.Range
+import io.github.z4kn4fein.semver.constraints.VersionDescriptor
+import io.github.z4kn4fein.semver.constraints.satisfiedByAll
+import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
+import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
+import io.github.z4kn4fein.semver.constraints.toOperator
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
 import io.kotest.data.table
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 class ConstraintTests {
+    @Test
+    fun testInvalidConstraints() {
+        shouldThrow<ConstraintFormatException> { "a".toConstraint() }
+        shouldThrow<ConstraintFormatException> { "||".toConstraint() }
+        shouldThrow<ConstraintFormatException> { ">1.a".toConstraint() }
+        shouldThrow<ConstraintFormatException> { "1.1-3".toConstraint() }
+        shouldThrow<ConstraintFormatException> { ">0-alpha".toConstraint() }
+        shouldThrow<ConstraintFormatException> { ">=0.0-0".toConstraint() }
+    }
+
+    @Test
+    fun testInvalidConstraintsNull() {
+        "a".toConstraintOrNull().shouldBeNull()
+        "||".toConstraintOrNull().shouldBeNull()
+        ">1.a".toConstraintOrNull().shouldBeNull()
+        "1.1-3".toConstraintOrNull().shouldBeNull()
+        ">0-alpha".toConstraintOrNull().shouldBeNull()
+        ">=0.0-0".toConstraintOrNull().shouldBeNull()
+    }
+
+    @Test
+    fun testSatisfiesAll() {
+        val constraints = listOf("!=1.2.4", "=1.2.3", ">1.0.0").map { it.toConstraint() }
+        "1.2.3".toVersion() satisfiesAll constraints shouldBe true
+        "1.2.4".toVersion() satisfiesAll constraints shouldBe false
+
+        val versions = listOf("1.0.0", "1.0.1").map { it.toVersion() }
+        ">=1.0.0".toConstraint() satisfiedByAll versions shouldBe true
+        ">=1.0.1".toConstraint() satisfiedByAll versions shouldBe false
+    }
+
+    @Test
+    fun testSatisfiesAny() {
+        val constraints = listOf("!=1.2.4", "=1.2.3", ">1.0.0").map { it.toConstraint() }
+        "1.2.3".toVersion() satisfiesAny constraints shouldBe true
+        "1.2.4".toVersion() satisfiesAny constraints shouldBe true
+
+        val versions = listOf("1.0.0", "1.0.1").map { it.toVersion() }
+        ">=1.0.0".toConstraint() satisfiedByAny versions shouldBe true
+        ">=1.0.1".toConstraint() satisfiedByAny versions shouldBe true
+    }
+
+    @Test
+    fun testToOperator() {
+        "=".toOperator() shouldBe Op.EQUAL
+        "!=".toOperator() shouldBe Op.NOT_EQUAL
+        ">".toOperator() shouldBe Op.GREATER_THAN
+        "<".toOperator() shouldBe Op.LOWER_THAN
+        ">=".toOperator() shouldBe Op.GREATER_THAN_OR_EQUAL
+        "=>".toOperator() shouldBe Op.GREATER_THAN_OR_EQUAL
+        "<=".toOperator() shouldBe Op.LOWER_THAN_OR_EQUAL
+        "=<".toOperator() shouldBe Op.LOWER_THAN_OR_EQUAL
+        "non-existing".toOperator() shouldBe Op.EQUAL
+    }
+
+    @Test
+    fun testCondition() {
+        val version = "1.0.0".toVersion()
+        Condition(Op.EQUAL, version).opposite() shouldBe "${Op.NOT_EQUAL}1.0.0"
+        Condition(Op.NOT_EQUAL, version).opposite() shouldBe "${Op.EQUAL}1.0.0"
+        Condition(Op.LOWER_THAN, version).opposite() shouldBe "${Op.GREATER_THAN_OR_EQUAL}1.0.0"
+        Condition(Op.LOWER_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.GREATER_THAN}1.0.0"
+        Condition(Op.GREATER_THAN, version).opposite() shouldBe "${Op.LOWER_THAN_OR_EQUAL}1.0.0"
+        Condition(Op.GREATER_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.LOWER_THAN}1.0.0"
+
+        Condition(Op.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+        Condition(Op.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
+        Condition(Op.LOWER_THAN, version).isSatisfiedBy("0.1.0".toVersion()) shouldBe true
+        Condition(Op.LOWER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+        Condition(Op.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
+        Condition(Op.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+    }
+
+    @Test
+    fun testRange() {
+        val start = Condition(Op.GREATER_THAN, "1.0.0".toVersion())
+        val end = Condition(Op.LOWER_THAN, "1.1.0".toVersion())
+        Range(start, end, Op.EQUAL).opposite() shouldBe "(<=1.0.0 || >=1.1.0)"
+        Range(start, end, Op.NOT_EQUAL).opposite() shouldBe ">1.0.0 <1.1.0"
+        Range(start, end, Op.LOWER_THAN).opposite() shouldBe ">1.0.0"
+        Range(start, end, Op.LOWER_THAN_OR_EQUAL).opposite() shouldBe ">=1.1.0"
+        Range(start, end, Op.GREATER_THAN).opposite() shouldBe "<1.1.0"
+        Range(start, end, Op.GREATER_THAN_OR_EQUAL).opposite() shouldBe "<=1.0.0"
+
+        Range(start, end, Op.EQUAL).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
+        Range(start, end, Op.NOT_EQUAL).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
+        Range(start, end, Op.LOWER_THAN).isSatisfiedBy("1.1.1".toVersion()) shouldBe false
+        Range(start, end, Op.LOWER_THAN_OR_EQUAL).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+        Range(start, end, Op.GREATER_THAN).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
+        Range(start, end, Op.GREATER_THAN_OR_EQUAL).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
+    }
+
+    @Test
+    fun testDescriptor() {
+        VersionDescriptor("1", "2", "3", "pr", "b")
+            .toString() shouldBe "1.2.3-pr+b"
+        VersionDescriptor("1", null, null).toString() shouldBe "1"
+        VersionDescriptor("1", "1", null).toString() shouldBe "1.1"
+        VersionDescriptor("1", "1", "1").toString() shouldBe "1.1.1"
+
+        val desc1 = VersionDescriptor("a", "b", "c")
+        shouldThrow<ConstraintFormatException> { desc1.major }
+        shouldThrow<ConstraintFormatException> { desc1.minor }
+        shouldThrow<ConstraintFormatException> { desc1.patch }
+
+        val desc2 = VersionDescriptor("a", null, null)
+        shouldThrow<ConstraintFormatException> { desc2.major }
+        shouldThrow<ConstraintFormatException> { desc2.minor }
+        shouldThrow<ConstraintFormatException> { desc2.patch }
+    }
 
     @Test
     fun testSatisfies() {
@@ -70,7 +191,6 @@ class ConstraintTests {
                 row("<=0.7.x", "0.7.2"),
                 row(">=0.7.x", "0.7.2"),
                 row("<=0.7.x", "0.6.2"),
-                row("||", "1.3.4"),
                 row("2.x.x", "2.1.3"),
                 row("1.2.x", "1.2.3"),
                 row("1.2.x || 2.x", "2.1.3"),
@@ -259,7 +379,6 @@ class ConstraintTests {
                 row(">=1.1 <2 !=1.1.1 || > 3", "1.1.1"),
                 row(">=1.1 <2 !=1.1.1 || > 3", "3.1.2"),
                 row(">=1.1 <2 !=1.1.1 || > 3", "3.0.0"),
-                row("1.1-3", "4.3.2"),
                 row("~1", "2.1.1"),
                 row("~1", "2.0.0-alpha"),
                 row("~1.x", "2.1.1"),
@@ -342,10 +461,7 @@ class ConstraintTests {
                 row(">0", "0.0.0"),
                 row(">0", "0.0.1-alpha"),
                 row(">0.0", "0.0.1-alpha"),
-                row(">0-0", "0.0.1-alpha"),
-                row(">0.0-0", "0.0.1-alpha"),
                 row(">0", "0.0.0-alpha"),
-                row(">0-0", "0.0.0-alpha"),
                 row(">1", "1.1.0"),
                 row(">1.1", "1.1.0"),
                 row(">1.1", "1.1.1"),
@@ -440,6 +556,8 @@ class ConstraintTests {
                 row("<= 2.0.0", "<=2.0.0"),
                 row("<=  2.0.0", "<=2.0.0"),
                 row("<    2.0.0", "<2.0.0"),
+                row("<    2.0", "<2.0.0"),
+                row("<=    2.0", "<2.1.0-0"),
                 row(">= 1.0.0", ">=1.0.0"),
                 row(">=  1.0.0", ">=1.0.0"),
                 row(">=   1.0.0", ">=1.0.0"),
@@ -448,7 +566,6 @@ class ConstraintTests {
                 row("<=   2.0.0", "<=2.0.0"),
                 row("0.1.0 || 1.2.3", "=0.1.0 || =1.2.3"),
                 row(">=0.1.0 || <0.0.1", ">=0.1.0 || <0.0.1"),
-                row("||", ">=0.0.0"),
                 row("2.x.x", ">=2.0.0 <3.0.0-0"),
                 row("1.2.x", ">=1.2.0 <1.3.0-0"),
                 row("1.2.x || 2.x", ">=1.2.0 <1.3.0-0 || >=2.0.0 <3.0.0-0"),
@@ -480,6 +597,8 @@ class ConstraintTests {
                 row("^1.2.3-beta.4", ">=1.2.3-beta.4 <2.0.0-0"),
                 row("<1", "<1.0.0"),
                 row("< 1", "<1.0.0"),
+                row("= 1", ">=1.0.0 <2.0.0-0"),
+                row("!= 1", "(<1.0.0 || >=2.0.0-0)"),
                 row(">=1", ">=1.0.0"),
                 row(">= 1", ">=1.0.0"),
                 row("<1.2", "<1.2.0"),

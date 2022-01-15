@@ -13,12 +13,13 @@ internal enum class Op(private val stringValue: String) {
     }
 }
 
-internal fun String.toOperator(): Op = when (this) {
-    "=" -> Op.EQUAL
-    "!=" -> Op.NOT_EQUAL
-    ">" -> Op.GREATER_THAN
-    "<" -> Op.LOWER_THAN
-    ">=", "=>" -> Op.GREATER_THAN_OR_EQUAL
-    "<=", "=<" -> Op.LOWER_THAN_OR_EQUAL
-    else -> Op.EQUAL
-}
+internal fun String.toOperator(): Op =
+    when (this) {
+        "=" -> Op.EQUAL
+        "!=" -> Op.NOT_EQUAL
+        ">" -> Op.GREATER_THAN
+        "<" -> Op.LOWER_THAN
+        ">=", "=>" -> Op.GREATER_THAN_OR_EQUAL
+        "<=", "=<" -> Op.LOWER_THAN_OR_EQUAL
+        else -> Op.EQUAL
+    }

@@ -91,7 +91,7 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
                 file.writeText(
                     text.replace(
                         "<script src=\"https://unpkg.com/kotlin-playground@1\"></script>",
-                        "<script src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" data-server=\"http://pcsajtai-kotlin-compiler.herokuapp.com\"></script>"
+                        "<script src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" data-server=\"https://pcsajtai-kotlin-compiler.herokuapp.com\"></script>"
                     )
                 )
             }

@@ -42,12 +42,18 @@ public class Constraint private constructor(private val comparators: List<List<V
                     ""
                 }
 
+                if (hyphensEscaped.isNotBlank() && !Patterns.validOperatorConstraintRegex.matches(hyphensEscaped)) {
+                    throw ConstraintFormatException("Invalid constraint: ")
+                }
+
                 val operatorConditions = Patterns.operatorConditionRegex.findAll(hyphensEscaped)
                 conditionsResult.addAll(operatorConditions.map { condition -> operatorToComparator(condition) })
                 conditionsResult
             }
 
-            return if (comparators.isEmpty() || comparators.all { it.isEmpty() }) default() else Constraint(comparators)
+            return if (comparators.isEmpty() || comparators.all { it.isEmpty() })
+                throw ConstraintFormatException("Invalid constraint: $constraintsString")
+            else Constraint(comparators)
         }
 
         private fun operatorToComparator(result: MatchResult): VersionComparator {
