@@ -39,5 +39,4 @@ internal class Range(
             Op.GREATER_THAN -> end.opposite()
             Op.GREATER_THAN_OR_EQUAL -> "$start"
         }
-
 }
