@@ -9,7 +9,7 @@
 
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
 It implements the full [semantic version 2.0.0](https://semver.org/spec/v2.0.0.html) specification and 
-provides ability to **parse**, **compare**, and **increment** semantic versions.
+provides the ability to **parse**, **compare**, and **increment** semantic versions along with validation against constraints.
 
 The API Documentation is available [here](https://z4kn4fein.github.io/kotlin-semver/).
 
@@ -115,7 +115,7 @@ val list: List<Version> = listOf(
     "1.1.0+build".toVersion(),
 ).sorted()
 
-// The content will be:
+// The result:
 //   "1.0.1-alpha"
 //   "1.0.1-alpha.2"
 //   "1.0.1-alpha.3"
@@ -288,7 +288,7 @@ val incrementedByPreRelease = version.inc(by = Inc.PRE_RELEASE, preRelease = "al
 
 ## Copy
 It's possible to make a copy of a version with the `copy()` method.
-It allows altering the copied version's properties with optional parameters.
+It allows to alter the copied version's properties with optional parameters.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
