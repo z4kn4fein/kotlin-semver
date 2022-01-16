@@ -19,7 +19,7 @@ class ConstraintSamples {
             ">=1.1.0 <3 || =0.1 || 5 - 6"
         )
 
-        constraints.forEach { println("$it: ${it.toConstraint()}") }
+        constraints.forEach { println("[$it]: [${it.toConstraint()}]") }
     }
 
     fun parse() {
@@ -31,8 +31,8 @@ class ConstraintSamples {
     }
 
     fun toConstraintOrNull() {
-        print(">=1.2".toConstraintOrNull())
-        print(">=1.2a".toConstraintOrNull())
+        println(">=1.2".toConstraintOrNull())
+        println(">=1.2a".toConstraintOrNull())
     }
 
     fun exception() {
