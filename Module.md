@@ -15,7 +15,7 @@ repositories {
 Then, you can add the package to your dependencies.
 ```kotlin
 dependencies {
-  implementation("io.github.z4kn4fein:semver:1.1.0")
+    implementation("io.github.z4kn4fein:semver:1.1.0")
 }
 ```
 <br/>
@@ -23,13 +23,13 @@ dependencies {
 In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
 ```kotlin
 kotlin {
-  sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation("io.github.z4kn4fein:semver:1.1.0")
-      }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("io.github.z4kn4fein:semver:1.1.0")
+            }
+        }
     }
-  }
 }
 ```
 <br/>
