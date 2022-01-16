@@ -37,12 +37,17 @@ internal data class VersionDescriptor(
 
     fun toComparator(operator: Op = Op.EQUAL): VersionComparator {
         return when {
-            isMajorWildcard -> Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+            isMajorWildcard ->
+                when (operator) {
+                    Op.GREATER_THAN, Op.LESS_THAN, Op.NOT_EQUAL ->
+                        Condition(Op.LESS_THAN, Version.min.copy(preRelease = ""))
+                    else -> Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+                }
             isMinorWildcard -> {
                 val version = Version(major = major, preRelease = preRelease, buildMetadata = buildMetadata)
                 Range(
                     start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LOWER_THAN, version.nextMajor(preRelease = "")),
+                    end = Condition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
                     operator
                 )
             }
@@ -51,7 +56,7 @@ internal data class VersionDescriptor(
                     Version(major = major, minor = minor, preRelease = preRelease, buildMetadata = buildMetadata)
                 Range(
                     start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LOWER_THAN, version.nextMinor(preRelease = "")),
+                    end = Condition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
                     operator
                 )
             }

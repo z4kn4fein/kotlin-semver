@@ -28,11 +28,11 @@ internal interface VersionComparator {
         ): VersionComparator =
             Range(
                 startDescriptor.toComparator(Op.GREATER_THAN_OR_EQUAL),
-                endDescriptor.toComparator(Op.LOWER_THAN_OR_EQUAL),
+                endDescriptor.toComparator(Op.LESS_THAN_OR_EQUAL),
                 Op.EQUAL
             )
 
-        fun default(): VersionComparator = Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+        fun greaterThanMin(): VersionComparator = Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
 
         private fun fromTilde(versionDescriptor: VersionDescriptor): VersionComparator =
             when {
@@ -48,7 +48,7 @@ internal interface VersionComparator {
 
                     Range(
                         start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                        end = Condition(Op.LOWER_THAN, version.nextMinor(preRelease = "")),
+                        end = Condition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
                         Op.EQUAL
                     )
                 }
@@ -56,7 +56,7 @@ internal interface VersionComparator {
 
         private fun fromCaret(versionDescriptor: VersionDescriptor): VersionComparator =
             when {
-                versionDescriptor.isMajorWildcard -> Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+                versionDescriptor.isMajorWildcard -> greaterThanMin()
                 versionDescriptor.isMinorWildcard -> fromMinorWildcardCaret(versionDescriptor)
                 versionDescriptor.isPatchWildcard -> fromPatchWildcardCaret(versionDescriptor)
                 else -> {
@@ -77,7 +77,7 @@ internal interface VersionComparator {
 
                     Range(
                         start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                        end = Condition(Op.LOWER_THAN, endVersion),
+                        end = Condition(Op.LESS_THAN, endVersion),
                         Op.EQUAL
                     )
                 }
@@ -87,8 +87,8 @@ internal interface VersionComparator {
             when (versionDescriptor.majorString) {
                 "0" ->
                     Range(
-                        Condition(Op.GREATER_THAN_OR_EQUAL, Version.min),
-                        Condition(Op.LOWER_THAN, Version(major = 1, preRelease = "")),
+                        greaterThanMin(),
+                        Condition(Op.LESS_THAN, Version(major = 1, preRelease = "")),
                         Op.EQUAL
                     )
                 else -> versionDescriptor.toComparator()
@@ -98,15 +98,15 @@ internal interface VersionComparator {
             when {
                 versionDescriptor.majorString == "0" && versionDescriptor.minorString == "0" ->
                     Range(
-                        Condition(Op.GREATER_THAN_OR_EQUAL, Version.min),
-                        Condition(Op.LOWER_THAN, Version(minor = 1, preRelease = "")),
+                        greaterThanMin(),
+                        Condition(Op.LESS_THAN, Version(minor = 1, preRelease = "")),
                         Op.EQUAL
                     )
                 versionDescriptor.majorString != "0" -> {
                     val version = Version(major = versionDescriptor.major, minor = versionDescriptor.minor)
                     Range(
                         Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                        Condition(Op.LOWER_THAN, version.nextMajor(preRelease = "")),
+                        Condition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
                         Op.EQUAL
                     )
                 }

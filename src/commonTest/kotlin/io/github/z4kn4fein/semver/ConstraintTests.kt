@@ -28,6 +28,7 @@ class ConstraintTests {
         shouldThrow<ConstraintFormatException> { "1.1-3".toConstraint() }
         shouldThrow<ConstraintFormatException> { ">0-alpha".toConstraint() }
         shouldThrow<ConstraintFormatException> { ">=0.0-0".toConstraint() }
+        shouldThrow<ConstraintFormatException> { ">=1.2a".toConstraint() }
     }
 
     @Test
@@ -38,6 +39,7 @@ class ConstraintTests {
         "1.1-3".toConstraintOrNull().shouldBeNull()
         ">0-alpha".toConstraintOrNull().shouldBeNull()
         ">=0.0-0".toConstraintOrNull().shouldBeNull()
+        ">=1.2a".toConstraintOrNull().shouldBeNull()
     }
 
     @Test
@@ -67,11 +69,11 @@ class ConstraintTests {
         "=".toOperator() shouldBe Op.EQUAL
         "!=".toOperator() shouldBe Op.NOT_EQUAL
         ">".toOperator() shouldBe Op.GREATER_THAN
-        "<".toOperator() shouldBe Op.LOWER_THAN
+        "<".toOperator() shouldBe Op.LESS_THAN
         ">=".toOperator() shouldBe Op.GREATER_THAN_OR_EQUAL
         "=>".toOperator() shouldBe Op.GREATER_THAN_OR_EQUAL
-        "<=".toOperator() shouldBe Op.LOWER_THAN_OR_EQUAL
-        "=<".toOperator() shouldBe Op.LOWER_THAN_OR_EQUAL
+        "<=".toOperator() shouldBe Op.LESS_THAN_OR_EQUAL
+        "=<".toOperator() shouldBe Op.LESS_THAN_OR_EQUAL
         "non-existing".toOperator() shouldBe Op.EQUAL
     }
 
@@ -80,15 +82,15 @@ class ConstraintTests {
         val version = "1.0.0".toVersion()
         Condition(Op.EQUAL, version).opposite() shouldBe "${Op.NOT_EQUAL}1.0.0"
         Condition(Op.NOT_EQUAL, version).opposite() shouldBe "${Op.EQUAL}1.0.0"
-        Condition(Op.LOWER_THAN, version).opposite() shouldBe "${Op.GREATER_THAN_OR_EQUAL}1.0.0"
-        Condition(Op.LOWER_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.GREATER_THAN}1.0.0"
-        Condition(Op.GREATER_THAN, version).opposite() shouldBe "${Op.LOWER_THAN_OR_EQUAL}1.0.0"
-        Condition(Op.GREATER_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.LOWER_THAN}1.0.0"
+        Condition(Op.LESS_THAN, version).opposite() shouldBe "${Op.GREATER_THAN_OR_EQUAL}1.0.0"
+        Condition(Op.LESS_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.GREATER_THAN}1.0.0"
+        Condition(Op.GREATER_THAN, version).opposite() shouldBe "${Op.LESS_THAN_OR_EQUAL}1.0.0"
+        Condition(Op.GREATER_THAN_OR_EQUAL, version).opposite() shouldBe "${Op.LESS_THAN}1.0.0"
 
         Condition(Op.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
         Condition(Op.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
-        Condition(Op.LOWER_THAN, version).isSatisfiedBy("0.1.0".toVersion()) shouldBe true
-        Condition(Op.LOWER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+        Condition(Op.LESS_THAN, version).isSatisfiedBy("0.1.0".toVersion()) shouldBe true
+        Condition(Op.LESS_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
         Condition(Op.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
         Condition(Op.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
     }
@@ -96,18 +98,18 @@ class ConstraintTests {
     @Test
     fun testRange() {
         val start = Condition(Op.GREATER_THAN, "1.0.0".toVersion())
-        val end = Condition(Op.LOWER_THAN, "1.1.0".toVersion())
+        val end = Condition(Op.LESS_THAN, "1.1.0".toVersion())
         Range(start, end, Op.EQUAL).opposite() shouldBe "(<=1.0.0 || >=1.1.0)"
         Range(start, end, Op.NOT_EQUAL).opposite() shouldBe ">1.0.0 <1.1.0"
-        Range(start, end, Op.LOWER_THAN).opposite() shouldBe ">1.0.0"
-        Range(start, end, Op.LOWER_THAN_OR_EQUAL).opposite() shouldBe ">=1.1.0"
+        Range(start, end, Op.LESS_THAN).opposite() shouldBe ">1.0.0"
+        Range(start, end, Op.LESS_THAN_OR_EQUAL).opposite() shouldBe ">=1.1.0"
         Range(start, end, Op.GREATER_THAN).opposite() shouldBe "<1.1.0"
         Range(start, end, Op.GREATER_THAN_OR_EQUAL).opposite() shouldBe "<=1.0.0"
 
         Range(start, end, Op.EQUAL).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
         Range(start, end, Op.NOT_EQUAL).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
-        Range(start, end, Op.LOWER_THAN).isSatisfiedBy("1.1.1".toVersion()) shouldBe false
-        Range(start, end, Op.LOWER_THAN_OR_EQUAL).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
+        Range(start, end, Op.LESS_THAN).isSatisfiedBy("1.1.1".toVersion()) shouldBe false
+        Range(start, end, Op.LESS_THAN_OR_EQUAL).isSatisfiedBy("1.0.0".toVersion()) shouldBe true
         Range(start, end, Op.GREATER_THAN).isSatisfiedBy("1.2.0".toVersion()) shouldBe true
         Range(start, end, Op.GREATER_THAN_OR_EQUAL).isSatisfiedBy("1.0.1".toVersion()) shouldBe true
     }
@@ -610,6 +612,12 @@ class ConstraintTests {
                 row("1.2 - 3.4", ">=1.2.0 <3.5.0-0"),
                 row(">1", ">=2.0.0-0"),
                 row(">1.2", ">=1.3.0-0"),
+                row("<*", "<0.0.0-0"),
+                row(">*", "<0.0.0-0"),
+                row("!=*", "<0.0.0-0"),
+                row(">=*", ">=0.0.0"),
+                row("<=*", ">=0.0.0"),
+                row("=*", ">=0.0.0"),
             )
         ) { constraint: String, expected: String ->
             constraint.toConstraint().toString() shouldBe expected

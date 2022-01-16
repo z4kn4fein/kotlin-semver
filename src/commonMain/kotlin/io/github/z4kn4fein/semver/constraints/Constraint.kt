@@ -5,8 +5,8 @@ import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.satisfies
 
 /**
- * This class describes a semantic version constraint. It provides ability to verify whether a [Version]
- * [satisfies] one or more conditions within a constraint or not.
+ * This class describes a semantic version constraint. It provides ability to verify whether a version
+ * [satisfies] one or more conditions within a constraint.
  *
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
  */
@@ -56,6 +56,7 @@ public class Constraint private constructor(private val comparators: List<List<V
             else Constraint(comparators)
         }
 
+        @Suppress("MagicNumber")
         private fun operatorToComparator(result: MatchResult): VersionComparator {
             val operator = result.groups[1]?.value ?: ""
             val major = result.groups[2]?.value ?: ""
@@ -69,6 +70,7 @@ public class Constraint private constructor(private val comparators: List<List<V
             )
         }
 
+        @Suppress("MagicNumber")
         private fun hyphenToComparator(result: MatchResult): VersionComparator =
             VersionComparator.createFromHyphenRange(
                 VersionDescriptor(
@@ -88,6 +90,6 @@ public class Constraint private constructor(private val comparators: List<List<V
             )
 
         private fun default(): Constraint =
-            Constraint(listOf(listOf(VersionComparator.default())))
+            Constraint(listOf(listOf(VersionComparator.greaterThanMin())))
     }
 }

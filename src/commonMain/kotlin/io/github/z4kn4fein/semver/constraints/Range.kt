@@ -12,8 +12,8 @@ internal class Range(
         when (operator) {
             Op.EQUAL -> start.isSatisfiedBy(version) && end.isSatisfiedBy(version)
             Op.NOT_EQUAL -> !start.isSatisfiedBy(version) || !end.isSatisfiedBy(version)
-            Op.LOWER_THAN -> !start.isSatisfiedBy(version) && end.isSatisfiedBy(version)
-            Op.LOWER_THAN_OR_EQUAL -> end.isSatisfiedBy(version)
+            Op.LESS_THAN -> !start.isSatisfiedBy(version) && end.isSatisfiedBy(version)
+            Op.LESS_THAN_OR_EQUAL -> end.isSatisfiedBy(version)
             Op.GREATER_THAN -> start.isSatisfiedBy(version) && !end.isSatisfiedBy(version)
             Op.GREATER_THAN_OR_EQUAL -> start.isSatisfiedBy(version)
         }
@@ -22,10 +22,10 @@ internal class Range(
         when (operator) {
             Op.EQUAL -> toStringByOperator(Op.NOT_EQUAL)
             Op.NOT_EQUAL -> toStringByOperator(Op.EQUAL)
-            Op.LOWER_THAN -> toStringByOperator(Op.GREATER_THAN_OR_EQUAL)
-            Op.LOWER_THAN_OR_EQUAL -> toStringByOperator(Op.GREATER_THAN)
-            Op.GREATER_THAN -> toStringByOperator(Op.LOWER_THAN_OR_EQUAL)
-            Op.GREATER_THAN_OR_EQUAL -> toStringByOperator(Op.LOWER_THAN)
+            Op.LESS_THAN -> toStringByOperator(Op.GREATER_THAN_OR_EQUAL)
+            Op.LESS_THAN_OR_EQUAL -> toStringByOperator(Op.GREATER_THAN)
+            Op.GREATER_THAN -> toStringByOperator(Op.LESS_THAN_OR_EQUAL)
+            Op.GREATER_THAN_OR_EQUAL -> toStringByOperator(Op.LESS_THAN)
         }
 
     override fun toString(): String = toStringByOperator(operator)
@@ -34,8 +34,8 @@ internal class Range(
         when (operator) {
             Op.EQUAL -> "$start $end"
             Op.NOT_EQUAL -> "(${start.opposite()} || ${end.opposite()})"
-            Op.LOWER_THAN -> start.opposite()
-            Op.LOWER_THAN_OR_EQUAL -> "$end"
+            Op.LESS_THAN -> start.opposite()
+            Op.LESS_THAN_OR_EQUAL -> "$end"
             Op.GREATER_THAN -> end.opposite()
             Op.GREATER_THAN_OR_EQUAL -> "$start"
         }

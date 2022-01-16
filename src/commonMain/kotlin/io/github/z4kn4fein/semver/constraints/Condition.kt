@@ -8,8 +8,8 @@ internal class Condition(private val operator: Op, private val version: Version)
         return when (operator) {
             Op.EQUAL -> version == this.version
             Op.NOT_EQUAL -> version != this.version
-            Op.LOWER_THAN -> version < this.version
-            Op.LOWER_THAN_OR_EQUAL -> version <= this.version
+            Op.LESS_THAN -> version < this.version
+            Op.LESS_THAN_OR_EQUAL -> version <= this.version
             Op.GREATER_THAN -> version > this.version
             Op.GREATER_THAN_OR_EQUAL -> version >= this.version
         }
@@ -19,10 +19,10 @@ internal class Condition(private val operator: Op, private val version: Version)
         return when (operator) {
             Op.EQUAL -> "${Op.NOT_EQUAL}$version"
             Op.NOT_EQUAL -> "${Op.EQUAL}$version"
-            Op.LOWER_THAN -> "${Op.GREATER_THAN_OR_EQUAL}$version"
-            Op.LOWER_THAN_OR_EQUAL -> "${Op.GREATER_THAN}$version"
-            Op.GREATER_THAN -> "${Op.LOWER_THAN_OR_EQUAL}$version"
-            Op.GREATER_THAN_OR_EQUAL -> "${Op.LOWER_THAN}$version"
+            Op.LESS_THAN -> "${Op.GREATER_THAN_OR_EQUAL}$version"
+            Op.LESS_THAN_OR_EQUAL -> "${Op.GREATER_THAN}$version"
+            Op.GREATER_THAN -> "${Op.LESS_THAN_OR_EQUAL}$version"
+            Op.GREATER_THAN_OR_EQUAL -> "${Op.LESS_THAN}$version"
         }
     }
 

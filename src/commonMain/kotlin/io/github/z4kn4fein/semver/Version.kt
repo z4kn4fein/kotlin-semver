@@ -133,6 +133,7 @@ public class Version private constructor(
          *
          * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parse
          */
+        @Suppress("MagicNumber")
         public fun parse(versionString: String): Version {
             val result = Patterns.versionRegex.matchEntire(versionString)
                 ?: throw VersionFormatException("Invalid version: $versionString")
