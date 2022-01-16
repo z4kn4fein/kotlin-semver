@@ -5,5 +5,5 @@ runs:
     - uses: actions/cache@v2
       with:
         path: ~/.konan
-        key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', '**/*.gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
         restore-keys: ${{ runner.os }}-konan

@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main ]
     tags: [ '[0-9]+.[0-9]+.[0-9]+' ]
-  pull_request:
-    branches: [ main ]
+    paths-ignore:
+      - '**.md'
     
   workflow_dispatch:
 
@@ -24,10 +24,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Run all tests
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: allTests
+      run: ./gradlew allTests
+      shell: bash
 
   lint:
     runs-on: ubuntu-latest
@@ -38,10 +39,11 @@ jobs:
       with:
         java-version: 11
         distribution: zulu
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Run format check
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: ktlintCheck
+      run: ./gradlew ktlintCheck
+      shell: bash
 
   analysis:
     runs-on: ubuntu-latest
@@ -54,10 +56,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Run code analysis
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: detekt
+      run: ./gradlew detekt
+      shell: bash
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v1
       with:
@@ -80,10 +83,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Calculate coverage
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: koverReport
+      run: ./gradlew koverReport
+      shell: bash
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
       with:
@@ -105,10 +109,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Run assemble
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: assemble
+      run: ./gradlew assemble
+      shell: bash
 
   upload-reports:
     needs: [ assemble, coverage ]
@@ -132,6 +137,8 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Download coverage report
       uses: actions/download-artifact@v2
       with:
@@ -143,9 +150,8 @@ jobs:
         name: analysis-report
         path: build/reports/detekt
     - name: Upload reports to SonarCloud
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: sonarqube
+      run: ./gradlew sonarqube
+      shell: bash
       
   deploy-snapshot:
     needs: [ assemble, coverage ]
@@ -169,10 +175,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Deploy snapshot
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: publish -Dsnapshot=true
+      run: ./gradlew publish -Dsnapshot=true
+      shell: bash
       
   deploy-release:
     needs: [ assemble, coverage ]
@@ -196,10 +203,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Deploy release
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: publish
+      run: ./gradlew publish
+      shell: bash
 
   deploy-gh-pages:
     needs: [ assemble, coverage ]
@@ -214,10 +222,11 @@ jobs:
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
     - name: Generate HTML docs
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: dokkaHtml
+      run: ./gradlew dokkaHtml
+      shell: bash
     - name: Deploy docs to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.2.0
       with:
