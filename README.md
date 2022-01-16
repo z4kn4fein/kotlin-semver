@@ -174,7 +174,7 @@ There are additional options to express version ranges which are described in th
 ### Range Conditions
 There are special range indicators that in fact only sugars for longer range expressions.
 
-- **X-Ranges**: The `x`, `X`, and `*` characters can be used as wildcard for the numeric parts of a version.
+- **X-Range**: The `x`, `X`, and `*` characters can be used as wildcard for the numeric parts of a version.
    - `1.2.x` translates to `>=1.2.0 <1.3.0-0`
    - `1.x` translates to `>=1.0.0 <2.0.0-0`
    - `*` translates to `>=0.0.0`
@@ -183,18 +183,18 @@ There are special range indicators that in fact only sugars for longer range exp
    - `1.2` means `1.2.x` which finally translates to `>=1.2.0 <1.3.0-0`
    - `1` means `1.x` or `1.x.x` which finally translates to `>=1.0.0 <2.0.0-0`
 
-- **Hyphen Ranges**: Describes an inclusive version range. Wildcards are evaluated and taken into account in the final range.
+- **Hyphen Range**: Describes an inclusive version range. Wildcards are evaluated and taken into account in the final range.
    - `1.0.0 - 1.2.0` translates to `>=1.0.0 <=1.2.0`
    - `1.1 - 1.4.0` means `>=(>=1.1.0 <1.2.0-0) <=1.4.0` which finally translates to `>=1.1.0 <=1.4.0`
    - `1.1.0 - 2` means `>=1.1.0 <=(>=2.0.0 <3.0.0-0)` which finally translates to `>=1.1.0 <3.0.0-0`
 
-- **Tilde Ranges (`~`)**: Describes a patch level range when the minor version is specified or a minor level range, when it's not.
+- **Tilde Range (`~`)**: Describes a patch level range when the minor version is specified or a minor level range, when it's not.
    - `~1.0.1` translates to `>=1.0.1 <1.1.0-0`
    - `~1.0` translates to `>=1.0.0 <1.1.0-0`
    - `~1` translates to `>=1.0.0 <2.0.0-0`
    - `~1.0.0-alpha.1` translates to `>=1.0.1-alpha.1 <1.1.0-0`
 
-- **Caret Ranges (`^`)**: Describes a range with regard to the most left non-zero part of the version.
+- **Caret Range (`^`)**: Describes a range with regard to the most left non-zero part of the version.
    - `^1.1.2` translates to `>=1.1.2 <2.0.0-0`
    - `^0.1.2` translates to `>=0.1.2 <0.2.0-0`
    - `^0.0.2` translates to `>=0.0.2 <0.0.3-0`
