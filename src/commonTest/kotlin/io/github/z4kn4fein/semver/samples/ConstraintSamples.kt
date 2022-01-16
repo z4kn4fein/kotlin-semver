@@ -42,18 +42,18 @@ class ConstraintSamples {
     fun satisfiedBy() {
         val constraint = ">=1.1.0".toConstraint()
         val version = "1.1.0".toVersion()
-        print("$constraint satisfiedBy $version?${constraint satisfiedBy version}")
+        print("$constraint satisfiedBy $version? ${constraint satisfiedBy version}")
     }
 
     fun satisfiedByAll() {
         val constraint = ">=1.1.0".toConstraint()
         val versions = listOf("1.1.0", "1.2.0").map { it.toVersion() }
-        print("$constraint satisfied by ${versions.joinToString(" and ")}?${constraint satisfiedByAll versions}")
+        print("$constraint satisfied by ${versions.joinToString(" and ")}? ${constraint satisfiedByAll versions}")
     }
 
     fun satisfiedByAny() {
         val constraint = ">=1.1.0".toConstraint()
         val versions = listOf("1.1.0", "1.0.0").map { it.toVersion() }
-        print("$constraint satisfied by ${versions.joinToString(" or ")}?${constraint satisfiedByAny versions}")
+        print("$constraint satisfied by ${versions.joinToString(" or ")}? ${constraint satisfiedByAny versions}")
     }
 }

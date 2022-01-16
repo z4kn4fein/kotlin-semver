@@ -12,12 +12,21 @@ repositories {
 ```
 <br/>
 
-Then, you can add the package to the dependencies list.
+Then, you can add the package to your `commonMain` source set dependency list in case of a multiplatform project.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.+")
+    implementation("io.github.z4kn4fein:semver:1.1.0")
 }
 ```
+<br/>
+
+In single platform projects, you can use the platform specific packages directly.
+```kotlin
+dependencies {
+    implementation("io.github.z4kn4fein:semver-jvm:1.1.0")
+}
+```
+> [Here](https://repo1.maven.org/maven2/io/github/z4kn4fein/) you can find all packages for each supported platform.
 
 ## Usage
 The following options are available to construct a `Version`:
@@ -49,6 +58,7 @@ version.preRelease      // "alpha.2"
 version.buildMetadata   // "build"
 
 version.isPreRelease    // true
+version.isStable        // false
 version.toString()      // "3.5.2-alpha.2+build"
 ```
 <br/>
@@ -137,7 +147,8 @@ The following options are available to construct a `Constraint`:
    ```  
 
 ### Conditions
-Conditions are usually composed of a comparison operator and a version like `>=1.2.0`.
+Conditions are usually composed of a comparison operator and a version like `>=1.2.0`. 
+The condition `>=1.2.0` would be met by any version that greater than or equal to `1.2.0` for example `1.3.0` or `1.2.1`.
 
 Available comparison operators: 
 - `=` Equal (equivalent to no operator)
@@ -146,8 +157,6 @@ Available comparison operators:
 - `<=` Less than or equal
 - `>` Greater than
 - `>=` Greater than or equal
-
-The condition `>=1.2.0` would be met by any version that greater than or equal to `1.2.0` for example `1.3.0` or `1.2.1`.
 
 These conditions can be joined together with whitespace, which represents the `AND` logical operator between them.
 The `OR` operation can be expressed with `||` between condition sets combined with whitespaces.
@@ -161,40 +170,41 @@ There are additional options to express version ranges which are described in th
 ### Range Conditions
 There are special range indicators that in fact only sugars for longer range expressions.
 
-#### X-Ranges
-The `x`, `X`, and `*` characters can be used as wildcard for the numeric parts of a version.
-- `1.2.x` translates to `>=1.2.0 <1.3.0-0`
-- `1.x` translates to `>=1.0.0 <2.0.0-0`
-- `*` translates to `>=0.0.0`
+- **X-Ranges**: The `x`, `X`, and `*` characters can be used as wildcard for the numeric parts of a version.
+  - `1.2.x` translates to `>=1.2.0 <1.3.0-0`
+  - `1.x` translates to `>=1.0.0 <2.0.0-0`
+  - `*` translates to `>=0.0.0`
+  
+  In partial version expressions the missing numbers are treated as wildcards.
+  - `1.2` means `1.2.x` which finally translates to `>=1.2.0 <1.3.0-0`
+  - `1` means `1.x` or `1.x.x` which finally translates to `>=1.0.0 <2.0.0-0`
 
-In partial version expressions the missing numbers are treated as wildcards.
+<br/>
+   
+- **Hyphen Ranges**: Describes an inclusive version range. Wildcards are evaluated and taken into account in the final range.
+  - `1.0.0 - 1.2.0` translates to `>=1.0.0 <=1.2.0`
+  - `1.1 - 1.4.0` means `>=(>=1.1.0 <1.2.0-0) <=1.4.0` which finally translates to `>=1.1.0 <=1.4.0`
+  - `1.1.0 - 2` means `>=1.1.0 <=(>=2.0.0 <3.0.0-0)` which finally translates to `>=1.1.0 <3.0.0-0`
 
-- `1.2` means `1.2.x` which finally translates to `>=1.2.0 <1.3.0-0`
-- `1` means `1.x` or `1.x.x` which finally translates to `>=1.0.0 <2.0.0-0`
+<br/>
+   
+- **Tilde Ranges (`~`)**: Describes a patch level range when the minor version is specified or a minor level range, when it's not.
+  - `~1.0.1` translates to `>=1.0.1 <1.1.0-0`
+  - `~1.0` translates to `>=1.0.0 <1.1.0-0`
+  - `~1` translates to `>=1.0.0 <2.0.0-0`
+  - `~1.0.0-alpha.1` translates to `>=1.0.1-alpha.1 <1.1.0-0`
 
-#### Hyphen Ranges
-Describes an inclusive version range. Wildcards are evaluated and taken into account in the final range.
-- `1.0.0 - 1.2.0` translates to `>=1.0.0 <=1.2.0`
-- `1.1 - 1.4.0` means `>=(>=1.1.0 <1.2.0-0) <=1.4.0` which finally translates to `>=1.1.0 <=1.4.0`
-- `1.1.0 - 2` means `>=1.1.0 <=(>=2.0.0 <3.0.0-0)` which finally translates to `>=1.1.0 <3.0.0-0`
+<br/>
+   
+- **Caret Ranges (`^`)**: Describes a range with regard to the most left non-zero part of the version. 
+  - `^1.1.2` translates to `>=1.1.2 <2.0.0-0`
+  - `^0.1.2` translates to `>=0.1.2 <0.2.0-0`
+  - `^0.0.2` translates to `>=0.0.2 <0.0.3-0`
+  - `^1.2` translates to `>=1.2.0 <2.0.0-0`
+  - `^1` translates to `>=1.0.0 <2.0.0-0`
+  - `^0.1.2-alpha.1` translates to `>=0.1.2-alpha.1 <0.2.0-0`
 
-#### Tilde Ranges (`~`)
-Describes a patch level range when the minor version is specified or a minor level range, when it's not.
-- `~1.0.1` translates to `>=1.0.1 <1.1.0-0`
-- `~1.0` translates to `>=1.0.0 <1.1.0-0`
-- `~1` translates to `>=1.0.0 <2.0.0-0`
-- `~1.0.0-alpha.1` translates to `>=1.0.1-alpha.1 <1.1.0-0`
-
-#### Caret Ranges (`^`)
-Describes a range with regard to the most left non-zero part of the version. 
-- `^1.1.2` translates to `>=1.1.2 <2.0.0-0`
-- `^0.1.2` translates to `>=0.1.2 <0.2.0-0`
-- `^0.0.2` translates to `>=0.0.2 <0.0.3-0`
-- `^1.2` translates to `>=1.2.0 <2.0.0-0`
-- `^1` translates to `>=1.0.0 <2.0.0-0`
-- `^0.1.2-alpha.1` translates to `>=0.1.2-alpha.1 <0.2.0-0`
-
-#### Version Validation
+### Version Validation
 The following options are available to determine whether a version satisfies a constraint or not.
 
 ```kotlin
@@ -231,7 +241,7 @@ constraint satisfiedByAny versions       // true
 ## Increment
 `Version` objects can produce incremented versions of themselves with the `next{Major|Minor|Patch|PreRelease}()` and `inc()` methods.
 These methods can be used to determine the next version in order by increasing the appropriate identifier.
-`Version` objects are immutable, so each incrementing function creates a new `Version`.
+`Version` objects are **immutable**, so each incrementing function creates a new `Version`.
 
 This example shows how the incrementation works on a stable version:
 ```kotlin
