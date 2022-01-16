@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2022-01-16
 ### Added
 - New incrementation method `inc()`.
-- Optional `preRelease` argument for `nextMajor|Minor|Patch|PreRelease()` methods.
+- Optional `preRelease` argument for `next{Major|Minor|Patch|PreRelease}()` methods.
 - [Constraints](https://github.com/z4kn4fein/kotlin-semver#constraints).
 - Live code samples in [API documentation](https://z4kn4fein.github.io/kotlin-semver/).
 
