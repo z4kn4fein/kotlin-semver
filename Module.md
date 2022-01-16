@@ -153,7 +153,7 @@ The constraint `>=1.2.0 <3.0.0 || >4.0.0` translates to: *Only those versions ar
 equal to `1.2.0` {**AND**} less than `3.0.0` {**OR**} greater than `4.0.0`*.
 
 We can notice that with the first part of the previous constraint (`>=1.2.0 <3.0.0`) we simply defined a semantic version range. 
-There are additional options to express version ranges which are described in the following section.
+There are additional options to express version ranges, these are described in the following section.
 
 ### Range Conditions
 There are special range indicators that in fact only sugars for longer range expressions.
