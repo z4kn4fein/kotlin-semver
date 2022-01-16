@@ -134,18 +134,6 @@ val range = "1.0.0".toVersion().."1.1.0".toVersion()
 With constraints, it's possible to validate whether a version satisfies a set of rules or not.
 A constraint can be described as one or more conditions combined with logical `OR` and `AND` operators. 
 
-The following options are available to construct a `Constraint`:
-- Parsing from a string with `Constraint.parse()`.
-   ```kotlin
-   Constraint.parse(">=1.2.0")
-   ```  
-<br/>
-
-- Using the `toConstraint()` or `toConstraintOrNull()` extension methods on a string.
-   ```kotlin
-   ">=1.2.0".toConstraint()
-   ```  
-
 ### Conditions
 Conditions are usually composed of a comparison operator and a version like `>=1.2.0`. 
 The condition `>=1.2.0` would be met by any version that greater than or equal to `1.2.0` for example `1.3.0` or `1.2.1`.
@@ -204,9 +192,20 @@ There are special range indicators that in fact only sugars for longer range exp
   - `^1` translates to `>=1.0.0 <2.0.0-0`
   - `^0.1.2-alpha.1` translates to `>=0.1.2-alpha.1 <0.2.0-0`
 
-### Version Validation
-The following options are available to determine whether a version satisfies a constraint or not.
+### Validation
+The following options are available to construct a `Constraint`:
+- Parsing from a string with `Constraint.parse()`.
+   ```kotlin
+   Constraint.parse(">=1.2.0")
+   ```  
+<br/>
 
+- Using the `toConstraint()` or `toConstraintOrNull()` extension methods on a string.
+   ```kotlin
+   ">=1.2.0".toConstraint()
+   ```  
+
+Let's see how we can determine whether a version satisfies a constraint or not.
 ```kotlin
 val constraint = ">=1.2.0".toConstraint()
 val version = "1.2.1".toVersion()
