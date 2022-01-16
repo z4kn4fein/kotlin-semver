@@ -12,21 +12,29 @@ repositories {
 ```
 <br/>
 
-Then, you can add the package to your `commonMain` source set dependency list in case of a multiplatform project.
+Then, you can add the package to your dependencies.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.1.0")
+  implementation("io.github.z4kn4fein:semver:1.1.0")
 }
 ```
 <br/>
 
-In single platform projects, you can use the platform specific packages directly.
+In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
 ```kotlin
-dependencies {
-    implementation("io.github.z4kn4fein:semver-jvm:1.1.0")
+kotlin {
+  sourceSets {
+    val commonMain by getting {
+      dependencies {
+        implementation("io.github.z4kn4fein:semver:1.1.0")
+      }
+    }
+  }
 }
 ```
-> [Here](https://repo1.maven.org/maven2/io/github/z4kn4fein/) you can find all packages for each supported platform.
+<br/>
+
+You can also use the platform specific packages, [here](https://search.maven.org/search?q=g:io.github.z4kn4fein%20AND%20a:semver*) you can find them for each supported platform.
 
 ## Usage
 The following options are available to construct a `Version`:
