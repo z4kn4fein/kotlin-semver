@@ -310,3 +310,8 @@ val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4
 When the version parsing fails due to an invalid format, the library throws a specific `VersionFormatException`.
 Similarly, when the constraint parsing fails the library throws a `ConstraintFormatException`.
 > The `toVersionOrNull()` and `toConstraintOrNull()` methods can be used for exception-less conversions as they return `null` when the parsing fails.
+
+## Contact & Support
+- Create an [issue](https://github.com/z4kn4fein/kotlin-semver/issues) for bug reports and feature requests.
+- Start a [discussion](https://github.com/z4kn4fein/kotlin-semver/discussions) for your questions and ideas.
+- Add a ⭐️ to support the project!
