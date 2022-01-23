@@ -68,6 +68,8 @@ version.buildMetadata   // "build"
 version.isPreRelease    // true
 version.isStable        // false
 version.toString()      // "3.5.2-alpha.2+build"
+
+version.withoutSuffixes().toString()   // "3.5.2"
 ```
 
 ### Destructuring
