@@ -23,7 +23,7 @@ repositories {
 Then, you can add the package to your dependencies.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.1.0")
+    implementation("io.github.z4kn4fein:semver:1.2.0")
 }
 ```
 In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
@@ -32,7 +32,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies { 
-                implementation("io.github.z4kn4fein:semver:1.1.0")
+                implementation("io.github.z4kn4fein:semver:1.2.0")
             }
         }
     }
@@ -74,16 +74,30 @@ version.isStable        // false
 version.toString()      // "3.5.2-alpha.2+build"
 ```
 
-`Version` also supports destructuring.
+### Destructuring
+`Version` supports destructuring by its public properties.
 ```kotlin
 val version = "2.3.1-alpha.2+build".toVersion()
-val (major, minor, patch, preRelease, buildMetadata) = version 
+val (major, minor, patch, preRelease, buildMetadata) = version
 
 // major: 2
 // minor: 3
 // patch: 1
 // preRelease: "alpha.2"
 // buildMetadata: "build"
+```
+
+### Strict vs. Loose Parsing
+By default, the version parser considers partial versions like `1.0` and versions starting with the `v` prefix invalid.
+This behaviour can be turned off by disabling the `strict` mode.
+```kotlin
+"v2.3-alpha".toVersion()                    // exception
+"2.1".toVersion()                           // exception
+"v3".toVersion()                            // exception
+
+"v2.3-alpha".toVersion(strict = false)      // 2.3.0-alpha
+"2.1".toVersion(strict = false)             // 2.1.0
+"v3".toVersion(strict = false)              // 3.0.0
 ```
 
 ## Compare
@@ -278,15 +292,15 @@ Each incrementing function provides the option to set a pre-release identity on 
 ```kotlin
 val version = "1.0.0-alpha.1".toVersion()
 
-val nextPreMajor = version.nextMajor(preRelease = "beta")           // 2.0.0-beta.0
+val nextPreMajor = version.nextMajor(preRelease = "beta")           // 2.0.0-beta
 val nextPreMinor = version.nextMinor(preRelease = "")               // 1.1.0-0
-val nextPrePatch = version.nextPatch(preRelease = "alpha")          // 1.0.1-alpha.0
+val nextPrePatch = version.nextPatch(preRelease = "alpha")          // 1.0.1-alpha
 val nextPreRelease = version.nextPreRelease(preRelease = "alpha")   // 1.0.0-alpha.2
 
 // or with the inc() method:
-val incrementedByMajor = version.inc(by = Inc.MAJOR, preRelease = "beta")               // 2.0.0-beta.0
+val incrementedByMajor = version.inc(by = Inc.MAJOR, preRelease = "beta")               // 2.0.0-beta
 val incrementedByMinor = version.inc(by = Inc.MINOR, preRelease = "")                   // 1.1.0-0
-val incrementedByPatch = version.inc(by = Inc.PATCH, preRelease = "alpha")              // 1.0.1-alpha.0
+val incrementedByPatch = version.inc(by = Inc.PATCH, preRelease = "alpha")              // 1.0.1-alpha
 val incrementedByPreRelease = version.inc(by = Inc.PRE_RELEASE, preRelease = "alpha")   // 1.0.0-alpha.2
 ```
 

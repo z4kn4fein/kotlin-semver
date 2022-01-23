@@ -1,5 +1,6 @@
 package io.github.z4kn4fein.semver
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
@@ -45,6 +46,15 @@ class NextVersionTests {
     }
 
     @Test
+    fun testInvalidPreReleases() {
+        val version = "1.2.3-alpha".toVersion()
+        shouldThrow<VersionFormatException> { version.nextMajor(preRelease = "01") }
+        shouldThrow<VersionFormatException> { version.nextMinor(preRelease = "01") }
+        shouldThrow<VersionFormatException> { version.nextPatch(preRelease = "01") }
+        shouldThrow<VersionFormatException> { version.nextPreRelease(preRelease = "01") }
+    }
+
+    @Test
     fun testWithData() {
         forAll(
             table(
@@ -84,30 +94,30 @@ class NextVersionTests {
                 row("1.2.0", Inc.MAJOR, "2.0.0-0", ""),
                 row("1.2.3-1", Inc.MAJOR, "2.0.0-0", ""),
 
-                row("1.2.4", Inc.PRE_RELEASE, "1.2.5-dev.0", "dev"),
-                row("1.2.3-0", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
-                row("1.2.3-alpha.0", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
+                row("1.2.4", Inc.PRE_RELEASE, "1.2.5-dev", "dev"),
+                row("1.2.3-0", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
+                row("1.2.3-alpha.0", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
                 row("1.2.3-alpha.0", Inc.PRE_RELEASE, "1.2.3-alpha.1", "alpha"),
-                row("1.2.3-alpha.0.beta", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
+                row("1.2.3-alpha.0.beta", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
                 row("1.2.3-alpha.0.beta", Inc.PRE_RELEASE, "1.2.3-alpha.1.beta", "alpha"),
-                row("1.2.3-alpha.10.0.beta", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
+                row("1.2.3-alpha.10.0.beta", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
                 row("1.2.3-alpha.10.0.beta", Inc.PRE_RELEASE, "1.2.3-alpha.10.1.beta", "alpha"),
                 row("1.2.3-alpha.10.1.beta", Inc.PRE_RELEASE, "1.2.3-alpha.10.2.beta", "alpha"),
                 row("1.2.3-alpha.10.2.beta", Inc.PRE_RELEASE, "1.2.3-alpha.10.3.beta", "alpha"),
-                row("1.2.3-alpha.10.beta.0", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
+                row("1.2.3-alpha.10.beta.0", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
                 row("1.2.3-alpha.10.beta.0", Inc.PRE_RELEASE, "1.2.3-alpha.10.beta.1", "alpha"),
                 row("1.2.3-alpha.10.beta.1", Inc.PRE_RELEASE, "1.2.3-alpha.10.beta.2", "alpha"),
                 row("1.2.3-alpha.10.beta.2", Inc.PRE_RELEASE, "1.2.3-alpha.10.beta.3", "alpha"),
-                row("1.2.3-alpha.9.beta", Inc.PRE_RELEASE, "1.2.3-dev.0", "dev"),
+                row("1.2.3-alpha.9.beta", Inc.PRE_RELEASE, "1.2.3-dev", "dev"),
                 row("1.2.3-alpha.9.beta", Inc.PRE_RELEASE, "1.2.3-alpha.10.beta", "alpha"),
                 row("1.2.3-alpha.10.beta", Inc.PRE_RELEASE, "1.2.3-alpha.11.beta", "alpha"),
                 row("1.2.3-alpha.11.beta", Inc.PRE_RELEASE, "1.2.3-alpha.12.beta", "alpha"),
-                row("1.2.0", Inc.PATCH, "1.2.1-dev.0", "dev"),
-                row("1.2.0-1", Inc.PATCH, "1.2.1-dev.0", "dev"),
-                row("1.2.0", Inc.MINOR, "1.3.0-dev.0", "dev"),
-                row("1.2.3-1", Inc.MINOR, "1.3.0-dev.0", "dev"),
-                row("1.2.0", Inc.MAJOR, "2.0.0-dev.0", "dev"),
-                row("1.2.3-1", Inc.MAJOR, "2.0.0-dev.0", "dev"),
+                row("1.2.0", Inc.PATCH, "1.2.1-dev", "dev"),
+                row("1.2.0-1", Inc.PATCH, "1.2.1-dev", "dev"),
+                row("1.2.0", Inc.MINOR, "1.3.0-dev", "dev"),
+                row("1.2.3-1", Inc.MINOR, "1.3.0-dev", "dev"),
+                row("1.2.0", Inc.MAJOR, "2.0.0-dev", "dev"),
+                row("1.2.3-1", Inc.MAJOR, "2.0.0-dev", "dev"),
                 row("1.2.0-1", Inc.MINOR, "1.3.0", null),
                 row("1.0.0-1", Inc.MAJOR, "2.0.0", null),
                 row("1.2.3-dev.beta", Inc.PRE_RELEASE, "1.2.3-dev.beta.0", "dev"),

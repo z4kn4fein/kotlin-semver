@@ -64,11 +64,7 @@ internal class PreRelease private constructor(private val parts: List<String>) :
 
         operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
 
-        fun default(preRelease: String? = null): PreRelease =
-            preRelease?.let {
-                if (it.isBlank()) PreRelease(listOf(DEFAULT_INIT_PART))
-                else PreRelease(listOf(it, DEFAULT_INIT_PART))
-            } ?: PreRelease(listOf(DEFAULT_INIT_PART))
+        fun default(): PreRelease = PreRelease(listOf(DEFAULT_INIT_PART))
 
         private fun validate(preReleaseString: String): List<String> {
             if (preReleaseString.isBlank()) {
@@ -93,5 +89,3 @@ internal class PreRelease private constructor(private val parts: List<String>) :
         }
     }
 }
-
-internal fun String.toPreRelease(): PreRelease = PreRelease(this)

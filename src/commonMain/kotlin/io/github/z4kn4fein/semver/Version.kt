@@ -131,11 +131,16 @@ public class Version private constructor(
          * Parses the [versionString] as a [Version] and returns the result or throws a [VersionFormatException]
          * if the string is not a valid representation of a semantic version.
          *
-         * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parse
+         * Strict mode is on by default, which means partial versions (e.g. '1.0' or '1') and versions with 'v' prefix
+         * are considered invalid. This behaviour can be turned off by setting [strict] to false.
+         *
+         * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parseStrict
+         * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parseLoose
          */
         @Suppress("MagicNumber")
-        public fun parse(versionString: String): Version {
-            val result = Patterns.versionRegex.matchEntire(versionString)
+        public fun parse(versionString: String, strict: Boolean = true): Version {
+            val regex = if (strict) Patterns.versionRegex else Patterns.looseVersionRegex
+            val result = regex.matchEntire(versionString)
                 ?: throw VersionFormatException("Invalid version: $versionString")
             val major = result.groupValues[1].toIntOrNull()
             val minor = result.groupValues[2].toIntOrNull()
@@ -143,11 +148,13 @@ public class Version private constructor(
             val preRelease = result.groups[4]?.value
             val buildMetadata = result.groups[5]?.value
 
-            if (major == null || minor == null || patch == null) {
-                throw VersionFormatException("Invalid version: $versionString")
+            return when {
+                strict && major != null && minor != null && patch != null ->
+                    Version(major, minor, patch, preRelease, buildMetadata)
+                !strict && major != null ->
+                    Version(major, minor ?: 0, patch ?: 0, preRelease, buildMetadata)
+                else -> throw VersionFormatException("Invalid version: $versionString")
             }
-
-            return Version(major, minor, patch, preRelease, buildMetadata)
         }
 
         // used by extensions only

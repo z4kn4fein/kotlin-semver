@@ -16,6 +16,9 @@ internal object Patterns {
     // Dot-separated numeric identifier pattern. (<major>.<minor>.<patch>)
     private const val CORE_VERSION = "($NUMERIC)\\.($NUMERIC)\\.($NUMERIC)"
 
+    // Dot-separated loose numeric identifier pattern. (<major>(.<minor>)?(.<patch>)?)
+    private const val LOOSE_CORE_VERSION = "($NUMERIC)(?:\\.($NUMERIC))?(?:\\.($NUMERIC))?"
+
     // Numeric or non-numeric pre-release part pattern.
     private const val PRE_RELEASE_PART = "(?:$NUMERIC|$NON_NUMERIC)"
 
@@ -46,14 +49,17 @@ internal object Patterns {
     // Version parsing pattern: 1.2.3-alpha+build
     private const val VERSION_REGEX: String = "^$CORE_VERSION$PRE_RELEASE?$BUILD?\$"
 
+    // Prefixed version parsing pattern: v1.2-alpha+build
+    private const val LOOSE_VERSION_REGEX: String = "^v?$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?\$"
+
     // Operator condition: >=1.2.*
-    private const val OPERATOR_CONDITION_REGEX = "($ALLOWED_OPERATORS)\\s*(?:$X_RANGE_VERSION)"
+    private const val OPERATOR_CONDITION_REGEX = "($ALLOWED_OPERATORS)\\s*v?(?:$X_RANGE_VERSION)"
 
     // Operator condition: >=1.2.*
     private const val VALID_OPERATOR_CONDITION_REGEX = "^(\\s*$OPERATOR_CONDITION_REGEX\\s*?)+\$"
 
     // Hyphen range condition: 1.2.* - 2.0.0
-    private const val HYPHEN_CONDITION_REGEX = "\\s*(?:$X_RANGE_VERSION)\\s+-\\s+(?:$X_RANGE_VERSION)\\s*"
+    private const val HYPHEN_CONDITION_REGEX = "\\s*v?(?:$X_RANGE_VERSION)\\s+-\\s+v?(?:$X_RANGE_VERSION)\\s*"
 
     // Wildcard characters.
     val wildcards = arrayOf("*", "x", "X")
@@ -67,9 +73,8 @@ internal object Patterns {
     val onlyNumberRegex: Regex = ONLY_NUMBER_REGEX.toRegex()
     val onlyAlphaNumericAndHyphenRegex: Regex = ONLY_ALPHANUMERIC_OR_HYPHEN_REGEX.toRegex()
     val versionRegex: Regex = VERSION_REGEX.toRegex()
+    val looseVersionRegex: Regex = LOOSE_VERSION_REGEX.toRegex()
     val operatorConditionRegex: Regex = OPERATOR_CONDITION_REGEX.toRegex()
     val hyphenConditionRegex: Regex = HYPHEN_CONDITION_REGEX.toRegex()
     val validOperatorConstraintRegex = VALID_OPERATOR_CONDITION_REGEX.toRegex()
 }
-
-internal fun String.isWildcard(): Boolean = Patterns.wildcards.contains(this)

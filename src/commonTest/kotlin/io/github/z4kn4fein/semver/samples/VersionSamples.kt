@@ -13,6 +13,7 @@ import io.github.z4kn4fein.semver.satisfiesAll
 import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
+import io.github.z4kn4fein.semver.withoutSuffixes
 
 class VersionSamples {
     fun explode() {
@@ -41,8 +42,14 @@ class VersionSamples {
         print("$major $minor $patch $preRelease $build")
     }
 
-    fun parse() {
-        print(Version.parse("1.0.0-alpha.1+build.1"))
+    fun parseStrict() {
+        println(Version.parse("1.0.0-alpha.1+build.1"))
+    }
+
+    fun parseLoose() {
+        println(Version.parse("v1.0-alpha.1+build.1", strict = false))
+        println(Version.parse("1-alpha", strict = false))
+        println(Version.parse("2", strict = false))
     }
 
     fun exception() {
@@ -54,13 +61,28 @@ class VersionSamples {
         println(Version(major = 1, minor = 1, buildMetadata = "build"))
     }
 
-    fun toVersion() {
+    fun toVersionStrict() {
         print("1.0.0-alpha.1+build.1".toVersion())
     }
 
-    fun toVersionOrNull() {
+    fun toVersionLoose() {
+        print("v1.0.0-alpha.1+build.1".toVersion(strict = false))
+        print("v1-alpha".toVersion(strict = false))
+        print("2".toVersion(strict = false))
+    }
+
+    fun toVersionOrNullStrict() {
         println("1.0.0-alpha.1+build.1".toVersionOrNull())
         println("1.1.a".toVersionOrNull())
+        println("v1.1.0".toVersionOrNull())
+        println("1.1".toVersionOrNull())
+    }
+
+    fun toVersionOrNullLoose() {
+        println("v1.1.0".toVersionOrNull(strict = false))
+        println("1.1-alpha.1+build.1".toVersionOrNull(strict = false))
+        println("1".toVersionOrNull(strict = false))
+        println("v1".toVersionOrNull(strict = false))
     }
 
     fun copy() {
@@ -84,6 +106,7 @@ class VersionSamples {
         println(version.nextMajor())
         println(version.nextMajor(preRelease = ""))
         println(version.nextMajor(preRelease = "alpha"))
+        println(version.nextMajor(preRelease = "SNAPSHOT"))
     }
 
     fun nextMinor() {
@@ -91,6 +114,7 @@ class VersionSamples {
         println(version.nextMinor())
         println(version.nextMinor(preRelease = ""))
         println(version.nextMinor(preRelease = "alpha"))
+        println(version.nextMinor(preRelease = "SNAPSHOT"))
     }
 
     fun nextPatch() {
@@ -98,6 +122,7 @@ class VersionSamples {
         println(version.nextPatch())
         println(version.nextPatch(preRelease = ""))
         println(version.nextPatch(preRelease = "alpha"))
+        println(version.nextPatch(preRelease = "SNAPSHOT"))
     }
 
     fun nextPreRelease() {
@@ -105,6 +130,7 @@ class VersionSamples {
         println(version.nextPreRelease())
         println(version.nextPreRelease(preRelease = ""))
         println(version.nextPreRelease(preRelease = "alpha"))
+        println(version.nextPreRelease(preRelease = "SNAPSHOT"))
     }
 
     fun min() {
@@ -127,5 +153,10 @@ class VersionSamples {
         val constraints = listOf(">=1.1.0", "~1").map { it.toConstraint() }
         val version = "1.1.1".toVersion()
         print("$version satisfies ${constraints.joinToString(" or ")}? ${version satisfiesAny constraints}")
+    }
+
+    fun withoutSuffixes() {
+        val version = "1.0.0-alpha.1+build".toVersion()
+        print(version.withoutSuffixes())
     }
 }

@@ -4,6 +4,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -14,6 +15,8 @@ class VersionTests {
         shouldThrow<VersionFormatException> { "1.-1.0".toVersion() }
         shouldThrow<VersionFormatException> { "0.0.-1".toVersion() }
         shouldThrow<VersionFormatException> { "1".toVersion() }
+        shouldThrow<VersionFormatException> { "".toVersion() }
+        shouldThrow<VersionFormatException> { "".toVersion(strict = false) }
         shouldThrow<VersionFormatException> { "1.0".toVersion() }
         shouldThrow<VersionFormatException> { "1.0-alpha".toVersion() }
         shouldThrow<VersionFormatException> { "1.0-alpha.01".toVersion() }
@@ -30,6 +33,7 @@ class VersionTests {
         shouldThrow<VersionFormatException> { Version(-1, 2, 3) }
         shouldThrow<VersionFormatException> { Version(1, -2, 3) }
         shouldThrow<VersionFormatException> { Version(1, 2, -3) }
+        shouldThrow<VersionFormatException> { "v1.0.0".toVersion() }
     }
 
     @Test
@@ -47,12 +51,18 @@ class VersionTests {
         "92233720368547758072.0.0".toVersionOrNull().shouldBeNull()
         "0.92233720368547758072.0".toVersionOrNull().shouldBeNull()
         "0.0.92233720368547758072".toVersionOrNull().shouldBeNull()
+        "v1.0.0".toVersionOrNull().shouldBeNull()
+        "v1.0.0".toVersionOrNull(strict = false).shouldNotBeNull()
     }
 
     @Test
     fun testValidVersion() {
         "0.0.0".toVersion()
         "1.2.3-alpha.1+build".toVersion()
+        "v1.0.0".toVersion(strict = false)
+        "1.0".toVersion(strict = false)
+        "v1".toVersion(strict = false)
+        "1".toVersion(strict = false)
 
         "2.3.1".toVersion().isPreRelease.shouldBeFalse()
         "2.3.1-alpha".toVersion().isPreRelease.shouldBeTrue()
@@ -65,6 +75,17 @@ class VersionTests {
         "1.2.3-alpha.b.3".toVersion().toString() shouldBe "1.2.3-alpha.b.3"
         "1.2.3-alpha+build".toVersion().toString() shouldBe "1.2.3-alpha+build"
         "1.2.3+build".toVersion().toString() shouldBe "1.2.3+build"
+        "v1.2.3".toVersion(strict = false).toString() shouldBe "1.2.3"
+        "v1".toVersion(strict = false).toString() shouldBe "1.0.0"
+        "1".toVersion(strict = false).toString() shouldBe "1.0.0"
+        "1.2".toVersion(strict = false).toString() shouldBe "1.2.0"
+        "v1.2".toVersion(strict = false).toString() shouldBe "1.2.0"
+
+        "v1.2.3-alpha+build".toVersion(strict = false).toString() shouldBe "1.2.3-alpha+build"
+        "v1-alpha+build".toVersion(strict = false).toString() shouldBe "1.0.0-alpha+build"
+        "1-alpha+build".toVersion(strict = false).toString() shouldBe "1.0.0-alpha+build"
+        "1.2-alpha+build".toVersion(strict = false).toString() shouldBe "1.2.0-alpha+build"
+        "v1.2-alpha+build".toVersion(strict = false).toString() shouldBe "1.2.0-alpha+build"
     }
 
     @Test
@@ -194,6 +215,14 @@ class VersionTests {
         "1.2.4".toVersion().copy(buildMetadata = "build").toString() shouldBe "1.2.4+build"
         "1.2.4+build".toVersion().copy(buildMetadata = "build12").toString() shouldBe "1.2.4+build12"
         "1.2.4-alpha".toVersion().copy(buildMetadata = "build").toString() shouldBe "1.2.4-alpha+build"
+    }
+
+    @Test
+    fun testWithoutSuffixes() {
+        "1.2.3-alpha+build".toVersion().withoutSuffixes().toString() shouldBe "1.2.3"
+        "1.2.4".toVersion().withoutSuffixes().toString() shouldBe "1.2.4"
+        "1.2.4-alpha".toVersion().withoutSuffixes().toString() shouldBe "1.2.4"
+        "1.2.4+build".toVersion().withoutSuffixes().toString() shouldBe "1.2.4"
     }
 
     @Test

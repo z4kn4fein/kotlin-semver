@@ -73,15 +73,20 @@ kotlin {
 
 tasks.getByName<DokkaTask>("dokkaHtml") {
     outputDirectory.set(file(buildDir.resolve("dokka")))
-    dokkaSourceSets.configureEach {
-        includes.from("Module.md")
-        samples.from("src/commonTest/kotlin/io/github/z4kn4fein/semver/samples")
-        sourceLink {
-            localDirectory.set(file("src/commonMain/kotlin"))
-            remoteUrl.set(URL("https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin"))
-            remoteLineSuffix.set("#L")
+    dokkaSourceSets {
+        configureEach {
+            includes.from("Module.md")
+            samples.from("src/commonTest/kotlin/io/github/z4kn4fein/semver/samples")
+            sourceLink {
+                localDirectory.set(file("src/commonMain/kotlin"))
+                remoteUrl.set(URL("https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin"))
+                remoteLineSuffix.set("#L")
+            }
         }
     }
+
+    val json = """{ "customStyleSheets": ["${file(project.projectDir.resolve("assets/custom.css"))}"] }"""
+    pluginsMapConfiguration.set(mapOf("org.jetbrains.dokka.base.DokkaBase" to json.replace("\\", "/")))
 
     doLast {
         outputDirectory.get().walk()
@@ -92,6 +97,13 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
                     text.replace(
                         "<script src=\"https://unpkg.com/kotlin-playground@1\"></script>",
                         "<script src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\"></script>"
+                    ).replace(
+                        "<button id=\"theme-toggle-button\"><span id=\"theme-toggle\"></span></button>",
+                        "<a href=\"https://github.com/z4kn4fein/kotlin-semver\" target=\"_blank\" rel=\"noopener\" class=\"gh-link\"><i class=\"fa fa-github\"></i> <span class=\"repo-name\">z4kn4fein/kotlin-semver</span></a><button id=\"theme-toggle-button\"><span id=\"theme-toggle\"></span></button>"
+                    ).replace(
+                        "styles/custom.css\" rel=\"Stylesheet\">",
+                        "styles/custom.css\" rel=\"Stylesheet\">" +
+                                "<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"Stylesheet\">"
                     )
                 )
             }
