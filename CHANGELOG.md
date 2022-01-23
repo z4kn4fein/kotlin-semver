@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New `withoutSuffixes()` extension for `Version` which makes a copy without the pre-release and build metadata identities.
 - Support for parsing loose versions.
-- Constraints are now recognising the `v` prefix in conditions like: `>=v1.2`.
+- Constraints are now recognizing the `v` prefix in conditions like: `>=v1.2`.
 
 ### Fixed
 - During version incrementation the `preRelease` argument was not validated.
