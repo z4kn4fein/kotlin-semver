@@ -34,6 +34,25 @@ class VersionTests {
         shouldThrow<VersionFormatException> { Version(1, -2, 3) }
         shouldThrow<VersionFormatException> { Version(1, 2, -3) }
         shouldThrow<VersionFormatException> { "v1.0.0".toVersion() }
+        shouldThrow<VersionFormatException> { "92233720368547758072".toVersion(strict = false) }
+
+        shouldThrow<VersionFormatException> { Version.parse("-1.0.0") }
+        shouldThrow<VersionFormatException> { Version.parse("1.-1.0") }
+        shouldThrow<VersionFormatException> { Version.parse("0.0.-1") }
+        shouldThrow<VersionFormatException> { Version.parse("1") }
+        shouldThrow<VersionFormatException> { Version.parse("") }
+        shouldThrow<VersionFormatException> { Version.parse("", strict = false) }
+        shouldThrow<VersionFormatException> { Version.parse("1.0") }
+        shouldThrow<VersionFormatException> { Version.parse("1.0-alpha") }
+        shouldThrow<VersionFormatException> { Version.parse("1.0-alpha.01") }
+        shouldThrow<VersionFormatException> { Version.parse("a1.0.0") }
+        shouldThrow<VersionFormatException> { Version.parse("1.a0.0") }
+        shouldThrow<VersionFormatException> { Version.parse("1.0.a0") }
+        shouldThrow<VersionFormatException> { Version.parse("92233720368547758072.0.0") }
+        shouldThrow<VersionFormatException> { Version.parse("0.92233720368547758072.0") }
+        shouldThrow<VersionFormatException> { Version.parse("0.0.92233720368547758072") }
+        shouldThrow<VersionFormatException> { Version.parse("v1.0.0") }
+        shouldThrow<VersionFormatException> { Version.parse("92233720368547758072", strict = false) }
     }
 
     @Test
