@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>inc</title>
+    <title>withoutSuffixes</title>
 <link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
 const savedDarkMode = storage ? JSON.parse(storage) : false
 if(savedDarkMode === true){
@@ -22,12 +22,12 @@ if(savedDarkMode === true){
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver//inc/io.github.z4kn4fein.semver.Version#io.github.z4kn4fein.semver.Inc#kotlin.String?/PointingToDeclaration//788909594">
-          <div class="breadcrumbs"><a href="../../index.html">semver</a>/<a href="index.html">io.github.z4kn4fein.semver</a>/<a href="inc.html">inc</a></div>
+        <div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver//withoutSuffixes/io.github.z4kn4fein.semver.Version#/PointingToDeclaration//788909594">
+          <div class="breadcrumbs"><a href="../../index.html">semver</a>/<a href="index.html">io.github.z4kn4fein.semver</a>/<a href="without-suffixes.html">withoutSuffixes</a></div>
           <div class="cover ">
-            <h1 class="cover"><span><span>inc</span></span></h1>
+            <h1 class="cover"><span>without</span><wbr></wbr><span><span>Suffixes</span></span></h1>
           </div>
-          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="inc.html"><span class="token function">inc</span></a><span class="token punctuation">(</span>by<span class="token operator">: </span><a href="-inc/index.html">Inc</a><span class="token punctuation">, </span>preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Increases the version <a href="inc.html">by</a> its <a href="-inc/-m-a-j-o-r/index.html">Inc.MAJOR</a>, <a href="-inc/-m-i-n-o-r/index.html">Inc.MINOR</a>, <a href="-inc/-p-a-t-c-h/index.html">Inc.PATCH</a>, or <a href="-inc/-p-r-e_-r-e-l-e-a-s-e/index.html">Inc.PRE_RELEASE</a> segment.</p><p class="paragraph"><a href="-inc/-m-a-j-o-r/index.html">Inc.MAJOR</a> -><a href="next-major.html">nextMajor</a></p><p class="paragraph"><a href="-inc/-m-i-n-o-r/index.html">Inc.MINOR</a> -><a href="next-minor.html">nextMinor</a></p><p class="paragraph"><a href="-inc/-p-a-t-c-h/index.html">Inc.PATCH</a> -><a href="next-patch.html">nextPatch</a></p><p class="paragraph"><a href="-inc/-p-r-e_-r-e-l-e-a-s-e/index.html">Inc.PRE_RELEASE</a> -><a href="next-pre-release.html">nextPreRelease</a></p><p class="paragraph">Returns a new version while the original remains unchanged.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
+          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="without-suffixes.html"><span class="token function">withoutSuffixes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Produces a copy of the <a href="-version/index.html">Version</a> without the PRE-RELEASE and BUILD METADATA identities.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
@@ -43,23 +43,17 @@ import io.github.z4kn4fein.semver.toVersionOrNull
 import io.github.z4kn4fein.semver.withoutSuffixes
 fun main() { 
    //sampleStart 
-   val version = &quot;1.0.0-alpha.1&quot;.toVersion()
-println(version.inc(by = Inc.MAJOR))
-println(version.inc(by = Inc.MINOR))
-println(version.inc(by = Inc.PATCH))
-println(version.inc(by = Inc.PRE_RELEASE))
-
-println(version.inc(by = Inc.MAJOR, preRelease = &quot;&quot;))
-println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;)) 
+   val version = &quot;1.0.0-alpha.1+build&quot;.toVersion()
+print(version.withoutSuffixes()) 
    //sampleEnd
 }</code></pre></div></div></div>
           <h2 class="">Sources</h2>
-          <div class="table" data-togglable="Sources"><a data-name="-1700750265%2FSource%2F788909594" anchor-label="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L75" id="-1700750265%2FSource%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
+          <div class="table" data-togglable="Sources"><a data-name="-1807189348%2FSource%2F788909594" anchor-label="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L98" id="-1807189348%2FSource%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
             <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
               <div class="main-subrow keyValue ">
                 <div class=""><span class="inline-flex">
-                    <div><a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L75">common source</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1700750265%2FSource%2F788909594"></span>
+                    <div><a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L98">common source</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1807189348%2FSource%2F788909594"></span>
                       <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                     </span></span></div>
                 <div></div>

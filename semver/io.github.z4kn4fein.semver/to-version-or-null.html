@@ -7,13 +7,13 @@ const savedDarkMode = storage ? JSON.parse(storage) : false
 if(savedDarkMode === true){
     document.getElementsByTagName("html")[0].classList.add("theme-dark")
 }</script>
-<script src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://pcsajtai-kotlin-compiler.onrender.com"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../scripts/prism.js" async="async"></script>  </head>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://pcsajtai-kotlin-compiler.onrender.com"></script><script src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://pcsajtai-kotlin-compiler.onrender.com"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../scripts/prism.js" async="async"></script><link href="../../styles/custom.css" rel="Stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="Stylesheet">  </head>
   <body>
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
       <div class="library-name"><a href="../../index.html">semver</a></div>
-      <div>1.1.0</div>
-      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+      <div>1.2.0</div>
+      <div class="pull-right d-flex"><a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link"><i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span></a><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
       </div>
     </div>
@@ -22,12 +22,12 @@ if(savedDarkMode === true){
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver//toVersionOrNull/kotlin.String#/PointingToDeclaration//788909594">
+        <div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver//toVersionOrNull/kotlin.String#kotlin.Boolean/PointingToDeclaration//788909594">
           <div class="breadcrumbs"><a href="../../index.html">semver</a>/<a href="index.html">io.github.z4kn4fein.semver</a>/<a href="to-version-or-null.html">toVersionOrNull</a></div>
           <div class="cover ">
             <h1 class="cover"><span>to</span><wbr></wbr><span>Version</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></h1>
           </div>
-          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version-or-null.html"><span class="token function">toVersionOrNull</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or null if the string is not a valid representation of a semantic version.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
+          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version-or-null.html"><span class="token function">toVersionOrNull</span></a><span class="token punctuation">(</span>strict<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or null if the string is not a valid representation of a semantic version.</p><p class="paragraph">Strict mode is on by default, which means partial versions (e.g. '1.0' or '1') and versions with 'v' prefix are considered invalid. This behaviour can be turned off by setting <a href="to-version-or-null.html">strict</a> to false.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
@@ -40,19 +40,43 @@ import io.github.z4kn4fein.semver.satisfiesAll
 import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
+import io.github.z4kn4fein.semver.withoutSuffixes
 fun main() { 
    //sampleStart 
    println(&quot;1.0.0-alpha.1+build.1&quot;.toVersionOrNull())
-println(&quot;1.1.a&quot;.toVersionOrNull()) 
+println(&quot;1.1.a&quot;.toVersionOrNull())
+println(&quot;v1.1.0&quot;.toVersionOrNull())
+println(&quot;1.1&quot;.toVersionOrNull()) 
+   //sampleEnd
+}</code></pre></div><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.constraints.toConstraint
+import io.github.z4kn4fein.semver.inc
+import io.github.z4kn4fein.semver.nextMajor
+import io.github.z4kn4fein.semver.nextMinor
+import io.github.z4kn4fein.semver.nextPatch
+import io.github.z4kn4fein.semver.nextPreRelease
+import io.github.z4kn4fein.semver.satisfies
+import io.github.z4kn4fein.semver.satisfiesAll
+import io.github.z4kn4fein.semver.satisfiesAny
+import io.github.z4kn4fein.semver.toVersion
+import io.github.z4kn4fein.semver.toVersionOrNull
+import io.github.z4kn4fein.semver.withoutSuffixes
+fun main() { 
+   //sampleStart 
+   println(&quot;v1.1.0&quot;.toVersionOrNull(strict = false))
+println(&quot;1.1-alpha.1+build.1&quot;.toVersionOrNull(strict = false))
+println(&quot;1&quot;.toVersionOrNull(strict = false))
+println(&quot;v1&quot;.toVersionOrNull(strict = false)) 
    //sampleEnd
 }</code></pre></div></div></div>
           <h2 class="">Sources</h2>
-          <div class="table" data-togglable="Sources"><a data-name="-931691802%2FSource%2F788909594" anchor-label="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/Extensions.kt#L14" id="-931691802%2FSource%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
+          <div class="table" data-togglable="Sources"><a data-name="-147234901%2FSource%2F788909594" anchor-label="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/StringExtensions.kt#L15" id="-147234901%2FSource%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
             <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
               <div class="main-subrow keyValue ">
                 <div class=""><span class="inline-flex">
-                    <div><a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/Extensions.kt#L14">common source</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-931691802%2FSource%2F788909594"></span>
+                    <div><a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/StringExtensions.kt#L15">common source</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-147234901%2FSource%2F788909594"></span>
                       <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                     </span></span></div>
                 <div></div>

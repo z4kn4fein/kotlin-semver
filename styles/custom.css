@@ -1,0 +1,27 @@
+.fa-github {
+    margin-right: 10px;
+}
+
+.gh-link {
+    height: 36px;
+    font-size: 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.repo-name {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media (max-width: 520px) {
+    .repo-name {
+        display: none;
+    }
+
+    .gh-link {
+        margin-right: 0px;
+    }
+}

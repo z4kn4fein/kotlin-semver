@@ -22,8 +22,9 @@ $dokka.location:io.github.z4kn4fein.semver//nextPreRelease/io.github.z4kn4fein.s
 $dokka.location:io.github.z4kn4fein.semver//satisfies/io.github.z4kn4fein.semver.Version#io.github.z4kn4fein.semver.constraints.Constraint/PointingToDeclaration/semver/io.github.z4kn4fein.semver/satisfies.html
 $dokka.location:io.github.z4kn4fein.semver//satisfiesAll/io.github.z4kn4fein.semver.Version#kotlin.collections.Iterable[io.github.z4kn4fein.semver.constraints.Constraint]/PointingToDeclaration/semver/io.github.z4kn4fein.semver/satisfies-all.html
 $dokka.location:io.github.z4kn4fein.semver//satisfiesAny/io.github.z4kn4fein.semver.Version#kotlin.collections.Iterable[io.github.z4kn4fein.semver.constraints.Constraint]/PointingToDeclaration/semver/io.github.z4kn4fein.semver/satisfies-any.html
-$dokka.location:io.github.z4kn4fein.semver//toVersion/kotlin.String#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version.html
-$dokka.location:io.github.z4kn4fein.semver//toVersionOrNull/kotlin.String#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version-or-null.html
+$dokka.location:io.github.z4kn4fein.semver//toVersion/kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version.html
+$dokka.location:io.github.z4kn4fein.semver//toVersionOrNull/kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version-or-null.html
+$dokka.location:io.github.z4kn4fein.semver//withoutSuffixes/io.github.z4kn4fein.semver.Version#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/without-suffixes.html
 $dokka.location:io.github.z4kn4fein.semver/Inc.MAJOR///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-m-a-j-o-r/index.html
 $dokka.location:io.github.z4kn4fein.semver/Inc.MINOR///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-m-i-n-o-r/index.html
 $dokka.location:io.github.z4kn4fein.semver/Inc.PATCH///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-p-a-t-c-h/index.html
@@ -31,7 +32,7 @@ $dokka.location:io.github.z4kn4fein.semver/Inc.PRE_RELEASE///PointingToDeclarati
 $dokka.location:io.github.z4kn4fein.semver/Inc///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/index.html
 $dokka.location:io.github.z4kn4fein.semver/Version.Companion///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/index.html
 $dokka.location:io.github.z4kn4fein.semver/Version.Companion/min/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/min.html
-$dokka.location:io.github.z4kn4fein.semver/Version.Companion/parse/#kotlin.String/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/parse.html
+$dokka.location:io.github.z4kn4fein.semver/Version.Companion/parse/#kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/parse.html
 $dokka.location:io.github.z4kn4fein.semver/Version///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/index.html
 $dokka.location:io.github.z4kn4fein.semver/Version/Version/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.String?#kotlin.String?/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-version.html
 $dokka.location:io.github.z4kn4fein.semver/Version/buildMetadata/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/build-metadata.html
