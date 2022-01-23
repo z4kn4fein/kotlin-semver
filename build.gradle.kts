@@ -103,7 +103,7 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
                     ).replace(
                         "styles/custom.css\" rel=\"Stylesheet\">",
                         "styles/custom.css\" rel=\"Stylesheet\">" +
-                                "<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"Stylesheet\">"
+                            "<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"Stylesheet\">"
                     )
                 )
             }
