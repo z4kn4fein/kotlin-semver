@@ -48,13 +48,13 @@ The following options are available to construct a [`Version`](https://z4kn4fein
    Version(major = 3, minor = 5, patch = 2, preRelease = "alpha", buildMetadata = "build")
    ```
    
-2. Parsing from a string with [Version.parse()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/-companion/parse.html).
+2. Parsing from a string with [`Version.parse()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/-companion/parse.html).
 
    ```kotlin
    Version.parse("3.5.2-alpha+build")
    ```
    
-3. Using the [toVersion()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version.html) or [toVersionOrNull()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version-or-null.html) extension methods on a string.
+3. Using the [`toVersion()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version.html) or [`toVersionOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version-or-null.html) extension methods on a string.
 
    ```kotlin
    "3.5.2-alpha+build".toVersion()
@@ -213,18 +213,18 @@ There are special range indicators that in fact only sugars for longer range exp
    - `^0.1.2-alpha.1` translates to `>=0.1.2-alpha.1 <0.2.0-0`
 
 ### Validation
-The following options are available to construct a [Constraint](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint/index.html):
-- Parsing from a string with [Constraint.parse()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint/-companion/parse.html).
+The following options are available to construct a [`Constraint`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint/index.html):
+- Parsing from a string with [`Constraint.parse()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint/-companion/parse.html).
    ```kotlin
    Constraint.parse(">=1.2.0")
    ```
 
-- Using the [toConstraint()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint.html) or [toConstraintOrNull()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint-or-null.html) extension methods on a string.
+- Using the [`toConstraint()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint.html) or [`toConstraintOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint-or-null.html) extension methods on a string.
    ```kotlin
    ">=1.2.0".toConstraint()
    ```
 
-Let's see how we can determine whether a version [satisfies](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies.html) a constraint or not.
+Let's see how we can determine whether a version [`satisfies`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies.html) a constraint or not.
 ```kotlin
 val constraint = ">=1.2.0".toConstraint()
 val version = "1.2.1".toVersion()
@@ -241,7 +241,8 @@ val version = "1.2.1".toVersion()
 version satisfiesAll constraints       // true
 version satisfiesAny constraints       // true
 ```
-> With [satisfiesAll](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-all.html) the version must satisfy each constraint within the collection. With [satisfiesAny](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-any.html) it must satisfy at least one constraint to pass the validation.
+> With [`satisfiesAll`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-all.html) the version must satisfy each constraint within the collection. 
+> With [`satisfiesAny`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-any.html) it must satisfy at least one constraint to pass the validation.
 
 Or to validate a collection of versions.
 ```kotlin
@@ -251,14 +252,15 @@ val versions = listOf("1.2.1", "1.1.0").map { it.toVersion() }
 constraint satisfiedByAll versions       // false
 constraint satisfiedByAny versions       // true
 ```
-> With [satisfiedByAll](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-all.html) the constraint must be satisfied by each version within the collection. With [satisfiedByAny](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-any.html) it must be satisfied by at least one version to pass the validation.
+> With [`satisfiedByAll`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-all.html) the constraint must be satisfied by each version within the collection. 
+> With [`satisfiedByAny`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-any.html) it must be satisfied by at least one version to pass the validation.
 
 ## Increment
-`Version` objects can produce incremented versions of themselves with the [nextMajor()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-major.html),
-[nextMinor()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-minor.html),
-[nextPatch()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-patch.html),
-[nextPreRelease()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-pre-release.html),
-and [inc()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/inc.html) methods.
+`Version` objects can produce incremented versions of themselves with the [`nextMajor()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-major.html),
+[`nextMinor()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-minor.html),
+[`nextPatch()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-patch.html),
+[`nextPreRelease()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-pre-release.html),
+and [`inc()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/inc.html) methods.
 These methods can be used to determine the next version in order by increasing the appropriate identifier.
 `Version` objects are **immutable**, so each incrementing function creates a new `Version`.
 
@@ -311,7 +313,7 @@ val incrementedByPreRelease = version.inc(by = Inc.PRE_RELEASE, preRelease = "al
 ```
 
 ## Copy
-It's possible to make a copy of a version with the [copy()](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/copy.html) method.
+It's possible to make a copy of a version with the [`copy()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/copy.html) method.
 It allows to alter the copied version's properties with optional parameters.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
@@ -327,8 +329,8 @@ val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4
 > Without setting any optional parameter, the `copy()` method will produce an exact copy of the original version.
 
 ## Exceptions
-When the version parsing fails due to an invalid format, the library throws a specific [VersionFormatException](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version-format-exception/index.html).
-Similarly, when the constraint parsing fails the library throws a [ConstraintFormatException](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html).
+When the version parsing fails due to an invalid format, the library throws a specific [`VersionFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version-format-exception/index.html).
+Similarly, when the constraint parsing fails the library throws a [`ConstraintFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html).
 > The `toVersionOrNull()` and `toConstraintOrNull()` methods can be used for exception-less conversions as they return `null` when the parsing fails.
 
 ## Contact & Support
