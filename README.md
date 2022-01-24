@@ -41,7 +41,7 @@ kotlin {
 You can also use the platform specific packages that you can find [here](https://search.maven.org/search?q=g:io.github.z4kn4fein%20AND%20a:semver*) for each supported platform.
 
 ## Usage
-The following options are available to construct a [Version](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/index.html):
+The following options are available to construct a [`Version`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/index.html):
 1. Building part by part.
 
    ```kotlin
