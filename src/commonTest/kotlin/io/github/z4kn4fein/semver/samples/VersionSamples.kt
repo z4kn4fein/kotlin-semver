@@ -66,9 +66,9 @@ class VersionSamples {
     }
 
     fun toVersionLoose() {
-        print("v1.0.0-alpha.1+build.1".toVersion(strict = false))
-        print("v1-alpha".toVersion(strict = false))
-        print("2".toVersion(strict = false))
+        println("v1.0.0-alpha.1+build.1".toVersion(strict = false))
+        println("v1-alpha".toVersion(strict = false))
+        println("2".toVersion(strict = false))
     }
 
     fun toVersionOrNullStrict() {
