@@ -15,7 +15,7 @@ repositories {
 Then, you can add the package to your dependencies.
 ```kotlin
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.2.0")
+    implementation("io.github.z4kn4fein:semver:1.2.1")
 }
 ```
 <br/>
@@ -26,7 +26,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.z4kn4fein:semver:1.2.0")
+                implementation("io.github.z4kn4fein:semver:1.2.1")
             }
         }
     }
