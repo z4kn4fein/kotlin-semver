@@ -11,6 +11,8 @@ internal interface VersionComparator {
     fun opposite(): String
 
     companion object {
+        val greaterThanMin: VersionComparator = Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+
         fun createFromOperator(operatorString: String, versionDescriptor: VersionDescriptor): VersionComparator =
             when (operatorString) {
                 in Patterns.comparisonOperators, "" -> versionDescriptor.toComparator(operatorString.toOperator())
@@ -31,8 +33,6 @@ internal interface VersionComparator {
                 endDescriptor.toComparator(Op.LESS_THAN_OR_EQUAL),
                 Op.EQUAL
             )
-
-        fun greaterThanMin(): VersionComparator = Condition(Op.GREATER_THAN_OR_EQUAL, Version.min)
 
         private fun fromTilde(versionDescriptor: VersionDescriptor): VersionComparator =
             when {
@@ -56,7 +56,7 @@ internal interface VersionComparator {
 
         private fun fromCaret(versionDescriptor: VersionDescriptor): VersionComparator =
             when {
-                versionDescriptor.isMajorWildcard -> greaterThanMin()
+                versionDescriptor.isMajorWildcard -> greaterThanMin
                 versionDescriptor.isMinorWildcard -> fromMinorWildcardCaret(versionDescriptor)
                 versionDescriptor.isPatchWildcard -> fromPatchWildcardCaret(versionDescriptor)
                 else -> {
@@ -87,7 +87,7 @@ internal interface VersionComparator {
             when (versionDescriptor.majorString) {
                 "0" ->
                     Range(
-                        greaterThanMin(),
+                        greaterThanMin,
                         Condition(Op.LESS_THAN, Version(major = 1, preRelease = "")),
                         Op.EQUAL
                     )
@@ -98,7 +98,7 @@ internal interface VersionComparator {
             when {
                 versionDescriptor.majorString == "0" && versionDescriptor.minorString == "0" ->
                     Range(
-                        greaterThanMin(),
+                        greaterThanMin,
                         Condition(Op.LESS_THAN, Version(minor = 1, preRelease = "")),
                         Op.EQUAL
                     )

@@ -47,6 +47,6 @@ class PreReleaseTests {
 
     @Test
     fun testDefault() {
-        PreRelease.default().toString() shouldBe "0"
+        PreRelease.default.toString() shouldBe "0"
     }
 }

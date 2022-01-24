@@ -69,7 +69,7 @@ public fun Version.nextPreRelease(preRelease: String? = null): Version = Version
     parsedPreRelease?.let { patch } ?: (patch + 1),
     preRelease?.let {
         if (parsedPreRelease?.identity == it) parsedPreRelease.increment() else PreRelease(preRelease)
-    } ?: parsedPreRelease?.increment() ?: PreRelease.default()
+    } ?: parsedPreRelease?.increment() ?: PreRelease.default
 )
 
 /**

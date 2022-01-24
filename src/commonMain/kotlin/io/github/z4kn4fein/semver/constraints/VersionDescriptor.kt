@@ -41,7 +41,7 @@ internal data class VersionDescriptor(
                 when (operator) {
                     Op.GREATER_THAN, Op.LESS_THAN, Op.NOT_EQUAL ->
                         Condition(Op.LESS_THAN, Version.min.copy(preRelease = ""))
-                    else -> VersionComparator.greaterThanMin()
+                    else -> VersionComparator.greaterThanMin
                 }
             isMinorWildcard -> {
                 val version = Version(major = major, preRelease = preRelease, buildMetadata = buildMetadata)

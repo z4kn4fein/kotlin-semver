@@ -23,18 +23,20 @@ public class Constraint private constructor(private val comparators: List<List<V
 
     /** Companion object of [Constraint]. */
     public companion object {
+        private val default: Constraint = Constraint(listOf(listOf(VersionComparator.greaterThanMin)))
+
         /**
-         * Parses the [constraintsString] as a [Constraint] and returns the result or throws
+         * Parses the [constraintString] as a [Constraint] and returns the result or throws
          * a [ConstraintFormatException] if the string is not a valid representation of a constraint.
          *
          * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.parse
          */
-        public fun parse(constraintsString: String): Constraint {
-            if (constraintsString.isBlank()) {
-                return default()
+        public fun parse(constraintString: String): Constraint {
+            if (constraintString.isBlank()) {
+                return default
             }
 
-            val orParts = constraintsString.split("||")
+            val orParts = constraintString.split("||")
             val comparators = orParts.map { comparator ->
                 val conditionsResult = mutableListOf<VersionComparator>()
                 val hyphensEscaped = Patterns.hyphenConditionRegex.replace(comparator) { hyphenCondition ->
@@ -43,7 +45,7 @@ public class Constraint private constructor(private val comparators: List<List<V
                 }
 
                 if (hyphensEscaped.isNotBlank() && !Patterns.validOperatorConstraintRegex.matches(hyphensEscaped)) {
-                    throw ConstraintFormatException("Invalid constraint: ")
+                    throw ConstraintFormatException("Invalid constraint: $constraintString")
                 }
 
                 val operatorConditions = Patterns.operatorConditionRegex.findAll(hyphensEscaped)
@@ -52,7 +54,7 @@ public class Constraint private constructor(private val comparators: List<List<V
             }
 
             return if (comparators.isEmpty() || comparators.all { it.isEmpty() })
-                throw ConstraintFormatException("Invalid constraint: $constraintsString")
+                throw ConstraintFormatException("Invalid constraint: $constraintString")
             else Constraint(comparators)
         }
 
@@ -88,8 +90,5 @@ public class Constraint private constructor(private val comparators: List<List<V
                     buildMetadata = result.groups[10]?.value
                 )
             )
-
-        private fun default(): Constraint =
-            Constraint(listOf(listOf(VersionComparator.greaterThanMin())))
     }
 }

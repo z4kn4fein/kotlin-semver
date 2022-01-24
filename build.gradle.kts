@@ -167,7 +167,7 @@ publishing {
         pom {
             name.set("Kotlin Semantic Versioning")
             description.set("Semantic Versioning library for Kotlin Multiplatform. It implements the full semantic version 2.0.0 specification and provides the ability to parse, compare, and increment semantic versions along with validation against constraints.")
-            url.set("https://z4kn4fein.github.io/kotlin-semver/")
+            url.set("https://z4kn4fein.github.io/kotlin-semver")
 
             issueManagement {
                 system.set("GitHub")

@@ -62,9 +62,9 @@ internal class PreRelease private constructor(private val parts: List<String>) :
     companion object {
         private const val DEFAULT_INIT_PART = "0"
 
-        operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
+        val default: PreRelease = PreRelease(listOf(DEFAULT_INIT_PART))
 
-        fun default(): PreRelease = PreRelease(listOf(DEFAULT_INIT_PART))
+        operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
 
         private fun validate(preReleaseString: String): List<String> {
             if (preReleaseString.isBlank()) {

@@ -56,6 +56,10 @@ class VersionSamples {
         "1.0.a".toVersion()
     }
 
+    fun preReleaseException() {
+        "1.0.1".toVersion().nextPatch(preRelease = "alpha.01")
+    }
+
     fun construct() {
         println(Version(major = 1, preRelease = "alpha"))
         println(Version(major = 1, minor = 1, buildMetadata = "build"))
