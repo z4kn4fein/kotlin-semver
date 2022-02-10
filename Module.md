@@ -177,7 +177,7 @@ We can notice that the first part of the previous constraint (`>=1.2.0 <3.0.0`) 
 There are more ways to express version ranges; the following section will go through all the available options.
 
 ### Range Conditions
-TThere are particular range indicators that are only sugars for more extended range expressions.
+There are particular range indicators which are sugars for more extended range expressions.
 
 - **X-Range**: The `x`, `X`, and `*` characters can be used as a wildcard for the numeric parts of a version.
   - `1.2.x` translates to `>=1.2.0 <1.3.0-0`
