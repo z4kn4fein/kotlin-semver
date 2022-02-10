@@ -9,7 +9,7 @@
 
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
 It implements the full [semantic version 2.0.0](https://semver.org/spec/v2.0.0.html) specification and 
-provides the ability to **parse**, **compare**, and **increment** semantic versions along with validation against constraints.
+provides the ability to **parse**, **compare**, and **increment** semantic versions along with validation against **constraints**.
 
 The API Documentation is available [here](https://z4kn4fein.github.io/kotlin-semver/).
 
@@ -38,7 +38,7 @@ kotlin {
     }
 }
 ```
-You can also use the platform specific packages that you can find [here](https://search.maven.org/search?q=g:io.github.z4kn4fein%20AND%20a:semver*) for each supported platform.
+You can also use platform-specific packages that you can find [here](https://search.maven.org/search?q=g:io.github.z4kn4fein%20AND%20a:semver*) for each supported platform.
 
 ## Usage
 The following options are available to construct a [`Version`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/index.html):
@@ -54,13 +54,13 @@ The following options are available to construct a [`Version`](https://z4kn4fein
    Version.parse("3.5.2-alpha+build")
    ```
    
-3. Using the [`toVersion()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version.html) or [`toVersionOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version-or-null.html) extension methods on a string.
+3. Using the [`toVersion()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version.html) or [`toVersionOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/to-version-or-null.html) extension method on a string.
 
    ```kotlin
    "3.5.2-alpha+build".toVersion()
    ```
 
-The following information is accessible on a constructed `Version` object:
+The constructed `Version` object provides the following information:
 ```kotlin
 val version = "3.5.2-alpha.2+build".toVersion()
 version.major           // 3
@@ -91,7 +91,7 @@ val (major, minor, patch, preRelease, buildMetadata) = version
 
 ### Strict vs. Loose Parsing
 By default, the version parser considers partial versions like `1.0` and versions starting with the `v` prefix invalid.
-This behaviour can be turned off by disabling the `strict` mode.
+This behaviour can be turned off by setting the `strict` parameter to `false`.
 ```kotlin
 "v2.3-alpha".toVersion()                    // exception
 "2.1".toVersion()                           // exception
@@ -104,7 +104,7 @@ This behaviour can be turned off by disabling the `strict` mode.
 
 ## Compare
 
-It is possible to compare two `Version` objects with [comparison operators](https://kotlinlang.org/docs/operator-overloading.html#comparison-operators) or with `.compareTo()`.
+It is possible to compare two `Version` objects with [comparison operators](https://kotlinlang.org/docs/operator-overloading.html#comparison-operators) or with the `.compareTo()` method.
 ```kotlin
 "0.1.0".toVersion() < "0.1.1".toVersion()                   // true
 "0.1.1".toVersion() <= "0.1.1".toVersion()                  // true
@@ -115,7 +115,7 @@ It is possible to compare two `Version` objects with [comparison operators](http
 "0.1.1".toVersion().compareTo("0.1.1".toVersion())          //  0
 ```
 
-The equality of two `Version` objects can be determined with [equality operators](https://kotlinlang.org/docs/operator-overloading.html#equality-and-inequality-operators) or with `equals()`.
+The equality of two `Version` objects can be determined with [equality operators](https://kotlinlang.org/docs/operator-overloading.html#equality-and-inequality-operators) or with the `equals()` method.
 ```kotlin
 "0.1.1".toVersion() == "0.1.1".toVersion()       // true
 "0.1.1".toVersion() != "0.1.1".toVersion()       // false
@@ -125,7 +125,7 @@ The equality of two `Version` objects can be determined with [equality operators
 ```
 
 ### Sort
-As `Version` objects are comparable, a collection of them can be sorted easily like in the following example.
+As `Version` objects are comparable, you can get a sorted collection from them.
 ```kotlin
 val list: List<Version> = listOf(
     "1.0.1".toVersion(),
@@ -148,7 +148,7 @@ val list: List<Version> = listOf(
 ```
 
 ### Range
-Having an order provides the ability to determine whether a `Version` is in the range between two given versions.
+Having an order provides the ability to determine whether a `Version` is in the range between two other versions.
 ```kotlin
 val range = "1.0.0".toVersion().."1.1.0".toVersion()
 
@@ -162,34 +162,34 @@ A constraint can be described as one or more conditions combined with logical `O
 
 ### Conditions
 Conditions are usually composed of a comparison operator and a version like `>=1.2.0`.
-The condition `>=1.2.0` would be met by any version that greater than or equal to `1.2.0` for example `1.3.0` or `1.2.1`.
+The condition `>=1.2.0` would be met by any version that greater than or equal to `1.2.0`.
 
-Available comparison operators:
-- `=` Equal (equivalent to no operator)
+Supported comparison operators:
+- `=` Equal (equivalent to no operator: `1.2.0` means `=1.2.0`)
 - `!=` Not equal
 - `<` Less than
 - `<=` Less than or equal
 - `>` Greater than
 - `>=` Greater than or equal
 
-These conditions can be joined together with whitespace, which represents the `AND` logical operator between them.
-The `OR` operation can be expressed with `||` between condition sets combined with whitespaces.
+Conditions can be joined together with whitespace, representing the `AND` logical operator between them.
+The `OR` operator can be expressed with `||` between condition sets.
 
-The constraint `>=1.2.0 <3.0.0 || >4.0.0` translates to: *Only those versions are allowed that are either greater than or
+For example, the constraint `>=1.2.0 <3.0.0 || >4.0.0` translates to: *Only those versions are allowed that are either greater than or 
 equal to `1.2.0` {**AND**} less than `3.0.0` {**OR**} greater than `4.0.0`*.
 
-We can notice that with the first part of the previous constraint (`>=1.2.0 <3.0.0`) we simply defined a semantic version range.
-There are additional options to express version ranges, these are described in the following section.
+We can notice that the first part of the previous constraint (`>=1.2.0 <3.0.0`) is a simple semantic version range.
+There are more ways to express version ranges; the following section will go through all the available options.
 
 ### Range Conditions
-There are special range indicators that in fact only sugars for longer range expressions.
+There are particular range indicators that are only sugars for more extended range expressions.
 
-- **X-Range**: The `x`, `X`, and `*` characters can be used as wildcard for the numeric parts of a version.
+- **X-Range**: The `x`, `X`, and `*` characters can be used as a wildcard for the numeric parts of a version.
    - `1.2.x` translates to `>=1.2.0 <1.3.0-0`
    - `1.x` translates to `>=1.0.0 <2.0.0-0`
    - `*` translates to `>=0.0.0`
 
-  In partial version expressions the missing numbers are treated as wildcards.
+  In partial version expressions, the missing numbers are treated as wildcards.
    - `1.2` means `1.2.x` which finally translates to `>=1.2.0 <1.3.0-0`
    - `1` means `1.x` or `1.x.x` which finally translates to `>=1.0.0 <2.0.0-0`
 
@@ -198,7 +198,7 @@ There are special range indicators that in fact only sugars for longer range exp
    - `1.1 - 1.4.0` means `>=(>=1.1.0 <1.2.0-0) <=1.4.0` which finally translates to `>=1.1.0 <=1.4.0`
    - `1.1.0 - 2` means `>=1.1.0 <=(>=2.0.0 <3.0.0-0)` which finally translates to `>=1.1.0 <3.0.0-0`
 
-- **Tilde Range (`~`)**: Describes a patch level range when the minor version is specified or a minor level range, when it's not.
+- **Tilde Range (`~`)**: Describes a patch level range when the minor version is specified or a minor level range when not.
    - `~1.0.1` translates to `>=1.0.1 <1.1.0-0`
    - `~1.0` translates to `>=1.0.0 <1.1.0-0`
    - `~1` translates to `>=1.0.0 <2.0.0-0`
@@ -219,7 +219,7 @@ The following options are available to construct a [`Constraint`](https://z4kn4f
    Constraint.parse(">=1.2.0")
    ```
 
-- Using the [`toConstraint()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint.html) or [`toConstraintOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint-or-null.html) extension methods on a string.
+- Using the [`toConstraint()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint.html) or [`toConstraintOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-constraint-or-null.html) extension method on a string.
    ```kotlin
    ">=1.2.0".toConstraint()
    ```
@@ -313,8 +313,8 @@ val incrementedByPreRelease = version.inc(by = Inc.PRE_RELEASE, preRelease = "al
 ```
 
 ## Copy
-It's possible to make a copy of a version with the [`copy()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/copy.html) method.
-It allows to alter the copied version's properties with optional parameters.
+It's possible to create a copy of a version with its [`copy()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/copy.html) method.
+It allows altering the copied version's properties with optional parameters.
 ```kotlin
 val version = "1.0.0-alpha.2+build.1".toVersion()
 
@@ -330,7 +330,7 @@ val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4
 
 ## Exceptions
 When the version parsing fails due to an invalid format, the library throws a specific [`VersionFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version-format-exception/index.html).
-Similarly, when the constraint parsing fails the library throws a [`ConstraintFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html).
+Similarly, when the constraint parsing fails, the library throws a [`ConstraintFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html).
 > The `toVersionOrNull()` and `toConstraintOrNull()` methods can be used for exception-less conversions as they return `null` when the parsing fails.
 
 ## Contact & Support
