@@ -2,7 +2,6 @@ package io.github.z4kn4fein.semver.constraints
 
 import io.github.z4kn4fein.semver.Patterns
 import io.github.z4kn4fein.semver.Version
-import io.github.z4kn4fein.semver.VersionConstraintSerializer
 import io.github.z4kn4fein.semver.satisfies
 import kotlinx.serialization.Serializable
 
@@ -12,7 +11,7 @@ import kotlinx.serialization.Serializable
  *
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
  */
-@Serializable(with = VersionConstraintSerializer::class)
+@Serializable(with = ConstraintSerializer::class)
 public class Constraint private constructor(private val comparators: List<List<VersionComparator>>) {
     /**
      * Determines whether a [Constraint] is satisfied by a [Version] or not.
