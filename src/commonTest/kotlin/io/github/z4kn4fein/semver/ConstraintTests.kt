@@ -43,6 +43,14 @@ class ConstraintTests {
     }
 
     @Test
+    fun testConstraintsEquals() {
+        "> 1.0".toConstraint() shouldBe ">1.0".toConstraint()
+        ">1.0".toConstraint() shouldBe ">=1.1.0-0".toConstraint()
+        "1.0 - 2.0".toConstraint() shouldBe ">=1.0.0 <2.1.0-0".toConstraint()
+        "!=1.0".toConstraint() shouldBe "<1.0.0 || >=1.1.0-0".toConstraint()
+    }
+
+    @Test
     fun testSatisfiesAll() {
         val constraints = listOf("!=1.2.4", "=1.2.3", ">1.0.0").map { it.toConstraint() }
         "1.2.3".toVersion() satisfiesAll constraints shouldBe true
@@ -99,7 +107,7 @@ class ConstraintTests {
     fun testRange() {
         val start = Condition(Op.GREATER_THAN, "1.0.0".toVersion())
         val end = Condition(Op.LESS_THAN, "1.1.0".toVersion())
-        Range(start, end, Op.EQUAL).opposite() shouldBe "(<=1.0.0 || >=1.1.0)"
+        Range(start, end, Op.EQUAL).opposite() shouldBe "<=1.0.0 || >=1.1.0"
         Range(start, end, Op.NOT_EQUAL).opposite() shouldBe ">1.0.0 <1.1.0"
         Range(start, end, Op.LESS_THAN).opposite() shouldBe ">1.0.0"
         Range(start, end, Op.LESS_THAN_OR_EQUAL).opposite() shouldBe ">=1.1.0"
@@ -601,7 +609,7 @@ class ConstraintTests {
                 row("<1", "<1.0.0"),
                 row("< 1", "<1.0.0"),
                 row("= 1", ">=1.0.0 <2.0.0-0"),
-                row("!= 1", "(<1.0.0 || >=2.0.0-0)"),
+                row("!= 1", "<1.0.0 || >=2.0.0-0"),
                 row(">=1", ">=1.0.0"),
                 row(">= 1", ">=1.0.0"),
                 row("<1.2", "<1.2.0"),
@@ -718,7 +726,7 @@ class ConstraintTests {
                 row("<v1", "<1.0.0"),
                 row("< v1", "<1.0.0"),
                 row("= v1", ">=1.0.0 <2.0.0-0"),
-                row("!= v1", "(<1.0.0 || >=2.0.0-0)"),
+                row("!= v1", "<1.0.0 || >=2.0.0-0"),
                 row(">=v1", ">=1.0.0"),
                 row(">= v1", ">=1.0.0"),
                 row("<v1.2", "<1.2.0"),

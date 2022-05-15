@@ -7,6 +7,7 @@ import java.net.URL
 
 plugins {
     kotlin("multiplatform") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version "1.6.10"
@@ -46,12 +47,17 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3")
+            }
+        }
 
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("io.kotest:kotest-assertions-core:5.+")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
             }
         }
 
