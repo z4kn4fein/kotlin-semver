@@ -22,7 +22,8 @@ public object VersionSerializer : KSerializer<Version> {
 }
 
 /**
- * Built-in [kotlinx.serialization] serializer that encodes and decodes non-strict [Version] as its string representation.
+ * Built-in [kotlinx.serialization] serializer that encodes and decodes
+ * non-strict [Version] as its string representation.
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.serialization
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.deserialization

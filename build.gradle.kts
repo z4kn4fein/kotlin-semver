@@ -5,16 +5,22 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
 import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
 import java.net.URL
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+    google()
+}
+
 plugins {
-    kotlin("multiplatform") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("multiplatform") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.dokka") version "1.6.21"
     id("org.sonarqube") version "3.3"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
-    id("org.jetbrains.kotlinx.kover") version "0.5.0-RC"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
+    id("org.jetbrains.kotlinx.kover") version "0.5.0"
+    id("io.gitlab.arturbosch.detekt") version "1.20.0"
 }
 
 object Prop {
@@ -24,12 +30,6 @@ object Prop {
 
 group = "io.github.z4kn4fein"
 version = "$version${if (Prop.isSnapshot) "-SNAPSHOT" else ""}"
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-    google()
-}
 
 kotlin {
     explicitApi()
@@ -56,7 +56,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("io.kotest:kotest-assertions-core:5.+")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
             }
         }

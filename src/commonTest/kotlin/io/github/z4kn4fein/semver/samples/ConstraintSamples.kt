@@ -1,6 +1,5 @@
 package io.github.z4kn4fein.semver.samples
 
-import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.constraints.Constraint
 import io.github.z4kn4fein.semver.constraints.satisfiedBy
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
