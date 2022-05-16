@@ -228,7 +228,7 @@ fun KotlinTargetPreset<*>.isTargetAllowedOnHost(): Boolean {
 }
 
 fun isTargetAllowedOnHost(name: String): Boolean {
-    if (name.startsWith("wasm")) return false;
+    if (name.startsWith("wasm")) return false
 
     val os = OperatingSystem.current()
     return when (getTargetHostType(name)) {
