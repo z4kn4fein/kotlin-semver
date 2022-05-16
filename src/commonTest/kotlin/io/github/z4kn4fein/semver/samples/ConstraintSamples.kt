@@ -7,6 +7,10 @@ import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
 import io.github.z4kn4fein.semver.toVersion
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class ConstraintSamples {
     fun constraint() {
@@ -58,5 +62,21 @@ class ConstraintSamples {
         val constraint = ">=1.1.0".toConstraint()
         val versions = listOf("1.1.0", "1.0.0").map { it.toVersion() }
         print("$constraint satisfied by ${versions.joinToString(" or ")}? ${constraint satisfiedByAny versions}")
+    }
+
+    fun serialization() {
+        @Serializable
+        data class Data(val constraint: Constraint)
+
+        val data = Data(constraint = ">1.2".toConstraint())
+        print(Json.encodeToString(data))
+    }
+
+    fun deserialization() {
+        @Serializable
+        data class Data(val constraint: Constraint)
+
+        val decoded = Json.decodeFromString<Data>("{\"constraint\":\">1.2\"}")
+        print(decoded.constraint)
     }
 }

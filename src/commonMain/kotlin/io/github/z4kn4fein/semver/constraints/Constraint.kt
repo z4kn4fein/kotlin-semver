@@ -3,6 +3,7 @@ package io.github.z4kn4fein.semver.constraints
 import io.github.z4kn4fein.semver.Patterns
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.satisfies
+import kotlinx.serialization.Serializable
 
 /**
  * This class describes a semantic version constraint. It provides ability to verify whether a version
@@ -10,6 +11,7 @@ import io.github.z4kn4fein.semver.satisfies
  *
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
  */
+@Serializable(with = ConstraintSerializer::class)
 public class Constraint private constructor(private val comparators: List<List<VersionComparator>>) {
     /**
      * Determines whether a [Constraint] is satisfied by a [Version] or not.
@@ -20,6 +22,14 @@ public class Constraint private constructor(private val comparators: List<List<V
         comparators.any { comparator -> comparator.all { condition -> condition.isSatisfiedBy(version) } }
 
     override fun toString(): String = comparators.joinToString(" || ") { it.joinToString(" ") }
+
+    public override fun equals(other: Any?): Boolean =
+        when (val constraint = other as? Constraint) {
+            null -> false
+            else -> toString() == constraint.toString()
+        }
+
+    public override fun hashCode(): Int = toString().hashCode()
 
     /** Companion object of [Constraint]. */
     public companion object {

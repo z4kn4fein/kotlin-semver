@@ -1,11 +1,14 @@
 package io.github.z4kn4fein.semver
 
+import kotlinx.serialization.Serializable
+
 /**
  * This class describes a semantic version and related operations following the semver 2.0.0 specification.
  * Instances of this class are immutable, which makes them thread-safe.
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.explode
  */
+@Serializable(with = VersionSerializer::class)
 public class Version private constructor(
     /** The MAJOR number of the version. */
     public val major: Int,

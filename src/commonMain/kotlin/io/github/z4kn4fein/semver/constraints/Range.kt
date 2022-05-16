@@ -33,7 +33,7 @@ internal class Range(
     private fun toStringByOperator(operator: Op): String =
         when (operator) {
             Op.EQUAL -> "$start $end"
-            Op.NOT_EQUAL -> "(${start.opposite()} || ${end.opposite()})"
+            Op.NOT_EQUAL -> "${start.opposite()} || ${end.opposite()}"
             Op.LESS_THAN -> start.opposite()
             Op.LESS_THAN_OR_EQUAL -> "$end"
             Op.GREATER_THAN -> end.opposite()
