@@ -215,14 +215,6 @@ tasks.withType(AbstractPublishToMaven::class).configureEach {
     enabled = isTargetAllowedOnHost()
 }
 
-fun getTargetHostType(name: String): HostType =
-    when {
-        name.startsWith("mingw") -> HostType.WINDOWS
-        name.startsWith("macos") || name.startsWith("ios") || name.startsWith("watchos") ||
-            name.startsWith("tvos") -> HostType.MAC_OS
-        else -> HostType.LINUX
-    }
-
 fun AbstractPublishToMaven.isTargetAllowedOnHost(): Boolean {
     return isTargetAllowedOnHost(publication.name)
 }
@@ -235,10 +227,11 @@ fun isTargetAllowedOnHost(name: String): Boolean {
     if (shouldSkipTarget(name)) return false
 
     val os = OperatingSystem.current()
-    return when (getTargetHostType(name)) {
-        HostType.LINUX -> os.isLinux
-        HostType.WINDOWS -> os.isWindows
-        HostType.MAC_OS -> os.isMacOsX
+    return when {
+        name.startsWith("mingw") -> os.isWindows
+        name.startsWith("macos") || name.startsWith("ios") || name.startsWith("watchos") ||
+            name.startsWith("tvos") -> os.isMacOsX
+        else -> os.isLinux
     }
 }
 
@@ -246,7 +239,3 @@ fun shouldSkipTarget(name: String): Boolean =
     name.startsWith("androidNative") ||
         name.startsWith("wasm") ||
         name.startsWith("linuxMips")
-
-enum class HostType {
-    MAC_OS, LINUX, WINDOWS
-}
