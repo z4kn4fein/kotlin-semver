@@ -175,8 +175,12 @@ publishing {
             url.set("https://z4kn4fein.github.io/kotlin-semver")
 
             issueManagement {
-                system.set("GitHub")
+                system.set("GitHub Issues")
                 url.set("https://github.com/z4kn4fein/kotlin-semver/issues")
+            }
+            ciManagement {
+                system.set("GitHub Actions")
+                url.set("https://github.com/z4kn4fein/kotlin-semver/actions")
             }
             licenses {
                 license {
@@ -228,7 +232,7 @@ fun KotlinTargetPreset<*>.isTargetAllowedOnHost(): Boolean {
 }
 
 fun isTargetAllowedOnHost(name: String): Boolean {
-    if (name.startsWith("wasm")) return false
+    if (shouldSkipTarget(name)) return false
 
     val os = OperatingSystem.current()
     return when (getTargetHostType(name)) {
@@ -237,6 +241,11 @@ fun isTargetAllowedOnHost(name: String): Boolean {
         HostType.MAC_OS -> os.isMacOsX
     }
 }
+
+fun shouldSkipTarget(name: String): Boolean =
+    name.startsWith("androidNative") ||
+        name.startsWith("wasm") ||
+        name.startsWith("linuxMips")
 
 enum class HostType {
     MAC_OS, LINUX, WINDOWS
