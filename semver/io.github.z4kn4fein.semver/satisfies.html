@@ -51,6 +51,7 @@ if(savedDarkMode === true){
   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies.html"><span class="token function">satisfies</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraint<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies a <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> or not.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.VersionSerializer
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
 import io.github.z4kn4fein.semver.nextMajor
@@ -63,9 +64,6 @@ import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
 import io.github.z4kn4fein.semver.withoutSuffixes
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 

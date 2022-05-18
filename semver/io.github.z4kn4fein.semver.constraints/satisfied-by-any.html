@@ -49,15 +49,13 @@ if(savedDarkMode === true){
     <h1 class="cover"><span>satisfied</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Any</span></span></h1>
   </div>
   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by-any.html"><span class="token function">satisfiedByAny</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">versions<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Determines whether a <a href="-constraint/index.html">Constraint</a> is satisfied by at least one <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> in a collection or not.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.constraints.Constraint
+import io.github.z4kn4fein.semver.constraints.ConstraintSerializer
 import io.github.z4kn4fein.semver.constraints.satisfiedBy
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
 import io.github.z4kn4fein.semver.toVersion
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 

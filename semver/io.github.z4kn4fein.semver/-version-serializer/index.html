@@ -56,6 +56,7 @@ if(savedDarkMode === true){
       <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.VersionSerializer
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
 import io.github.z4kn4fein.semver.nextMajor
@@ -68,21 +69,15 @@ import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
 import io.github.z4kn4fein.semver.withoutSuffixes
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 
-   @Serializable
-data class Data(val version: Version)
-
-val data = Data(version = &quot;1.0.0-alpha.1+build&quot;.toVersion())
-print(Json.encodeToString(data)) 
+   print(Json.encodeToString(VersionSerializer, &quot;1.0.0-alpha.1+build&quot;.toVersion())) 
    //sampleEnd
 }</code></pre></div><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.VersionSerializer
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
 import io.github.z4kn4fein.semver.nextMajor
@@ -95,17 +90,16 @@ import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
 import io.github.z4kn4fein.semver.withoutSuffixes
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 
-   @Serializable
-data class Data(val version: Version)
+   val decoded = Json.decodeFromString(VersionSerializer, &quot;\&quot;1.0.0-alpha.1+build\&quot;&quot;)
 
-val decoded = Json.decodeFromString&lt;Data&gt;(&quot;{\&quot;version\&quot;:\&quot;1.0.0-alpha.1+build\&quot;}&quot;)
-print(decoded.version) 
+println(decoded.major)
+println(decoded.minor)
+println(decoded.patch)
+println(decoded.preRelease)
+println(decoded.buildMetadata) 
    //sampleEnd
 }</code></pre></div></div></div>
       <h2 class="">Functions</h2>
