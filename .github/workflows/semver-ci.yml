@@ -86,7 +86,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Calculate coverage
-      run: ./gradlew koverReport
+      run: ./gradlew koverMergedXmlReport
       shell: bash
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
