@@ -67,7 +67,7 @@ class ConstraintSamples {
     }
 
     fun deserialization() {
-        val decoded = Json.decodeFromString(ConstraintSerializer, "{\"constraint\":\">1.2\"}")
+        val decoded = Json.decodeFromString(ConstraintSerializer, "\">1.2\"")
         print(decoded)
     }
 }
