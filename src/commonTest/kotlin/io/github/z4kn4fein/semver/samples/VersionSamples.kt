@@ -3,6 +3,7 @@ package io.github.z4kn4fein.semver.samples
 import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.VersionSerializer
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.inc
 import io.github.z4kn4fein.semver.nextMajor
@@ -15,9 +16,6 @@ import io.github.z4kn4fein.semver.satisfiesAny
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
 import io.github.z4kn4fein.semver.withoutSuffixes
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class VersionSamples {
@@ -170,29 +168,26 @@ class VersionSamples {
     }
 
     fun serialization() {
-        @Serializable
-        data class Data(val version: Version)
-
-        val data = Data(version = "1.0.0-alpha.1+build".toVersion())
-        print(Json.encodeToString(data))
+        print(Json.encodeToString(VersionSerializer, "1.0.0-alpha.1+build".toVersion()))
     }
 
     fun deserialization() {
-        @Serializable
-        data class Data(val version: Version)
+        val decoded = Json.decodeFromString(VersionSerializer, "\"1.0.0-alpha.1+build\"")
 
-        val decoded = Json.decodeFromString<Data>("{\"version\":\"1.0.0-alpha.1+build\"}")
-        print(decoded.version)
+        println(decoded.major)
+        println(decoded.minor)
+        println(decoded.patch)
+        println(decoded.preRelease)
+        println(decoded.buildMetadata)
     }
 
     fun looseDeserialization() {
-        @Serializable
-        data class Data(
-            @Serializable(with = LooseVersionSerializer::class)
-            val version: Version
-        )
+        val decoded = Json.decodeFromString(LooseVersionSerializer,"\"1+build.3\"")
 
-        val decoded = Json.decodeFromString<Data>("{\"version\":\"1+build.3\"}")
-        print(decoded.version)
+        println(decoded.major)
+        println(decoded.minor)
+        println(decoded.patch)
+        println(decoded.preRelease)
+        println(decoded.buildMetadata)
     }
 }

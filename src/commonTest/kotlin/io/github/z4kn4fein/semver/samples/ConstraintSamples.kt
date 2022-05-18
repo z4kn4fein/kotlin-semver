@@ -1,15 +1,13 @@
 package io.github.z4kn4fein.semver.samples
 
 import io.github.z4kn4fein.semver.constraints.Constraint
+import io.github.z4kn4fein.semver.constraints.ConstraintSerializer
 import io.github.z4kn4fein.semver.constraints.satisfiedBy
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
 import io.github.z4kn4fein.semver.toVersion
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class ConstraintSamples {
@@ -65,18 +63,11 @@ class ConstraintSamples {
     }
 
     fun serialization() {
-        @Serializable
-        data class Data(val constraint: Constraint)
-
-        val data = Data(constraint = ">1.2".toConstraint())
-        print(Json.encodeToString(data))
+        print(Json.encodeToString(ConstraintSerializer, ">1.2".toConstraint()))
     }
 
     fun deserialization() {
-        @Serializable
-        data class Data(val constraint: Constraint)
-
-        val decoded = Json.decodeFromString<Data>("{\"constraint\":\">1.2\"}")
-        print(decoded.constraint)
+        val decoded = Json.decodeFromString(ConstraintSerializer, "{\"constraint\":\">1.2\"}")
+        print(decoded)
     }
 }
