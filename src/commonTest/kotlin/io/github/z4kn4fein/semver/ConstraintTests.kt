@@ -139,6 +139,15 @@ class ConstraintTests {
     }
 
     @Test
+    fun testEquals() {
+        assertEquals("> 0.0.0".toConstraint(), ">0.0.0".toConstraint())
+        assertEquals("1.2 - 2.0".toConstraint(), ">=1.2.0 <2.1.0-0".toConstraint())
+        assertEquals("> 0.1.0".toConstraint().hashCode(), ">0.1.0".toConstraint().hashCode())
+        assertEquals("1.2 - 2.0".toConstraint().hashCode(), ">=1.2.0 <2.1.0-0".toConstraint().hashCode())
+        assertFalse("~1".toConstraint().equals(null))
+    }
+
+    @Test
     fun testSatisfies() {
         val data: List<Pair<String, String>> = listOf(
             Pair("<\t1.0.0", "0.1.2"),
