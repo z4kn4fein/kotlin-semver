@@ -77,7 +77,7 @@ import io.github.z4kn4fein.semver.toVersion
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 
-   val decoded = Json.decodeFromString(ConstraintSerializer, &quot;{\&quot;constraint\&quot;:\&quot;&gt;1.2\&quot;}&quot;)
+   val decoded = Json.decodeFromString(ConstraintSerializer, &quot;\&quot;&gt;1.2\&quot;&quot;)
 print(decoded) 
    //sampleEnd
 }</code></pre></div></div></div>
