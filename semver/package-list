@@ -9,10 +9,16 @@ $dokka.location:io.github.z4kn4fein.semver.constraints//toConstraintOrNull/kotli
 $dokka.location:io.github.z4kn4fein.semver.constraints/Constraint.Companion///PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/-companion/index.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/Constraint.Companion/parse/#kotlin.String/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/-companion/parse.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/Constraint///PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/index.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/Constraint/equals/#kotlin.Any?/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/equals.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/Constraint/hashCode/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/hash-code.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/Constraint/isSatisfiedBy/#io.github.z4kn4fein.semver.Version/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/is-satisfied-by.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/Constraint/toString/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint/to-string.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintFormatException///PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html
 $dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintFormatException/ConstraintFormatException/#kotlin.String/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/-constraint-format-exception.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintSerializer///PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-serializer/index.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintSerializer/descriptor/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-serializer/descriptor.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-serializer/deserialize.html
+$dokka.location:io.github.z4kn4fein.semver.constraints/ConstraintSerializer/serialize/#kotlinx.serialization.encoding.Encoder#io.github.z4kn4fein.semver.constraints.Constraint/PointingToDeclaration/semver/io.github.z4kn4fein.semver.constraints/-constraint-serializer/serialize.html
 $dokka.location:io.github.z4kn4fein.semver////PointingToDeclaration/semver/io.github.z4kn4fein.semver/index.html
 $dokka.location:io.github.z4kn4fein.semver//inc/io.github.z4kn4fein.semver.Version#io.github.z4kn4fein.semver.Inc#kotlin.String?/PointingToDeclaration/semver/io.github.z4kn4fein.semver/inc.html
 $dokka.location:io.github.z4kn4fein.semver//nextMajor/io.github.z4kn4fein.semver.Version#kotlin.String?/PointingToDeclaration/semver/io.github.z4kn4fein.semver/next-major.html
@@ -25,11 +31,15 @@ $dokka.location:io.github.z4kn4fein.semver//satisfiesAny/io.github.z4kn4fein.sem
 $dokka.location:io.github.z4kn4fein.semver//toVersion/kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version.html
 $dokka.location:io.github.z4kn4fein.semver//toVersionOrNull/kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/to-version-or-null.html
 $dokka.location:io.github.z4kn4fein.semver//withoutSuffixes/io.github.z4kn4fein.semver.Version#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/without-suffixes.html
-$dokka.location:io.github.z4kn4fein.semver/Inc.MAJOR///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-m-a-j-o-r/index.html
-$dokka.location:io.github.z4kn4fein.semver/Inc.MINOR///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-m-i-n-o-r/index.html
-$dokka.location:io.github.z4kn4fein.semver/Inc.PATCH///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-p-a-t-c-h/index.html
-$dokka.location:io.github.z4kn4fein.semver/Inc.PRE_RELEASE///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/-p-r-e_-r-e-l-e-a-s-e/index.html
+$dokka.location:io.github.z4kn4fein.semver/Inc.MAJOR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-m-a-j-o-r/index.html
+$dokka.location:io.github.z4kn4fein.semver/Inc.MINOR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-m-i-n-o-r/index.html
+$dokka.location:io.github.z4kn4fein.semver/Inc.PATCH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-p-a-t-c-h/index.html
+$dokka.location:io.github.z4kn4fein.semver/Inc.PRE_RELEASE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-p-r-e_-r-e-l-e-a-s-e/index.html
 $dokka.location:io.github.z4kn4fein.semver/Inc///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/index.html
+$dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/index.html
+$dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer/descriptor/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/descriptor.html
+$dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/deserialize.html
+$dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer/serialize/#kotlinx.serialization.encoding.Encoder#io.github.z4kn4fein.semver.Version/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/serialize.html
 $dokka.location:io.github.z4kn4fein.semver/Version.Companion///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/index.html
 $dokka.location:io.github.z4kn4fein.semver/Version.Companion/min/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/min.html
 $dokka.location:io.github.z4kn4fein.semver/Version.Companion/parse/#kotlin.String#kotlin.Boolean/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/-companion/parse.html
@@ -54,6 +64,10 @@ $dokka.location:io.github.z4kn4fein.semver/Version/preRelease/#/PointingToDeclar
 $dokka.location:io.github.z4kn4fein.semver/Version/toString/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version/to-string.html
 $dokka.location:io.github.z4kn4fein.semver/VersionFormatException///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-format-exception/index.html
 $dokka.location:io.github.z4kn4fein.semver/VersionFormatException/VersionFormatException/#kotlin.String/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-format-exception/-version-format-exception.html
+$dokka.location:io.github.z4kn4fein.semver/VersionSerializer///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-serializer/index.html
+$dokka.location:io.github.z4kn4fein.semver/VersionSerializer/descriptor/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-serializer/descriptor.html
+$dokka.location:io.github.z4kn4fein.semver/VersionSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-serializer/deserialize.html
+$dokka.location:io.github.z4kn4fein.semver/VersionSerializer/serialize/#kotlinx.serialization.encoding.Encoder#io.github.z4kn4fein.semver.Version/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-serializer/serialize.html
 io.github.z4kn4fein.semver
 io.github.z4kn4fein.semver.constraints
 
