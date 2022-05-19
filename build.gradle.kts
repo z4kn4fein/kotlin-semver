@@ -23,13 +23,11 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.20.0"
 }
 
-object Prop {
-    val isSnapshot: Boolean get() = System.getProperty("snapshot") != null
-    val buildNumber: String get() = System.getenv("BUILD_NUMBER") ?: ""
-}
+val kotlinx_serialization_version: String by project
+val build_number: String get() = System.getenv("BUILD_NUMBER") ?: ""
+val is_snapshot: Boolean get() = System.getProperty("snapshot") != null
 
-group = "io.github.z4kn4fein"
-version = "$version${if (Prop.isSnapshot) "-SNAPSHOT" else ""}"
+version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
 
 kotlin {
     explicitApi()
@@ -49,14 +47,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinx_serialization_version")
             }
         }
 
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version")
             }
         }
 
@@ -142,7 +140,7 @@ sonarqube {
     properties {
         property("sonar.projectKey", "z4kn4fein_kotlin-semver")
         property("sonar.projectName", "kotlin-semver")
-        property("sonar.projectVersion", "$version-${Prop.buildNumber}")
+        property("sonar.projectVersion", "$version-$build_number")
         property("sonar.organization", "z4kn4fein")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")
@@ -158,7 +156,7 @@ publishing {
             name = "oss"
             val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (Prop.isSnapshot) snapshotsRepoUrl else releasesRepoUrl
+            url = if (is_snapshot) snapshotsRepoUrl else releasesRepoUrl
             credentials {
                 username = System.getenv("SONATYPE_USERNAME")
                 password = System.getenv("SONATYPE_PASSWORD")
