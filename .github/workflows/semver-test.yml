@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
-          distribution: zulu
       - name: Cache Konan
         uses: ./.github/actions/cache-konan
       - name: Cache Gradle

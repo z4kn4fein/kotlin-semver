@@ -21,7 +21,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -38,7 +37,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Run format check
@@ -53,7 +51,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -80,7 +77,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -106,7 +102,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -128,7 +123,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: SonarCloud cache
       uses: actions/cache@v3
       with:
@@ -172,7 +166,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -200,7 +193,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
@@ -219,7 +211,6 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
