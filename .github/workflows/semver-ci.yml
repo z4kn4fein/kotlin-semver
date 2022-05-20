@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -33,7 +33,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -48,7 +48,7 @@ jobs:
   analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -75,7 +75,7 @@ jobs:
     needs: [test, lint, analysis]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -101,7 +101,7 @@ jobs:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -123,7 +123,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BUILD_NUMBER: ${{ github.run_number }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -167,7 +167,7 @@ jobs:
       SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
       BUILD_NUMBER: ${{ github.run_number }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -195,7 +195,7 @@ jobs:
       SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
       BUILD_NUMBER: ${{ github.run_number }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -214,7 +214,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
