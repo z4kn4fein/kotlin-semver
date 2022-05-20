@@ -1,9 +1,9 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
-import org.jetbrains.kotlin.gradle.plugin.mpp.AbstractKotlinNativeTargetPreset
 import java.net.URL
+import kotlin.collections.mutableListOf
 
 repositories {
     mavenCentral()
@@ -29,19 +29,66 @@ val is_snapshot: Boolean get() = System.getProperty("snapshot") != null
 
 version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
 
+val nativeMainSets: MutableList<KotlinSourceSet> = mutableListOf()
+val host: Host = getHostType()
+
 kotlin {
+    fun addNativeTarget(preset: KotlinTargetPreset<*>) {
+        val target = targetFromPreset(preset)
+        nativeMainSets.add(target.compilations.getByName("main").kotlinSourceSets.first())
+    }
+
     explicitApi()
 
-    jvm()
-    js(BOTH) {
-        browser {
-            testTask {
-                useKarma {
-                    useChromeHeadless()
+    when (host) {
+        Host.WINDOWS -> {
+            jvm {
+                compilations.all {
+                    kotlinOptions.jvmTarget = "1.8"
                 }
             }
+
+            js(BOTH) {
+                browser {
+                    testTask {
+                        useKarma {
+                            useChromeHeadless()
+                        }
+                    }
+                    commonWebpackConfig {
+                        cssSupport.enabled = true
+                    }
+                }
+                nodejs()
+            }
+
+            addNativeTarget(presets["mingwX86"])
+            addNativeTarget(presets["mingwX64"])
         }
-        nodejs()
+        Host.LINUX -> {
+            addNativeTarget(presets["linuxArm64"])
+            addNativeTarget(presets["linuxArm32Hfp"])
+            addNativeTarget(presets["linuxX64"])
+        }
+        Host.MAC_OS -> {
+            addNativeTarget(presets["macosX64"])
+            addNativeTarget(presets["macosArm64"])
+
+            addNativeTarget(presets["iosArm64"])
+            addNativeTarget(presets["iosArm32"])
+            addNativeTarget(presets["iosX64"])
+            addNativeTarget(presets["iosSimulatorArm64"])
+
+            addNativeTarget(presets["watchosX86"])
+            addNativeTarget(presets["watchosX64"])
+            addNativeTarget(presets["watchosArm32"])
+            addNativeTarget(presets["watchosArm64"])
+            addNativeTarget(presets["watchosSimulatorArm64"])
+
+            addNativeTarget(presets["tvosArm64"])
+            addNativeTarget(presets["tvosX64"])
+            addNativeTarget(presets["tvosSimulatorArm64"])
+        }
     }
 
     sourceSets {
@@ -61,15 +108,9 @@ kotlin {
         val nativeMain by creating {
             dependsOn(commonMain)
         }
-    }
 
-    presets.withType<AbstractKotlinNativeTargetPreset<*>>().forEach {
-        if (it.isTargetAllowedOnHost()) {
-            targetFromPreset(it) {
-                compilations.getByName("main") {
-                    defaultSourceSet.dependsOn(sourceSets["nativeMain"])
-                }
-            }
+        configure(nativeMainSets) {
+            dependsOn(nativeMain)
         }
     }
 }
@@ -217,23 +258,25 @@ fun AbstractPublishToMaven.isTargetAllowedOnHost(): Boolean {
     return isTargetAllowedOnHost(publication.name)
 }
 
-fun KotlinTargetPreset<*>.isTargetAllowedOnHost(): Boolean {
-    return isTargetAllowedOnHost(name)
-}
-
 fun isTargetAllowedOnHost(name: String): Boolean {
-    if (shouldSkipTarget(name)) return false
-
-    val os = OperatingSystem.current()
-    return when {
-        name.startsWith("mingw") -> os.isWindows
-        name.startsWith("macos") || name.startsWith("ios") || name.startsWith("watchos") ||
-            name.startsWith("tvos") -> os.isMacOsX
-        else -> os.isLinux
+    return when (host) {
+        Host.LINUX -> name.startsWith("linux")
+        Host.MAC_OS -> name.startsWith("macos") ||
+            name.startsWith("ios") ||
+            name.startsWith("watchos") ||
+            name.startsWith("tvos")
+        else -> true
     }
 }
 
-fun shouldSkipTarget(name: String): Boolean =
-    name.startsWith("androidNative") ||
-        name.startsWith("wasm") ||
-        name.startsWith("linuxMips")
+fun getHostType(): Host {
+    val hostOs = System.getProperty("os.name")
+    return when {
+        hostOs.startsWith("Windows") -> Host.WINDOWS
+        hostOs.startsWith("Mac") -> Host.MAC_OS
+        hostOs == "Linux" -> Host.LINUX
+        else -> throw Error("Invalid host.")
+    }
+}
+
+enum class Host { WINDOWS, MAC_OS, LINUX }
