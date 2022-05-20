@@ -7,7 +7,6 @@ import kotlin.collections.mutableListOf
 
 repositories {
     mavenCentral()
-    mavenLocal()
     google()
 }
 
@@ -26,11 +25,10 @@ plugins {
 val kotlinx_serialization_version: String by project
 val build_number: String get() = System.getenv("BUILD_NUMBER") ?: ""
 val is_snapshot: Boolean get() = System.getProperty("snapshot") != null
-
-version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
-
 val nativeMainSets: MutableList<KotlinSourceSet> = mutableListOf()
 val host: Host = getHostType()
+
+version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
 
 kotlin {
     fun addNativeTarget(preset: KotlinTargetPreset<*>) {
