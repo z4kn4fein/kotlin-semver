@@ -31,9 +31,14 @@ val host: Host = getHostType()
 version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
 
 kotlin {
-    fun addNativeTarget(preset: KotlinTargetPreset<*>) {
+    fun addNativeTarget(preset: KotlinTargetPreset<*>, desiredHost: Host) {
         val target = targetFromPreset(preset)
         nativeMainSets.add(target.compilations.getByName("main").kotlinSourceSets.first())
+        if (host != desiredHost) {
+            target.compilations.configureEach {
+                compileKotlinTask.enabled = false
+            }
+        }
     }
 
     explicitApi()
@@ -42,9 +47,10 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
+        withJava()
     }
 
-    js(BOTH) {
+    js {
         browser {
             testTask {
                 useKarma {
@@ -58,36 +64,36 @@ kotlin {
         nodejs()
     }
 
-    when (host) {
-        Host.WINDOWS -> {
-            addNativeTarget(presets["mingwX86"])
-            addNativeTarget(presets["mingwX64"])
-        }
-        Host.LINUX -> {
-            addNativeTarget(presets["linuxArm64"])
-            addNativeTarget(presets["linuxArm32Hfp"])
-            addNativeTarget(presets["linuxX64"])
-        }
-        Host.MAC_OS -> {
-            addNativeTarget(presets["macosX64"])
-            addNativeTarget(presets["macosArm64"])
+    // Windows
+    addNativeTarget(presets["mingwX86"], Host.WINDOWS)
+    addNativeTarget(presets["mingwX64"], Host.WINDOWS)
 
-            addNativeTarget(presets["iosArm64"])
-            addNativeTarget(presets["iosArm32"])
-            addNativeTarget(presets["iosX64"])
-            addNativeTarget(presets["iosSimulatorArm64"])
+    // Linux
+    addNativeTarget(presets["linuxArm64"], Host.LINUX)
+    addNativeTarget(presets["linuxArm32Hfp"], Host.LINUX)
+    addNativeTarget(presets["linuxX64"], Host.LINUX)
 
-            addNativeTarget(presets["watchosX86"])
-            addNativeTarget(presets["watchosX64"])
-            addNativeTarget(presets["watchosArm32"])
-            addNativeTarget(presets["watchosArm64"])
-            addNativeTarget(presets["watchosSimulatorArm64"])
+    // MacOS
+    addNativeTarget(presets["macosX64"], Host.MAC_OS)
+    addNativeTarget(presets["macosArm64"], Host.MAC_OS)
 
-            addNativeTarget(presets["tvosArm64"])
-            addNativeTarget(presets["tvosX64"])
-            addNativeTarget(presets["tvosSimulatorArm64"])
-        }
-    }
+    // iOS
+    addNativeTarget(presets["iosArm64"], Host.MAC_OS)
+    addNativeTarget(presets["iosArm32"], Host.MAC_OS)
+    addNativeTarget(presets["iosX64"], Host.MAC_OS)
+    addNativeTarget(presets["iosSimulatorArm64"], Host.MAC_OS)
+
+    // watchOS
+    addNativeTarget(presets["watchosX86"], Host.MAC_OS)
+    addNativeTarget(presets["watchosX64"], Host.MAC_OS)
+    addNativeTarget(presets["watchosArm32"], Host.MAC_OS)
+    addNativeTarget(presets["watchosArm64"], Host.MAC_OS)
+    addNativeTarget(presets["watchosSimulatorArm64"], Host.MAC_OS)
+
+    // tvOS
+    addNativeTarget(presets["tvosArm64"], Host.MAC_OS)
+    addNativeTarget(presets["tvosX64"], Host.MAC_OS)
+    addNativeTarget(presets["tvosSimulatorArm64"], Host.MAC_OS)
 
     sourceSets {
         val commonMain by getting {
@@ -237,6 +243,14 @@ publishing {
             }
         }
     }
+
+    tasks.withType(AbstractPublishToMaven::class).configureEach {
+        onlyIf { isPublicationAllowed(publication.name) }
+    }
+
+    tasks.withType(GenerateModuleMetadata::class).configureEach {
+        onlyIf { isPublicationAllowed(publication.get().name) }
+    }
 }
 
 signing {
@@ -248,24 +262,15 @@ signing {
     }
 }
 
-tasks.withType(AbstractPublishToMaven::class).configureEach {
-    enabled = isTargetAllowedOnHost()
-}
-
-fun AbstractPublishToMaven.isTargetAllowedOnHost(): Boolean {
-    return isTargetAllowedOnHost(publication.name)
-}
-
-fun isTargetAllowedOnHost(name: String): Boolean {
-    return when (host) {
-        Host.WINDOWS -> name.startsWith("mingw")
-        Host.MAC_OS -> name.startsWith("macos") ||
+fun isPublicationAllowed(name: String): Boolean =
+    when {
+        name.startsWith("mingw") -> host == Host.WINDOWS
+        name.startsWith("macos") ||
             name.startsWith("ios") ||
             name.startsWith("watchos") ||
-            name.startsWith("tvos")
-        else -> true
+            name.startsWith("tvos") -> host == Host.MAC_OS
+        else -> host == Host.LINUX
     }
-}
 
 fun getHostType(): Host {
     val hostOs = System.getProperty("os.name")
