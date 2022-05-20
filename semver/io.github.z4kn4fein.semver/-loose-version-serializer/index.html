@@ -72,7 +72,7 @@ import io.github.z4kn4fein.semver.withoutSuffixes
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 
-   print(Json.encodeToString(VersionSerializer, &quot;1.0.0-alpha.1+build&quot;.toVersion())) 
+   print(Json.encodeToString(LooseVersionSerializer, &quot;1-alpha.1+build&quot;.toVersion(strict = false))) 
    //sampleEnd
 }</code></pre></div><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
