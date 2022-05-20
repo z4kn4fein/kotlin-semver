@@ -26,5 +26,5 @@ jobs:
       - name: Cache Gradle
         uses: ./.github/actions/cache-gradle
       - name: Run all tests
-        run: ./gradlew allTests
+        run: ./gradlew allTests --stacktrace
         shell: bash

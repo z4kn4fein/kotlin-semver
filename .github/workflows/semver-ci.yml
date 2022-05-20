@@ -27,7 +27,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Run all tests
-      run: ./gradlew allTests
+      run: ./gradlew allTests --stacktrace
       shell: bash
 
   lint:
@@ -42,7 +42,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Run format check
-      run: ./gradlew ktlintCheck
+      run: ./gradlew ktlintCheck --stacktrace
       shell: bash
 
   analysis:
@@ -59,7 +59,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Run code analysis
-      run: ./gradlew detekt
+      run: ./gradlew detekt --stacktrace
       shell: bash
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
@@ -86,7 +86,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Calculate coverage
-      run: ./gradlew koverMergedXmlReport
+      run: ./gradlew koverMergedXmlReport --stacktrace
       shell: bash
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
@@ -112,7 +112,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Run assemble
-      run: ./gradlew assemble
+      run: ./gradlew assemble --stacktrace
       shell: bash
 
   upload-reports:
@@ -150,7 +150,7 @@ jobs:
         name: analysis-report
         path: build/reports/detekt
     - name: Upload reports to SonarCloud
-      run: ./gradlew sonarqube
+      run: ./gradlew sonarqube --stacktrace
       shell: bash
       
   deploy-snapshot:
@@ -178,7 +178,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Deploy snapshot
-      run: ./gradlew publish -Dsnapshot=true
+      run: ./gradlew publish -Dsnapshot=true --stacktrace
       shell: bash
       
   deploy-release:
@@ -206,7 +206,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Deploy release
-      run: ./gradlew publish
+      run: ./gradlew publish --stacktrace
       shell: bash
 
   deploy-gh-pages:
@@ -225,7 +225,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Generate HTML docs
-      run: ./gradlew dokkaHtml
+      run: ./gradlew dokkaHtml --stacktrace
       shell: bash
     - name: Deploy docs to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.3.3
