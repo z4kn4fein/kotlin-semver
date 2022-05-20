@@ -172,13 +172,17 @@ class VersionSamples {
     }
 
     fun deserialization() {
-        val decoded = Json.decodeFromString(LooseVersionSerializer, "\"1.0.0-alpha.1+build\"")
+        val decoded = Json.decodeFromString(VersionSerializer, "\"1.0.0-alpha.1+build\"")
 
         println(decoded.major)
         println(decoded.minor)
         println(decoded.patch)
         println(decoded.preRelease)
         println(decoded.buildMetadata)
+    }
+
+    fun looseSerialization() {
+        print(Json.encodeToString(LooseVersionSerializer, "1-alpha.1+build".toVersion(strict = false)))
     }
 
     fun looseDeserialization() {
