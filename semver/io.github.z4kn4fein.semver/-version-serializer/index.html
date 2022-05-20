@@ -93,7 +93,7 @@ import io.github.z4kn4fein.semver.withoutSuffixes
 import kotlinx.serialization.json.Json
 fun main() { 
    //sampleStart 
-   val decoded = Json.decodeFromString(VersionSerializer, &quot;\&quot;1.0.0-alpha.1+build\&quot;&quot;)
+   val decoded = Json.decodeFromString(LooseVersionSerializer, &quot;\&quot;1.0.0-alpha.1+build\&quot;&quot;)
 
 println(decoded.major)
 println(decoded.minor)
