@@ -40,28 +40,28 @@ kotlin {
 
     explicitApi()
 
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+
+    js(BOTH) {
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+            commonWebpackConfig {
+                cssSupport.enabled = true
+            }
+        }
+        nodejs()
+    }
+
     when (host) {
         Host.WINDOWS -> {
-            jvm {
-                compilations.all {
-                    kotlinOptions.jvmTarget = "1.8"
-                }
-            }
-
-            js(BOTH) {
-                browser {
-                    testTask {
-                        useKarma {
-                            useChromeHeadless()
-                        }
-                    }
-                    commonWebpackConfig {
-                        cssSupport.enabled = true
-                    }
-                }
-                nodejs()
-            }
-
             addNativeTarget(presets["mingwX86"])
             addNativeTarget(presets["mingwX64"])
         }
@@ -260,7 +260,7 @@ fun AbstractPublishToMaven.isTargetAllowedOnHost(): Boolean {
 
 fun isTargetAllowedOnHost(name: String): Boolean {
     return when (host) {
-        Host.LINUX -> name.startsWith("linux")
+        Host.WINDOWS -> name.startsWith("mingw")
         Host.MAC_OS -> name.startsWith("macos") ||
             name.startsWith("ios") ||
             name.startsWith("watchos") ||
