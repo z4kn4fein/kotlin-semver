@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  assemble:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,9 +26,14 @@ jobs:
       uses: ./.github/actions/cache-konan
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
-    - name: Run all tests
-      run: ./gradlew allTests --stacktrace
+    - name: Run assemble
+      run: ./gradlew assemble --stacktrace
       shell: bash
+    - name: Upload build folder
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-output
+        path: build
 
   lint:
     runs-on: ubuntu-latest
@@ -71,8 +76,34 @@ jobs:
         name: analysis-report
         path: build/reports/detekt
 
+  test:
+    needs: [assemble, lint, analysis]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: 11
+        distribution: zulu
+    - name: Cache Konan
+      uses: ./.github/actions/cache-konan
+    - name: Cache Gradle
+      uses: ./.github/actions/cache-gradle
+    - name: Download build folder
+      uses: actions/download-artifact@v2
+      with:
+        name: build-output
+        path: build
+    - name: Run all tests
+      run: ./gradlew allTests --stacktrace
+      shell: bash
+
   coverage:
-    needs: [test, lint, analysis]
+    needs: [assemble, lint, analysis]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -94,29 +125,8 @@ jobs:
         name: coverage-report
         path: build/reports/kover
 
-  assemble:
-    needs: [ test, lint, analysis ]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: 11
-        distribution: zulu
-    - name: Cache Konan
-      uses: ./.github/actions/cache-konan
-    - name: Cache Gradle
-      uses: ./.github/actions/cache-gradle
-    - name: Run assemble
-      run: ./gradlew assemble --stacktrace
-      shell: bash
-
   upload-reports:
-    needs: [ assemble, coverage ]
+    needs: [ test, coverage ]
     runs-on: ubuntu-latest
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -154,7 +164,7 @@ jobs:
       shell: bash
       
   deploy-snapshot:
-    needs: [ assemble, coverage ]
+    needs: [ test, coverage ]
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -182,7 +192,7 @@ jobs:
       shell: bash
       
   deploy-release:
-    needs: [ assemble, coverage ]
+    needs: [ test, coverage ]
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os }}
     strategy:
@@ -210,7 +220,7 @@ jobs:
       shell: bash
 
   deploy-gh-pages:
-    needs: [ assemble, coverage ]
+    needs: [ test, coverage ]
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:

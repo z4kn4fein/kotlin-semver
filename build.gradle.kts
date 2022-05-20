@@ -26,6 +26,7 @@ val kotlinx_serialization_version: String by project
 val build_number: String get() = System.getenv("BUILD_NUMBER") ?: ""
 val is_snapshot: Boolean get() = System.getProperty("snapshot") != null
 val nativeMainSets: MutableList<KotlinSourceSet> = mutableListOf()
+val nativeTestSets: MutableList<KotlinSourceSet> = mutableListOf()
 val host: Host = getHostType()
 
 version = "$version${if (is_snapshot) "-SNAPSHOT" else ""}"
@@ -34,6 +35,7 @@ kotlin {
     fun addNativeTarget(preset: KotlinTargetPreset<*>, desiredHost: Host) {
         val target = targetFromPreset(preset)
         nativeMainSets.add(target.compilations.getByName("main").kotlinSourceSets.first())
+        nativeTestSets.add(target.compilations.getByName("test").kotlinSourceSets.first())
         if (host != desiredHost) {
             target.compilations.configureEach {
                 compileKotlinTask.enabled = false
@@ -113,8 +115,16 @@ kotlin {
             dependsOn(commonMain)
         }
 
+        val nativeTest by creating {
+            dependsOn(commonTest)
+        }
+
         configure(nativeMainSets) {
             dependsOn(nativeMain)
+        }
+
+        configure(nativeTestSets) {
+            dependsOn(nativeTest)
         }
     }
 }
