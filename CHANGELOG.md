@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2022-01-09
 - First stable release
 
+[1.3.3]: https://github.com/z4kn4fein/kotlin-semver/compare/1.3.2...1.3.3
 [1.3.2]: https://github.com/z4kn4fein/kotlin-semver/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/z4kn4fein/kotlin-semver/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/z4kn4fein/kotlin-semver/compare/1.2.1...1.3.0
