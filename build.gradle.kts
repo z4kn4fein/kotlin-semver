@@ -52,7 +52,7 @@ kotlin {
         withJava()
     }
 
-    js {
+    js(BOTH) {
         browser {
             testTask {
                 useKarma {
