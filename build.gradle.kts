@@ -15,7 +15,7 @@ plugins {
     kotlin("plugin.serialization") version "1.6.21"
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.6.21"
+    id("org.jetbrains.dokka") version "1.7.0"
     id("org.sonarqube") version "3.3"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
