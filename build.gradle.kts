@@ -12,7 +12,7 @@ repositories {
 
 plugins {
     kotlin("multiplatform") version "1.7.0"
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("plugin.serialization") version "1.7.0"
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version "1.6.21"
