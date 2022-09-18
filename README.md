@@ -198,7 +198,7 @@ There are particular range indicators which are sugars for more extended range e
    - `1.1 - 1.4.0` means `>=(>=1.1.0 <1.2.0-0) <=1.4.0` which finally translates to `>=1.1.0 <=1.4.0`
    - `1.1.0 - 2` means `>=1.1.0 <=(>=2.0.0 <3.0.0-0)` which finally translates to `>=1.1.0 <3.0.0-0`
 
-- **Tilde Range (`~`)**: Describes a patch level range when the minor version is specified or a minor level range when not.
+- **Tilde Range (`~`)**: Describes a patch level range when the minor version is specified or a minor level range when it's not.
    - `~1.0.1` translates to `>=1.0.1 <1.1.0-0`
    - `~1.0` translates to `>=1.0.0 <1.1.0-0`
    - `~1` translates to `>=1.0.0 <2.0.0-0`
