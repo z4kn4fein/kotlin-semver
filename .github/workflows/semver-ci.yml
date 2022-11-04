@@ -87,7 +87,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Calculate coverage
-      run: ./gradlew koverMergedXmlReport --stacktrace
+      run: ./gradlew koverXmlReport --stacktrace
       shell: bash
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
@@ -140,12 +140,12 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Download coverage report
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: coverage-report
         path: build/reports/kover
     - name: Download analysis report
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: analysis-report
         path: build/reports/detekt
@@ -228,7 +228,7 @@ jobs:
       run: ./gradlew dokkaHtml --stacktrace
       shell: bash
     - name: Deploy docs to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: gh-pages
         folder: build/dokka

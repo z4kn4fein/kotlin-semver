@@ -11,15 +11,15 @@ repositories {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("multiplatform") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.6.21"
-    id("org.sonarqube") version "3.3"
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("org.jetbrains.dokka") version "1.7.20"
+    id("org.sonarqube") version "3.5.0.2730"
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 val kotlinx_serialization_version: String by project
@@ -201,7 +201,7 @@ sonarqube {
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")
         property("sonar.tests", "src/commonTest/kotlin/io/github/z4kn4fein/semver")
         property("sonar.kotlin.detekt.reportPaths", buildDir.resolve("reports/detekt/detekt.xml"))
-        property("sonar.coverage.jacoco.xmlReportPaths", buildDir.resolve("reports/kover/report.xml"))
+        property("sonar.coverage.jacoco.xmlReportPaths", buildDir.resolve("reports/kover/xml/report.xml"))
     }
 }
 
