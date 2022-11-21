@@ -36,6 +36,8 @@ $dokka.location:io.github.z4kn4fein.semver/Inc.MINOR///PointingToDeclaration/{"o
 $dokka.location:io.github.z4kn4fein.semver/Inc.PATCH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-p-a-t-c-h/index.html
 $dokka.location:io.github.z4kn4fein.semver/Inc.PRE_RELEASE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}semver/io.github.z4kn4fein.semver/-inc/-p-r-e_-r-e-l-e-a-s-e/index.html
 $dokka.location:io.github.z4kn4fein.semver/Inc///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/index.html
+$dokka.location:io.github.z4kn4fein.semver/Inc/valueOf/#kotlin.String/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/value-of.html
+$dokka.location:io.github.z4kn4fein.semver/Inc/values/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-inc/values.html
 $dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer///PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/index.html
 $dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer/descriptor/#/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/descriptor.html
 $dokka.location:io.github.z4kn4fein.semver/LooseVersionSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-loose-version-serializer/deserialize.html

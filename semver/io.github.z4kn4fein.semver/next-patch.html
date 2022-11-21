@@ -6,10 +6,18 @@
     <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../";</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://pcsajtai-kotlin-compiler.onrender.com"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../styles/style.css" rel="Stylesheet">
 <link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -21,6 +29,7 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 <link href="../../styles/custom.css" rel="Stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="Stylesheet">
 </head>
 <body>
@@ -32,7 +41,7 @@ if(savedDarkMode === true){
             </a>
     </div>
     <div>
-1.3.3    </div>
+1.4.0    </div>
     <div class="pull-right d-flex">
         <a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link"><i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span></a><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
@@ -44,11 +53,11 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver//nextPatch/io.github.z4kn4fein.semver.Version#kotlin.String?/PointingToDeclaration//788909594">
-  <div class="breadcrumbs"><a href="../../index.html">semver</a><span class="delimiter">/</span><a href="index.html">io.github.z4kn4fein.semver</a><span class="delimiter">/</span><a href="next-patch.html">nextPatch</a></div>
+  <div class="breadcrumbs"><a href="../../index.html">semver</a><span class="delimiter">/</span><a href="index.html">io.github.z4kn4fein.semver</a><span class="delimiter">/</span><span class="current">nextPatch</span></div>
   <div class="cover ">
     <h1 class="cover"><span>next</span><wbr></wbr><span><span>Patch</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-patch.html"><span class="token function">nextPatch</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Increments the version by its PATCH number. When the version is pre-release, the PATCH number will not be incremented, only the pre-release identifier will be removed.</p><p class="paragraph">When the <a href="next-patch.html">preRelease</a> parameter is set, a pre-release version will be produced from the next PATCH version. The value of <a href="next-patch.html">preRelease</a> will be the first pre-release identifier of the new version.</p><p class="paragraph">Returns a new version while the original remains unchanged.</p><h2 class="">Samples</h2><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-patch.html"><span class="token function">nextPatch</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L38">source</a>)</span></span></div><p class="paragraph">Increments the version by its PATCH number. When the version is pre-release, the PATCH number will not be incremented, only the pre-release identifier will be removed.</p><p class="paragraph">When the <a href="next-patch.html">preRelease</a> parameter is set, a pre-release version will be produced from the next PATCH version. The value of <a href="next-patch.html">preRelease</a> will be the first pre-release identifier of the new version.</p><p class="paragraph">Returns a new version while the original remains unchanged.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.VersionSerializer
@@ -74,24 +83,12 @@ println(version.nextPatch(preRelease = &quot;alpha&quot;))
 println(version.nextPatch(preRelease = &quot;SNAPSHOT&quot;)) 
    //sampleEnd
 }</code></pre></div></div></div>
-  <h2 class="">Sources</h2>
-  <div class="table" data-togglable="Sources"><a data-name="905483725%2FSource%2F788909594" anchor-label="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L38" id="905483725%2FSource%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-    <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-      <div class="main-subrow keyValue ">
-        <div class=""><span class="inline-flex">
-            <div><a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/VersionExtensions.kt#L38">common source</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="905483725%2FSource%2F788909594"></span>
-              <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-            </span></span></div>
-        <div></div>
-      </div>
-    </div>
-  </div>
 </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-        </div>
+      </div>
     </div>
 </div>
 </body>
