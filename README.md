@@ -5,7 +5,7 @@
 [![Build](https://img.shields.io/github/workflow/status/z4kn4fein/kotlin-semver/Semver%20CI?logo=GitHub)](https://github.com/z4kn4fein/kotlin-semver/actions/workflows/semver-ci.yml)
 [![Quality Gate Status](https://img.shields.io/sonar/quality_gate/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
 [![SonarCloud Coverage](https://img.shields.io/sonar/coverage/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.6-blueviolet.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.7-blueviolet.svg?logo=kotlin)](http://kotlinlang.org)
 
 Semantic Versioning library for [Kotlin Multiplatform](https://kotlinlang.org/docs/mpp-intro.html).
 It implements the full [semantic version 2.0.0](https://semver.org/spec/v2.0.0.html) specification and 
@@ -22,17 +22,21 @@ repositories {
 ```
 Then, you can add the package to your dependencies.
 ```kotlin
+val semver_version: String by project
+
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.3.3")
+    implementation("io.github.z4kn4fein:semver:$semver_version")
 }
 ```
 In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
 ```kotlin
+val semver_version: String by project
+
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies { 
-                implementation("io.github.z4kn4fein:semver:1.3.3")
+                implementation("io.github.z4kn4fein:semver:$semver_version")
             }
         }
     }
@@ -173,7 +177,7 @@ Supported comparison operators:
 - `>=` Greater than or equal
 
 Conditions can be joined together with whitespace, representing the `AND` logical operator between them.
-The `OR` operator can be expressed with `||` between condition sets.
+The `OR` operator can be expressed with `||` or `|` between condition sets.
 
 For example, the constraint `>=1.2.0 <3.0.0 || >4.0.0` translates to: *Only those versions are allowed that are either greater than or 
 equal to `1.2.0` {**AND**} less than `3.0.0` {**OR**} greater than `4.0.0`*.

@@ -1,7 +1,6 @@
 package io.github.z4kn4fein.semver.constraints
 
 import io.github.z4kn4fein.semver.Version
-import io.github.z4kn4fein.semver.isWildcard
 import io.github.z4kn4fein.semver.nextMajor
 import io.github.z4kn4fein.semver.nextMinor
 
@@ -20,9 +19,9 @@ internal data class VersionDescriptor(
             (buildMetadata?.let { "+$buildMetadata" } ?: "")
     }
 
-    val isMajorWildcard: Boolean = majorString.isWildcard()
-    val isMinorWildcard: Boolean = minorString?.isWildcard() ?: true
-    val isPatchWildcard: Boolean = patchString?.isWildcard() ?: true
+    val isMajorWildcard: Boolean = wildcards.contains(majorString)
+    val isMinorWildcard: Boolean = minorString?.let { wildcards.contains(it) } ?: true
+    val isPatchWildcard: Boolean = patchString?.let { wildcards.contains(it) } ?: true
 
     val isWildcard: Boolean = isMajorWildcard || isMinorWildcard || isPatchWildcard
 
@@ -66,5 +65,9 @@ internal data class VersionDescriptor(
                     Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata)
                 )
         }
+    }
+
+    companion object {
+        private val wildcards = arrayOf("*", "x", "X")
     }
 }

@@ -26,5 +26,3 @@ public fun String.toVersionOrNull(strict: Boolean = true): Version? =
     try { this.toVersion(strict) } catch (_: Exception) { null }
 
 internal fun String.toPreRelease(): PreRelease = PreRelease(this)
-
-internal fun String.isWildcard(): Boolean = Patterns.wildcards.contains(this)

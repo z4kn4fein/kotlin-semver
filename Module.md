@@ -14,19 +14,23 @@ repositories {
 
 Then, you can add the package to your dependencies.
 ```kotlin
+val semver_version: String by project
+
 dependencies {
-    implementation("io.github.z4kn4fein:semver:1.3.3")
+    implementation("io.github.z4kn4fein:semver:$semver_version")
 }
 ```
 <br/>
 
 In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
 ```kotlin
+val semver_version: String by project
+
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.z4kn4fein:semver:1.3.3")
+                implementation("io.github.z4kn4fein:semver:$semver_version")
             }
         }
     }
@@ -168,7 +172,7 @@ Supported comparison operators:
 - `>=` Greater than or equal
 
 Conditions can be joined together with whitespace, representing the `AND` logical operator between them.
-The `OR` operator can be expressed with `||` between condition sets.
+The `OR` operator can be expressed with `||` or `|` between condition sets.
 
 For example, the constraint `>=1.2.0 <3.0.0 || >4.0.0` translates to: *Only those versions are allowed that are either greater than or 
 equal to `1.2.0` {**AND**} less than `3.0.0` {**OR**} greater than `4.0.0`*.

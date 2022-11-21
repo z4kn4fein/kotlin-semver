@@ -41,40 +41,20 @@ internal object Patterns {
         "($X_RANGE_NUMERIC)(?:\\.($X_RANGE_NUMERIC)(?:\\.($X_RANGE_NUMERIC)(?:$PRE_RELEASE)?$BUILD?)?)?"
 
     // Pattern that only matches numbers.
-    private const val ONLY_NUMBER_REGEX: String = "^[0-9]+$"
+    internal const val ONLY_NUMBER_REGEX: String = "^[0-9]+$"
 
     // Pattern that only matches alphanumeric or hyphen characters.
-    private const val ONLY_ALPHANUMERIC_OR_HYPHEN_REGEX: String = "^$ALPHANUMERIC_OR_HYPHEN+$"
+    internal const val ONLY_ALPHANUMERIC_OR_HYPHEN_REGEX: String = "^$ALPHANUMERIC_OR_HYPHEN+$"
 
     // Version parsing pattern: 1.2.3-alpha+build
-    private const val VERSION_REGEX: String = "^$CORE_VERSION$PRE_RELEASE?$BUILD?\$"
+    internal const val VERSION_REGEX: String = "^$CORE_VERSION$PRE_RELEASE?$BUILD?\$"
 
     // Prefixed version parsing pattern: v1.2-alpha+build
-    private const val LOOSE_VERSION_REGEX: String = "^v?$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?\$"
+    internal const val LOOSE_VERSION_REGEX: String = "^v?$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?\$"
 
     // Operator condition: >=1.2.*
-    private const val OPERATOR_CONDITION_REGEX = "($ALLOWED_OPERATORS)\\s*v?(?:$X_RANGE_VERSION)"
-
-    // Operator condition: >=1.2.*
-    private const val VALID_OPERATOR_CONDITION_REGEX = "^(\\s*$OPERATOR_CONDITION_REGEX\\s*?)+\$"
+    internal const val OPERATOR_CONDITION_REGEX = "($ALLOWED_OPERATORS)\\s*v?(?:$X_RANGE_VERSION)"
 
     // Hyphen range condition: 1.2.* - 2.0.0
-    private const val HYPHEN_CONDITION_REGEX = "\\s*v?(?:$X_RANGE_VERSION)\\s+-\\s+v?(?:$X_RANGE_VERSION)\\s*"
-
-    // Wildcard characters.
-    val wildcards = arrayOf("*", "x", "X")
-
-    // Operators.
-    val comparisonOperators = arrayOf("=", "!=", ">", ">=", "=>", "<", "<=", "=<")
-    val tildeOperators = arrayOf("~>", "~")
-    const val caretOperator = "^"
-
-    // Regexes used in version and constraint parsing.
-    val onlyNumberRegex: Regex = ONLY_NUMBER_REGEX.toRegex()
-    val onlyAlphaNumericAndHyphenRegex: Regex = ONLY_ALPHANUMERIC_OR_HYPHEN_REGEX.toRegex()
-    val versionRegex: Regex = VERSION_REGEX.toRegex()
-    val looseVersionRegex: Regex = LOOSE_VERSION_REGEX.toRegex()
-    val operatorConditionRegex: Regex = OPERATOR_CONDITION_REGEX.toRegex()
-    val hyphenConditionRegex: Regex = HYPHEN_CONDITION_REGEX.toRegex()
-    val validOperatorConstraintRegex = VALID_OPERATOR_CONDITION_REGEX.toRegex()
+    internal const val HYPHEN_CONDITION_REGEX = "\\s*v?(?:$X_RANGE_VERSION)\\s+-\\s+v?(?:$X_RANGE_VERSION)\\s*"
 }

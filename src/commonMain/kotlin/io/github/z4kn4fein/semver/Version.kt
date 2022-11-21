@@ -123,6 +123,9 @@ public class Version private constructor(
 
     /** Companion object of [Version]. */
     public companion object {
+        private val versionRegex: Regex = Patterns.VERSION_REGEX.toRegex()
+        private val looseVersionRegex: Regex = Patterns.LOOSE_VERSION_REGEX.toRegex()
+
         /**
          * The 0.0.0 semantic version.
          *
@@ -142,7 +145,7 @@ public class Version private constructor(
          */
         @Suppress("MagicNumber")
         public fun parse(versionString: String, strict: Boolean = true): Version {
-            val regex = if (strict) Patterns.versionRegex else Patterns.looseVersionRegex
+            val regex = if (strict) versionRegex else looseVersionRegex
             val result = regex.matchEntire(versionString)
                 ?: throw VersionFormatException("Invalid version: $versionString")
             val major = result.groupValues[1].toIntOrNull()

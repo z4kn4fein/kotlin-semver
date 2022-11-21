@@ -1,6 +1,5 @@
 package io.github.z4kn4fein.semver.constraints
 
-import io.github.z4kn4fein.semver.Patterns
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.satisfies
 import kotlinx.serialization.Serializable
@@ -34,6 +33,10 @@ public class Constraint private constructor(private val comparators: List<List<V
     /** Companion object of [Constraint]. */
     public companion object {
         private val default: Constraint = Constraint(listOf(listOf(VersionComparator.greaterThanMin)))
+        private val conditionProcessors = arrayOf(
+            HyphenConditionProcessor(),
+            OperatorConditionProcessor()
+        )
 
         /**
          * Parses the [constraintString] as a [Constraint] and returns the result or throws
@@ -45,60 +48,26 @@ public class Constraint private constructor(private val comparators: List<List<V
             if (constraintString.isBlank()) {
                 return default
             }
-
-            val orParts = constraintString.split("||")
+            val orParts = constraintString.split("|").filter { part -> part.isNotBlank() }
             val comparators = orParts.map { comparator ->
                 val conditionsResult = mutableListOf<VersionComparator>()
-                val hyphensEscaped = Patterns.hyphenConditionRegex.replace(comparator) { hyphenCondition ->
-                    conditionsResult.add(hyphenToComparator(hyphenCondition))
-                    ""
+                var processed = comparator
+                conditionProcessors.forEach { processor ->
+                    processed = processed.replace(processor.regex) { condition ->
+                        conditionsResult.add(processor.processCondition(condition))
+                        ""
+                    }
                 }
-
-                if (hyphensEscaped.isNotBlank() && !Patterns.validOperatorConstraintRegex.matches(hyphensEscaped)) {
-                    throw ConstraintFormatException("Invalid constraint: $constraintString")
+                when {
+                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $processed")
+                    else -> conditionsResult
                 }
-
-                val operatorConditions = Patterns.operatorConditionRegex.findAll(hyphensEscaped)
-                conditionsResult.addAll(operatorConditions.map { condition -> operatorToComparator(condition) })
-                conditionsResult
             }
-
-            return if (comparators.isEmpty() || comparators.all { it.isEmpty() })
-                throw ConstraintFormatException("Invalid constraint: $constraintString")
-            else Constraint(comparators)
+            return when {
+                comparators.isEmpty() || comparators.all { it.isEmpty() } ->
+                    throw ConstraintFormatException("Invalid constraint: $constraintString")
+                else -> Constraint(comparators)
+            }
         }
-
-        @Suppress("MagicNumber")
-        private fun operatorToComparator(result: MatchResult): VersionComparator {
-            val operator = result.groups[1]?.value ?: ""
-            val major = result.groups[2]?.value ?: ""
-            val minor = result.groups[3]?.value
-            val patch = result.groups[4]?.value
-            val preRelease = result.groups[5]?.value
-            val buildMetadata = result.groups[6]?.value
-            return VersionComparator.createFromOperator(
-                operator,
-                VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
-            )
-        }
-
-        @Suppress("MagicNumber")
-        private fun hyphenToComparator(result: MatchResult): VersionComparator =
-            VersionComparator.createFromHyphenRange(
-                VersionDescriptor(
-                    majorString = result.groups[1]?.value ?: "",
-                    minorString = result.groups[2]?.value,
-                    patchString = result.groups[3]?.value,
-                    preRelease = result.groups[4]?.value,
-                    buildMetadata = result.groups[5]?.value
-                ),
-                VersionDescriptor(
-                    majorString = result.groups[6]?.value ?: "",
-                    minorString = result.groups[7]?.value,
-                    patchString = result.groups[8]?.value,
-                    preRelease = result.groups[9]?.value,
-                    buildMetadata = result.groups[10]?.value
-                )
-            )
     }
 }

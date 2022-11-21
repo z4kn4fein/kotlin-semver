@@ -61,7 +61,8 @@ internal class PreRelease private constructor(private val parts: List<String>) :
 
     companion object {
         private const val DEFAULT_INIT_PART = "0"
-
+        private val onlyNumberRegex: Regex = Patterns.ONLY_NUMBER_REGEX.toRegex()
+        private val onlyAlphaNumericAndHyphenRegex: Regex = Patterns.ONLY_ALPHANUMERIC_OR_HYPHEN_REGEX.toRegex()
         val default: PreRelease = PreRelease(listOf(DEFAULT_INIT_PART))
 
         operator fun invoke(preReleaseString: String): PreRelease = PreRelease(validate(preReleaseString))
@@ -75,9 +76,9 @@ internal class PreRelease private constructor(private val parts: List<String>) :
             for (part in parts) {
                 val error = when {
                     part.isBlank() -> "Pre-release identity contains an empty part."
-                    part.matches(Patterns.onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
+                    part.matches(onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
                         "Pre-release part '$part' is numeric but contains a leading zero."
-                    !part.matches(Patterns.onlyAlphaNumericAndHyphenRegex) ->
+                    !part.matches(onlyAlphaNumericAndHyphenRegex) ->
                         "Pre-release part '$part' contains an invalid character."
                     else -> null
                 }
