@@ -26,7 +26,10 @@ internal class OperatorConditionProcessor : ConditionProcessor {
         val descriptor = VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
         operatorConditionBuilders.forEach { builder ->
             if (operator in builder.acceptedOperators) {
-                return builder.buildComparator(operator, VersionDescriptor(major, minor, patch, preRelease, buildMetadata))
+                return builder.buildComparator(
+                    operator,
+                    VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
+                )
             }
         }
         throw ConstraintFormatException(
