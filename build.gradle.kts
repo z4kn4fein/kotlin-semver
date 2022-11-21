@@ -19,7 +19,7 @@ plugins {
     id("org.sonarqube") version "3.5.0.2730"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
-    id("io.gitlab.arturbosch.detekt") version "1.21.0"
+    id("io.gitlab.arturbosch.detekt") version "1.22.0"
 }
 
 val kotlinx_serialization_version: String by project
