@@ -11,7 +11,7 @@ repositories {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.7.21"
+    kotlin("multiplatform") version "1.7.22"
     kotlin("plugin.serialization") version "1.7.21"
     id("maven-publish")
     id("signing")
