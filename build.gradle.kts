@@ -2,6 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import java.net.URL
 import kotlin.collections.mutableListOf
 
@@ -127,6 +128,10 @@ kotlin {
             dependsOn(nativeTest)
         }
     }
+}
+
+tasks.getByName<KotlinNativeSimulatorTest>("watchosX64Test") {
+    deviceId = "Apple Watch Series 6 (40mm)"
 }
 
 tasks.getByName<DokkaTask>("dokkaHtml") {
