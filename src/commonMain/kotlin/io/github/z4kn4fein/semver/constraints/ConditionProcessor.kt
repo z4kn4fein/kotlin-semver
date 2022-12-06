@@ -9,7 +9,7 @@ internal interface ConditionProcessor {
 
 internal class OperatorConditionProcessor : ConditionProcessor {
     override val regex: Regex = Patterns.OPERATOR_CONDITION_REGEX.toRegex()
-    private val operatorConditionBuilders = arrayOf(
+    private val comparatorBuilders = arrayOf(
         RegularComparatorBuilder(),
         TildeComparatorBuilder(),
         CaretComparatorBuilder()
@@ -24,12 +24,9 @@ internal class OperatorConditionProcessor : ConditionProcessor {
         val preRelease = match.groups[5]?.value
         val buildMetadata = match.groups[6]?.value
         val descriptor = VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
-        operatorConditionBuilders.forEach { builder ->
+        comparatorBuilders.forEach { builder ->
             if (operator in builder.acceptedOperators) {
-                return builder.buildComparator(
-                    operator,
-                    VersionDescriptor(major, minor, patch, preRelease, buildMetadata)
-                )
+                return builder.buildComparator(operator, descriptor)
             }
         }
         throw ConstraintFormatException(

@@ -59,7 +59,7 @@ public class Constraint private constructor(private val comparators: List<List<V
                     }
                 }
                 when {
-                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $processed")
+                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $comparator")
                     else -> conditionsResult
                 }
             }

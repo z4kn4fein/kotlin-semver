@@ -41,7 +41,7 @@ class ConstraintSamples {
     }
 
     fun exception() {
-        ">=1.2a".toConstraint()
+        ">=1.2a|^3".toConstraint()
     }
 
     fun satisfiedBy() {
