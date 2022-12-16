@@ -2,7 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.z4kn4fein/semver?label=maven%20central)](https://search.maven.org/artifact/io.github.z4kn4fein/semver/)
 [![Snapshot](https://img.shields.io/nexus/s/io.github.z4kn4fein/semver?label=snapshot&server=https%3A%2F%2Fs01.oss.sonatype.org)](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/z4kn4fein/semver/)
-[![Build](https://img.shields.io/github/workflow/status/z4kn4fein/kotlin-semver/Semver%20CI?logo=GitHub)](https://github.com/z4kn4fein/kotlin-semver/actions/workflows/semver-ci.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/z4kn4fein/kotlin-semver/semver-ci.yml?logo=GitHub&branch=main)](https://github.com/z4kn4fein/kotlin-semver/actions/workflows/semver-ci.yml)
 [![Quality Gate Status](https://img.shields.io/sonar/quality_gate/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
 [![SonarCloud Coverage](https://img.shields.io/sonar/coverage/z4kn4fein_kotlin-semver?logo=SonarCloud&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=z4kn4fein_kotlin-semver)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.7-blueviolet.svg?logo=kotlin)](http://kotlinlang.org)
