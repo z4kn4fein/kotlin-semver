@@ -245,7 +245,7 @@ val version = "1.2.1".toVersion()
 version satisfiesAll constraints       // true
 version satisfiesAny constraints       // true
 ```
-> **Note**:
+> [!NOTE]\
 > With [`satisfiesAll`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-all.html) the version must satisfy each constraint within the collection. 
 > With [`satisfiesAny`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies-any.html) it must satisfy at least one constraint to pass the validation.
 
@@ -257,7 +257,7 @@ val versions = listOf("1.2.1", "1.1.0").map { it.toVersion() }
 constraint satisfiedByAll versions       // false
 constraint satisfiedByAny versions       // true
 ```
-> **Note**:
+> [!NOTE]\
 > With [`satisfiedByAll`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-all.html) the constraint must be satisfied by each version within the collection. 
 > With [`satisfiedByAny`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-any.html) it must be satisfied by at least one version to pass the validation.
 
@@ -332,13 +332,13 @@ val withDifferentPreRelease = version.copy(preRelease = "alpha.4")        // 1.0
 val withDifferentBuildMetadata = version.copy(buildMetadata = "build.3")  // 1.0.0-alpha.2+build.3
 val withDifferentNumbers = version.copy(major = 3, minor = 4, patch = 5)  // 3.4.5-alpha.2+build.1
 ```
-> **Note**:
+> [!NOTE]\
 > Without setting any optional parameter, the `copy()` method will produce an exact copy of the original version.
 
 ## Exceptions
 When the version parsing fails due to an invalid format, the library throws a specific [`VersionFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version-format-exception/index.html).
 Similarly, when the constraint parsing fails, the library throws a [`ConstraintFormatException`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/-constraint-format-exception/index.html).
-> **Note**:
+> [!NOTE]\
 > The `toVersionOrNull()` and `toConstraintOrNull()` methods can be used for exception-less conversions as they return `null` when the parsing fails.
 
 ## Contact & Support
