@@ -140,12 +140,12 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Download coverage report
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: coverage-report
         path: build/reports/kover
     - name: Download analysis report
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: analysis-report
         path: build/reports/detekt
