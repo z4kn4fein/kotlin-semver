@@ -38,7 +38,7 @@ kotlin {
 ```
 <br/>
 
-You can also use platform-specific packages that you can find [here](https://search.maven.org/search?q=g:io.github.z4kn4fein%20AND%20a:semver*) for each supported platform.
+You can also use platform-specific packages that you can find [here](https://repo1.maven.org/maven2/io/github/z4kn4fein) for each supported platform.
 
 ## Usage
 The following options are available to construct a [`Version`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/-version/index.html):
