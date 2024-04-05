@@ -129,13 +129,16 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
         outputDirectory.getAsFileTree().getFiles()
             .filter { it.extension == "html" }
             .forEach { file ->
-                val text = file.readText()
-                file.writeText(
-                    text.replace(
+                var text = file.readText()
+                if (!(file.parent?.endsWith("dokka") ?: false)) {
+                    text = text.replace(
                         "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1/dist/playground.min.js\" async=\"async\"></script>",
                         "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" " +
-                        "data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\"></script>"
-                    ).replace(
+                                "data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\"></script>"
+                    )
+                }
+                file.writeText(
+                    text.replace(
                         "<button class=\"navigation-controls--btn navigation-controls--theme\" id=\"theme-toggle-button\" type=\"button\">switch theme</button>",
                         "<a href=\"https://github.com/z4kn4fein/kotlin-semver\" target=\"_blank\" rel=\"noopener\" class=\"gh-link\"><i class=\"fa fa-github\"></i> <span class=\"repo-name\">" +
                         "z4kn4fein/kotlin-semver</span></a><button class=\"navigation-controls--btn navigation-controls--theme\" id=\"theme-toggle-button\" type=\"button\">switch theme</button>"
