@@ -133,8 +133,8 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
                 file.writeText(
                     text.replace(
                         "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1/dist/playground.min.js\" async=\"async\"></script>",
-                        "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1/dist/playground.min.js\" data-selector=\"code\" " +
-                        "data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\" async=\"async\"></script>"
+                        "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" " +
+                        "data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\"></script>"
                     ).replace(
                         "<button class=\"navigation-controls--btn navigation-controls--theme\" id=\"theme-toggle-button\" type=\"button\">switch theme</button>",
                         "<a href=\"https://github.com/z4kn4fein/kotlin-semver\" target=\"_blank\" rel=\"noopener\" class=\"gh-link\"><i class=\"fa fa-github\"></i> <span class=\"repo-name\">" +
