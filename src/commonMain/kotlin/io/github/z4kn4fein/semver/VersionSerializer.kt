@@ -15,7 +15,12 @@ import kotlinx.serialization.encoding.Encoder
  */
 public object VersionSerializer : KSerializer<Version> {
     override fun deserialize(decoder: Decoder): Version = decoder.decodeString().toVersion()
-    override fun serialize(encoder: Encoder, value: Version): Unit = encoder.encodeString(value.toString())
+
+    override fun serialize(
+        encoder: Encoder,
+        value: Version,
+    ): Unit = encoder.encodeString(value.toString())
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Version", PrimitiveKind.STRING)
 }
 
@@ -28,6 +33,11 @@ public object VersionSerializer : KSerializer<Version> {
  */
 public object LooseVersionSerializer : KSerializer<Version> {
     override fun deserialize(decoder: Decoder): Version = decoder.decodeString().toVersion(strict = false)
-    override fun serialize(encoder: Encoder, value: Version): Unit = encoder.encodeString(value.toString())
+
+    override fun serialize(
+        encoder: Encoder,
+        value: Version,
+    ): Unit = encoder.encodeString(value.toString())
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LooseVersion", PrimitiveKind.STRING)
 }

@@ -12,19 +12,14 @@ import kotlinx.serialization.Serializable
 public class Version private constructor(
     /** The MAJOR number of the version. */
     public val major: Int,
-
     /** The MINOR number of the version. */
     public val minor: Int,
-
     /** The PATCH number of the version. */
     public val patch: Int,
-
     internal val parsedPreRelease: PreRelease? = null,
-
     /** The BUILD metadata of the version. */
-    public val buildMetadata: String? = null
+    public val buildMetadata: String? = null,
 ) : Comparable<Version> {
-
     /**
      * Constructs a semantic version from the given arguments following the pattern:
      * <[major]>.<[minor]>.<[patch]>-<[preRelease]>+<[buildMetadata]>
@@ -36,7 +31,7 @@ public class Version private constructor(
         minor: Int = 0,
         patch: Int = 0,
         preRelease: String? = null,
-        buildMetadata: String? = null
+        buildMetadata: String? = null,
     ) : this(major, minor, patch, preRelease?.toPreRelease(), buildMetadata)
 
     init {
@@ -71,7 +66,7 @@ public class Version private constructor(
         minor: Int = this.minor,
         patch: Int = this.patch,
         preRelease: String? = this.preRelease,
-        buildMetadata: String? = this.buildMetadata
+        buildMetadata: String? = this.buildMetadata,
     ): Version = Version(major, minor, patch, preRelease, buildMetadata)
 
     public override fun compareTo(other: Version): Int =
@@ -112,12 +107,16 @@ public class Version private constructor(
 
     /** Component function that returns the MAJOR number of the version upon destructuring. */
     public operator fun component1(): Int = major
+
     /** Component function that returns the MINOR number of the version upon destructuring. */
     public operator fun component2(): Int = minor
+
     /** Component function that returns the PATCH number of the version upon destructuring. */
     public operator fun component3(): Int = patch
+
     /** Component function that returns the PRE-RELEASE identifier of the version upon destructuring. */
     public operator fun component4(): String? = preRelease
+
     /** Component function that returns the BUILD metadata of the version upon destructuring. */
     public operator fun component5(): String? = buildMetadata
 
@@ -144,10 +143,14 @@ public class Version private constructor(
          * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parseLoose
          */
         @Suppress("MagicNumber")
-        public fun parse(versionString: String, strict: Boolean = true): Version {
+        public fun parse(
+            versionString: String,
+            strict: Boolean = true,
+        ): Version {
             val regex = if (strict) versionRegex else looseVersionRegex
-            val result = regex.matchEntire(versionString)
-                ?: throw VersionFormatException("Invalid version: $versionString")
+            val result =
+                regex.matchEntire(versionString)
+                    ?: throw VersionFormatException("Invalid version: $versionString")
             val major = result.groupValues[1].toIntOrNull()
             val minor = result.groupValues[2].toIntOrNull()
             val patch = result.groupValues[3].toIntOrNull()
@@ -169,7 +172,7 @@ public class Version private constructor(
             minor: Int,
             patch: Int,
             preRelease: PreRelease?,
-            buildMetadata: String? = null
+            buildMetadata: String? = null,
         ): Version = Version(major, minor, patch, preRelease, buildMetadata)
     }
 }

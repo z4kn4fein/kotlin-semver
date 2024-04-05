@@ -5,9 +5,8 @@ import io.github.z4kn4fein.semver.Version
 internal class Range(
     private val start: VersionComparator,
     private val end: VersionComparator,
-    private val operator: Op
+    private val operator: Op,
 ) : VersionComparator {
-
     override fun isSatisfiedBy(version: Version): Boolean =
         when (operator) {
             Op.EQUAL -> start.isSatisfiedBy(version) && end.isSatisfiedBy(version)

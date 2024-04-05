@@ -1,6 +1,10 @@
 name: Semver Test
 
 on:
+  push:
+    branches: [ '*' ]
+    paths-ignore:
+      - '**.md'
   pull_request:
     branches: [ main ]
     paths-ignore:
@@ -21,7 +25,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 11
+          java-version: 17
           distribution: zulu
       - name: Cache Konan
         uses: ./.github/actions/cache-konan

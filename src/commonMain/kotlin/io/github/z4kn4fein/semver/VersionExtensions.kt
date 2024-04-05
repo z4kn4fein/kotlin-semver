@@ -12,12 +12,13 @@ import io.github.z4kn4fein.semver.constraints.satisfiedBy
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextMajor
  */
-public fun Version.nextMajor(preRelease: String? = null): Version = Version(
-    major + 1,
-    0,
-    0,
-    preRelease?.let { PreRelease(preRelease) }
-)
+public fun Version.nextMajor(preRelease: String? = null): Version =
+    Version(
+        major + 1,
+        0,
+        0,
+        preRelease?.let { PreRelease(preRelease) },
+    )
 
 /**
  * Increments the version by its MINOR number. When the [preRelease] parameter is set, a pre-release version
@@ -28,12 +29,13 @@ public fun Version.nextMajor(preRelease: String? = null): Version = Version(
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextMinor
  */
-public fun Version.nextMinor(preRelease: String? = null): Version = Version(
-    major,
-    minor + 1,
-    0,
-    preRelease?.let { PreRelease(preRelease) }
-)
+public fun Version.nextMinor(preRelease: String? = null): Version =
+    Version(
+        major,
+        minor + 1,
+        0,
+        preRelease?.let { PreRelease(preRelease) },
+    )
 
 /**
  * Increments the version by its PATCH number. When the version is pre-release, the PATCH number will not be
@@ -46,12 +48,13 @@ public fun Version.nextMinor(preRelease: String? = null): Version = Version(
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextPatch
  */
-public fun Version.nextPatch(preRelease: String? = null): Version = Version(
-    major,
-    minor,
-    if (parsedPreRelease == null || preRelease != null) patch + 1 else patch,
-    preRelease?.let { PreRelease(preRelease) }
-)
+public fun Version.nextPatch(preRelease: String? = null): Version =
+    Version(
+        major,
+        minor,
+        if (parsedPreRelease == null || preRelease != null) patch + 1 else patch,
+        preRelease?.let { PreRelease(preRelease) },
+    )
 
 /**
  * Increments the version by its PRE-RELEASE identifier or produces the next pre-release of a stable version.
@@ -63,14 +66,15 @@ public fun Version.nextPatch(preRelease: String? = null): Version = Version(
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.nextPreRelease
  */
-public fun Version.nextPreRelease(preRelease: String? = null): Version = Version(
-    major,
-    minor,
-    parsedPreRelease?.let { patch } ?: (patch + 1),
-    preRelease?.let {
-        if (parsedPreRelease?.identity == it) parsedPreRelease.increment() else PreRelease(preRelease)
-    } ?: parsedPreRelease?.increment() ?: PreRelease.default
-)
+public fun Version.nextPreRelease(preRelease: String? = null): Version =
+    Version(
+        major,
+        minor,
+        parsedPreRelease?.let { patch } ?: (patch + 1),
+        preRelease?.let {
+            if (parsedPreRelease?.identity == it) parsedPreRelease.increment() else PreRelease(preRelease)
+        } ?: parsedPreRelease?.increment() ?: PreRelease.default,
+    )
 
 /**
  * Increases the version [by] its [Inc.MAJOR], [Inc.MINOR], [Inc.PATCH], or [Inc.PRE_RELEASE] segment.
@@ -87,7 +91,10 @@ public fun Version.nextPreRelease(preRelease: String? = null): Version = Version
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.inc
  */
-public fun Version.inc(by: Inc, preRelease: String? = null): Version =
+public fun Version.inc(
+    by: Inc,
+    preRelease: String? = null,
+): Version =
     when (by) {
         Inc.MAJOR -> nextMajor(preRelease)
         Inc.MINOR -> nextMinor(preRelease)

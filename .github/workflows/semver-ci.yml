@@ -22,7 +22,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -39,7 +39,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
@@ -54,7 +54,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -80,7 +80,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -105,7 +105,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -156,10 +156,7 @@ jobs:
   deploy-snapshot:
     needs: [ test, lint, analysis, assemble, coverage ]
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: macos-latest
     env:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
@@ -171,7 +168,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -184,10 +181,7 @@ jobs:
   deploy-release:
     needs: [ test, lint, analysis, assemble, coverage ]
     if: startsWith(github.ref, 'refs/tags')
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: macos-latest
     env:
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
@@ -199,7 +193,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan
@@ -218,7 +212,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: 11
+        java-version: 17
         distribution: zulu
     - name: Cache Konan
       uses: ./.github/actions/cache-konan

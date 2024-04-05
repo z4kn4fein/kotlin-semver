@@ -3,7 +3,6 @@ package io.github.z4kn4fein.semver.constraints
 import io.github.z4kn4fein.semver.Version
 
 internal class Condition(private val operator: Op, private val version: Version) : VersionComparator {
-
     override fun isSatisfiedBy(version: Version): Boolean {
         return when (operator) {
             Op.EQUAL -> version == this.version

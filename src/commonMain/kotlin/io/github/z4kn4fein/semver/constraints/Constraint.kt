@@ -33,10 +33,11 @@ public class Constraint private constructor(private val comparators: List<List<V
     /** Companion object of [Constraint]. */
     public companion object {
         private val default: Constraint = Constraint(listOf(listOf(VersionComparator.greaterThanMin)))
-        private val conditionProcessors = arrayOf(
-            HyphenConditionProcessor(),
-            OperatorConditionProcessor()
-        )
+        private val conditionProcessors =
+            arrayOf(
+                HyphenConditionProcessor(),
+                OperatorConditionProcessor(),
+            )
 
         /**
          * Parses the [constraintString] as a [Constraint] and returns the result or throws
@@ -49,20 +50,22 @@ public class Constraint private constructor(private val comparators: List<List<V
                 return default
             }
             val orParts = constraintString.split("|").filter { part -> part.isNotBlank() }
-            val comparators = orParts.map { comparator ->
-                val conditionsResult = mutableListOf<VersionComparator>()
-                var processed = comparator
-                conditionProcessors.forEach { processor ->
-                    processed = processed.replace(processor.regex) { condition ->
-                        conditionsResult.add(processor.processCondition(condition))
-                        ""
+            val comparators =
+                orParts.map { comparator ->
+                    val conditionsResult = mutableListOf<VersionComparator>()
+                    var processed = comparator
+                    conditionProcessors.forEach { processor ->
+                        processed =
+                            processed.replace(processor.regex) { condition ->
+                                conditionsResult.add(processor.processCondition(condition))
+                                ""
+                            }
+                    }
+                    when {
+                        processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $comparator")
+                        else -> conditionsResult
                     }
                 }
-                when {
-                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $comparator")
-                    else -> conditionsResult
-                }
-            }
             return when {
                 comparators.isEmpty() || comparators.all { it.isEmpty() } ->
                     throw ConstraintFormatException("Invalid constraint: $constraintString")

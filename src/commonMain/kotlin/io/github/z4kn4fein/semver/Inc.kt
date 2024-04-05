@@ -32,5 +32,5 @@ public enum class Inc {
      *
      * @sample io.github.z4kn4fein.semver.samples.VersionSamples.inc
      */
-    PRE_RELEASE
+    PRE_RELEASE,
 }

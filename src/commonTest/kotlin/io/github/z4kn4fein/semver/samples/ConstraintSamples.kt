@@ -12,17 +12,18 @@ import kotlinx.serialization.json.Json
 
 class ConstraintSamples {
     fun constraint() {
-        val constraints = listOf(
-            "1.0.0",
-            "!=1.0.0",
-            "~1.0",
-            "^1.x",
-            "1.1.0 - 1.2.*",
-            ">=1.1.0 <3 || =0.1 || 5 - 6",
-            "v1",
-            "v3 - v4",
-            ">=v2.3"
-        )
+        val constraints =
+            listOf(
+                "1.0.0",
+                "!=1.0.0",
+                "~1.0",
+                "^1.x",
+                "1.1.0 - 1.2.*",
+                ">=1.1.0 <3 || =0.1 || 5 - 6",
+                "v1",
+                "v3 - v4",
+                ">=v2.3",
+            )
 
         constraints.forEach { println("[$it]: [${it.toConstraint()}]") }
     }

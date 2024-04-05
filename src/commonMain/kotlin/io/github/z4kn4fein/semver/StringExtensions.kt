@@ -23,6 +23,10 @@ public fun String.toVersion(strict: Boolean = true): Version = Version.parse(thi
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.toVersionOrNullLoose
  */
 public fun String.toVersionOrNull(strict: Boolean = true): Version? =
-    try { this.toVersion(strict) } catch (_: Exception) { null }
+    try {
+        this.toVersion(strict)
+    } catch (_: Exception) {
+        null
+    }
 
 internal fun String.toPreRelease(): PreRelease = PreRelease(this)

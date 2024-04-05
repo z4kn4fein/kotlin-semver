@@ -15,7 +15,10 @@ public infix fun Constraint.satisfiedBy(version: Version): Boolean = this.isSati
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.satisfiedByAll
  */
 public infix fun Constraint.satisfiedByAll(versions: Iterable<Version>): Boolean =
-    versions.all { version -> this.isSatisfiedBy(version) }
+    versions.all {
+            version ->
+        this.isSatisfiedBy(version)
+    }
 
 /**
  * Determines whether a [Constraint] is satisfied by at least one [Version] in a collection or not.
@@ -23,7 +26,10 @@ public infix fun Constraint.satisfiedByAll(versions: Iterable<Version>): Boolean
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.satisfiedByAny
  */
 public infix fun Constraint.satisfiedByAny(versions: Iterable<Version>): Boolean =
-    versions.any { version -> this.isSatisfiedBy(version) }
+    versions.any {
+            version ->
+        this.isSatisfiedBy(version)
+    }
 
 /**
  * Parses the string as a [Constraint] and returns the result or throws a [ConstraintFormatException]
@@ -39,4 +45,9 @@ public fun String.toConstraint(): Constraint = Constraint.parse(this)
  *
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.toConstraintOrNull
  */
-public fun String.toConstraintOrNull(): Constraint? = try { this.toConstraint() } catch (_: Exception) { null }
+public fun String.toConstraintOrNull(): Constraint? =
+    try {
+        this.toConstraint()
+    } catch (_: Exception) {
+        null
+    }

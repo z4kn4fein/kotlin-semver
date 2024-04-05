@@ -16,7 +16,7 @@ class SerializationTests {
     @Serializable
     data class ToLooseSerialize(
         @Serializable(with = LooseVersionSerializer::class)
-        val version: Version
+        val version: Version,
     )
 
     @Serializable

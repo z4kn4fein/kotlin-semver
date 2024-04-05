@@ -9,7 +9,7 @@ internal data class VersionDescriptor(
     val minorString: String?,
     val patchString: String?,
     val preRelease: String? = null,
-    val buildMetadata: String? = null
+    val buildMetadata: String? = null,
 ) {
     override fun toString(): String {
         return majorString +
@@ -25,14 +25,17 @@ internal data class VersionDescriptor(
 
     val isWildcard: Boolean = isMajorWildcard || isMinorWildcard || isPatchWildcard
 
-    val major: Int get() = majorString.toIntOrNull()
-        ?: throw ConstraintFormatException("Invalid MAJOR number in: $this")
+    val major: Int get() =
+        majorString.toIntOrNull()
+            ?: throw ConstraintFormatException("Invalid MAJOR number in: $this")
 
-    val minor: Int get() = minorString?.toIntOrNull()
-        ?: throw ConstraintFormatException("Invalid MINOR number in: $this")
+    val minor: Int get() =
+        minorString?.toIntOrNull()
+            ?: throw ConstraintFormatException("Invalid MINOR number in: $this")
 
-    val patch: Int get() = patchString?.toIntOrNull()
-        ?: throw ConstraintFormatException("Invalid PATCH number in: $this")
+    val patch: Int get() =
+        patchString?.toIntOrNull()
+            ?: throw ConstraintFormatException("Invalid PATCH number in: $this")
 
     fun toComparator(operator: Op = Op.EQUAL): VersionComparator {
         return when {
@@ -47,7 +50,7 @@ internal data class VersionDescriptor(
                 Range(
                     start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
                     end = Condition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
-                    operator
+                    operator,
                 )
             }
             isPatchWildcard -> {
@@ -56,13 +59,13 @@ internal data class VersionDescriptor(
                 Range(
                     start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
                     end = Condition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
-                    operator
+                    operator,
                 )
             }
             else ->
                 Condition(
                     operator,
-                    Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata)
+                    Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
                 )
         }
     }

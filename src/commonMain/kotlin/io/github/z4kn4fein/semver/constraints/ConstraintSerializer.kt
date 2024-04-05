@@ -15,6 +15,11 @@ import kotlinx.serialization.encoding.Encoder
  */
 public object ConstraintSerializer : KSerializer<Constraint> {
     override fun deserialize(decoder: Decoder): Constraint = decoder.decodeString().toConstraint()
-    override fun serialize(encoder: Encoder, value: Constraint): Unit = encoder.encodeString(value.toString())
+
+    override fun serialize(
+        encoder: Encoder,
+        value: Constraint,
+    ): Unit = encoder.encodeString(value.toString())
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Constraint", PrimitiveKind.STRING)
 }

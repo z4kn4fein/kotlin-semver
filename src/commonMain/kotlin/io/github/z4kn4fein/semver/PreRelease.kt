@@ -3,7 +3,6 @@ package io.github.z4kn4fein.semver
 import kotlin.math.min
 
 internal class PreRelease private constructor(private val parts: List<String>) : Comparable<PreRelease> {
-
     val identity: String get() = parts[0]
 
     fun increment(): PreRelease {
@@ -47,7 +46,10 @@ internal class PreRelease private constructor(private val parts: List<String>) :
 
     override fun toString(): String = parts.joinToString(".")
 
-    private fun compareParts(part1: String, part2: String): Int {
+    private fun compareParts(
+        part1: String,
+        part2: String,
+    ): Int {
         val firstPart = part1.toIntOrNull()
         val secondPart = part2.toIntOrNull()
 
@@ -74,14 +76,15 @@ internal class PreRelease private constructor(private val parts: List<String>) :
 
             val parts = preReleaseString.trim().split('.')
             for (part in parts) {
-                val error = when {
-                    part.isBlank() -> "Pre-release identity contains an empty part."
-                    part.matches(onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
-                        "Pre-release part '$part' is numeric but contains a leading zero."
-                    !part.matches(onlyAlphaNumericAndHyphenRegex) ->
-                        "Pre-release part '$part' contains an invalid character."
-                    else -> null
-                }
+                val error =
+                    when {
+                        part.isBlank() -> "Pre-release identity contains an empty part."
+                        part.matches(onlyNumberRegex) && part.length > 1 && part[0] == '0' ->
+                            "Pre-release part '$part' is numeric but contains a leading zero."
+                        !part.matches(onlyAlphaNumericAndHyphenRegex) ->
+                            "Pre-release part '$part' contains an invalid character."
+                        else -> null
+                    }
 
                 error?.let { throw VersionFormatException("$error ($preReleaseString)") } ?: continue
             }

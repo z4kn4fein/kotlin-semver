@@ -90,15 +90,16 @@ class CompareTests {
 
     @Test
     fun testListOrder() {
-        val list: List<Version> = listOf(
-            "1.0.1".toVersion(),
-            "1.0.1-alpha".toVersion(),
-            "1.0.1-alpha.beta".toVersion(),
-            "1.0.1-alpha.3".toVersion(),
-            "1.0.1-alpha.2".toVersion(),
-            "1.1.0".toVersion(),
-            "1.1.0+build".toVersion(),
-        )
+        val list: List<Version> =
+            listOf(
+                "1.0.1".toVersion(),
+                "1.0.1-alpha".toVersion(),
+                "1.0.1-alpha.beta".toVersion(),
+                "1.0.1-alpha.3".toVersion(),
+                "1.0.1-alpha.2".toVersion(),
+                "1.1.0".toVersion(),
+                "1.1.0+build".toVersion(),
+            )
 
         assertEquals(
             listOf(
@@ -110,7 +111,7 @@ class CompareTests {
                 "1.1.0".toVersion(),
                 "1.1.0+build".toVersion(),
             ),
-            list.sorted()
+            list.sorted(),
         )
     }
 }
