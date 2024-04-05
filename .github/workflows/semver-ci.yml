@@ -124,6 +124,8 @@ jobs:
       BUILD_NUMBER: ${{ github.run_number }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
