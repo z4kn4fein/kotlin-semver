@@ -198,7 +198,7 @@ sonarqube {
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")
         property("sonar.tests", "src/commonTest/kotlin/io/github/z4kn4fein/semver")
         property("sonar.kotlin.detekt.reportPaths", buildDir.resolve("reports/detekt/detekt.xml"))
-        property("sonar.coverage.jacoco.xmlReportPaths", buildDir.resolve("reports/kover/xml/report.xml"))
+        property("sonar.coverage.jacoco.xmlReportPaths", buildDir.resolve("reports/kover/report.xml"))
     }
 }
 

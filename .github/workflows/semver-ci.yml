@@ -150,7 +150,7 @@ jobs:
         name: analysis-report
         path: build/reports/detekt
     - name: Upload reports to SonarCloud
-      run: ./gradlew sonarqube --stacktrace
+      run: ./gradlew sonar --stacktrace
       shell: bash
 
   deploy-snapshot:
