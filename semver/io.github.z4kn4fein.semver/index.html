@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>io.github.z4kn4fein.semver</title>
     <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -18,12 +19,13 @@
         }
     }
     </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://pcsajtai-kotlin-compiler.onrender.com"></script>
 <script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../styles/style.css" rel="Stylesheet">
-<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../styles/main.css" rel="Stylesheet">
 <link href="../../styles/prism.css" rel="Stylesheet">
 <link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
 <script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
@@ -33,272 +35,284 @@
 <link href="../../styles/custom.css" rel="Stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="Stylesheet">
 </head>
 <body>
-<div class="navigation-wrapper" id="navigation-wrapper">
-    <div id="leftToggler"><span class="icon-toggler"></span></div>
-    <div class="library-name">
-            <a href="../../index.html">
-                    <span>semver</span>
-            </a>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../index.html">
+                            semver
+                    </a>
+            </div>
+            <div class="library-version">
+2.0.0            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button>
+        </div>
     </div>
-    <div>
-1.4.2    </div>
-    <div class="pull-right d-flex">
-        <a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link"><i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span></a><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
+    <div class="navigation-controls">
+        <a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link"><i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span></a><button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
     </div>
-</div>
-<div id="container">
-    <div id="leftColumn">
-        <div id="sideMenu"></div>
-    </div>
-    <div id="main">
-<div class="main-content" id="content" pageIds="semver::io.github.z4kn4fein.semver////PointingToDeclaration//788909594">
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="semver::io.github.z4kn4fein.semver////PointingToDeclaration//788909594">
   <div class="breadcrumbs"><a href="../../index.html">semver</a><span class="delimiter">/</span><span class="current">io.github.z4kn4fein.semver</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
     <div class="tabs-section-body">
-      <h2 class="">Types</h2>
-      <div class="table" data-togglable="Types"><a data-name="-212148060%2FClasslikes%2F788909594" anchor-label="Inc" id="-212148060%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="-inc/index.html"><span><span>Inc</span></span></a></div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-212148060%2FClasslikes%2F788909594" anchor-label="Inc" id="-212148060%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-inc/index.html"><span><span>Inc</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-212148060%2FClasslikes%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-inc/index.html">Inc</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-inc/index.html">Inc</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Determines by which identifier the given <a href="-version/index.html">Version</a> should be incremented.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-inc/index.html">Inc</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-inc/index.html">Inc</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Determines by which identifier the given <a href="-version/index.html">Version</a> should be incremented.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1775364596%2FClasslikes%2F788909594" anchor-label="LooseVersionSerializer" id="1775364596%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="-loose-version-serializer/index.html"><span>Loose</span><wbr></wbr><span>Version</span><wbr></wbr><span><span>Serializer</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-loose-version-serializer/index.html"><span>Loose</span><wbr></wbr><span>Version</span><wbr></wbr><span><span>Serializer</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1775364596%2FClasslikes%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-loose-version-serializer/index.html">LooseVersionSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in <span data-unresolved-link="////PointingToDeclaration/">kotlinx.serialization</span> serializer that encodes and decodes non-strict <a href="-version/index.html">Version</a> as its string representation.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-loose-version-serializer/index.html">LooseVersionSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in <span data-unresolved-link="////PointingToDeclaration/">kotlinx.serialization</span> serializer that encodes and decodes non-strict <a href="-version/index.html">Version</a> as its string representation.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1931192214%2FClasslikes%2F788909594" anchor-label="Version" id="-1931192214%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="-version/index.html"><span><span>Version</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-version/index.html"><span><span>Version</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1931192214%2FClasslikes%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span><span class="token punctuation">(</span><span>with<span class="token operator"> = </span><a href="-version-serializer/index.html">VersionSerializer::class</a></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">class </span><a href="-version/index.html">Version</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">This class describes a semantic version and related operations following the semver 2.0.0 specification. Instances of this class are immutable, which makes them thread-safe.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span><span class="token punctuation">(</span><span>with<span class="token operator"> = </span><a href="-version-serializer/index.html">VersionSerializer::class</a></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">class </span><a href="-version/index.html">Version</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><span class="token operator">&lt;</span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">This class describes a semantic version and related operations following the semver 2.0.0 specification. Instances of this class are immutable, which makes them thread-safe.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-971117600%2FClasslikes%2F788909594" anchor-label="VersionFormatException" id="-971117600%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="-version-format-exception/index.html"><span>Version</span><wbr></wbr><span>Format</span><wbr></wbr><span><span>Exception</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-version-format-exception/index.html"><span>Version</span><wbr></wbr><span>Format</span><wbr></wbr><span><span>Exception</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-971117600%2FClasslikes%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-version-format-exception/index.html">VersionFormatException</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html">Exception</a></div><div class="brief "><p class="paragraph"><a href="-version/index.html">Version</a> throws this exception when the semantic version parsing fails due to an invalid format.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-version-format-exception/index.html">VersionFormatException</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html">Exception</a></div><div class="brief "><p class="paragraph"><a href="-version/index.html">Version</a> throws this exception when the semantic version parsing fails due to an invalid format.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1116815288%2FClasslikes%2F788909594" anchor-label="VersionSerializer" id="1116815288%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="-version-serializer/index.html"><span>Version</span><wbr></wbr><span><span>Serializer</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-version-serializer/index.html"><span>Version</span><wbr></wbr><span><span>Serializer</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1116815288%2FClasslikes%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-version-serializer/index.html">VersionSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in <span data-unresolved-link="////PointingToDeclaration/">kotlinx.serialization</span> serializer that encodes and decodes <a href="-version/index.html">Version</a> as its string representation.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-version-serializer/index.html">VersionSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><a href="-version/index.html">Version</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in <span data-unresolved-link="////PointingToDeclaration/">kotlinx.serialization</span> serializer that encodes and decodes <a href="-version/index.html">Version</a> as its string representation.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Functions</h2>
-      <div class="table" data-togglable="Functions"><a data-name="-1700750265%2FFunctions%2F788909594" anchor-label="inc" id="-1700750265%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="inc.html"><span><span>inc</span></span></a></div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1700750265%2FFunctions%2F788909594" anchor-label="inc" id="-1700750265%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inc.html"><span><span>inc</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1700750265%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="inc.html"><span class="token function">inc</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">by<span class="token operator">: </span><a href="-inc/index.html">Inc</a><span class="token punctuation">, </span></span><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increases the version <a href="inc.html">by</a> its <a href="-inc/-m-a-j-o-r/index.html">Inc.MAJOR</a>, <a href="-inc/-m-i-n-o-r/index.html">Inc.MINOR</a>, <a href="-inc/-p-a-t-c-h/index.html">Inc.PATCH</a>, or <a href="-inc/-p-r-e_-r-e-l-e-a-s-e/index.html">Inc.PRE_RELEASE</a> segment.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="inc.html"><span class="token function">inc</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">by<span class="token operator">: </span><a href="-inc/index.html">Inc</a><span class="token punctuation">, </span></span><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increases the version <a href="inc.html">by</a> its <a href="-inc/-m-a-j-o-r/index.html">Inc.MAJOR</a>, <a href="-inc/-m-i-n-o-r/index.html">Inc.MINOR</a>, <a href="-inc/-p-a-t-c-h/index.html">Inc.PATCH</a>, or <a href="-inc/-p-r-e_-r-e-l-e-a-s-e/index.html">Inc.PRE_RELEASE</a> segment.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-895445124%2FFunctions%2F788909594" anchor-label="nextMajor" id="-895445124%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="next-major.html"><span>next</span><wbr></wbr><span><span>Major</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-major.html"><span>next</span><wbr></wbr><span><span>Major</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-895445124%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-major.html"><span class="token function">nextMajor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its MAJOR number. When the <a href="next-major.html">preRelease</a> parameter is set, a pre-release version will be produced from the next MAJOR version. The value of <a href="next-major.html">preRelease</a> will be the first pre-release identifier of the new version.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-major.html"><span class="token function">nextMajor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its MAJOR number. When the <a href="next-major.html">preRelease</a> parameter is set, a pre-release version will be produced from the next MAJOR version. The value of <a href="next-major.html">preRelease</a> will be the first pre-release identifier of the new version.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-646889216%2FFunctions%2F788909594" anchor-label="nextMinor" id="-646889216%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="next-minor.html"><span>next</span><wbr></wbr><span><span>Minor</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-minor.html"><span>next</span><wbr></wbr><span><span>Minor</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-646889216%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-minor.html"><span class="token function">nextMinor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its MINOR number. When the <a href="next-minor.html">preRelease</a> parameter is set, a pre-release version will be produced from the next MINOR version. The value of <a href="next-minor.html">preRelease</a> will be the first pre-release identifier of the new version.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-minor.html"><span class="token function">nextMinor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its MINOR number. When the <a href="next-minor.html">preRelease</a> parameter is set, a pre-release version will be produced from the next MINOR version. The value of <a href="next-minor.html">preRelease</a> will be the first pre-release identifier of the new version.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="905483725%2FFunctions%2F788909594" anchor-label="nextPatch" id="905483725%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="next-patch.html"><span>next</span><wbr></wbr><span><span>Patch</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-patch.html"><span>next</span><wbr></wbr><span><span>Patch</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="905483725%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-patch.html"><span class="token function">nextPatch</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its PATCH number. When the version is pre-release, the PATCH number will not be incremented, only the pre-release identifier will be removed.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-patch.html"><span class="token function">nextPatch</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its PATCH number. When the version is pre-release, the PATCH number will not be incremented, only the pre-release identifier will be removed.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1670621935%2FFunctions%2F788909594" anchor-label="nextPreRelease" id="1670621935%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="next-pre-release.html"><span>next</span><wbr></wbr><span>Pre</span><wbr></wbr><span><span>Release</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-pre-release.html"><span>next</span><wbr></wbr><span>Pre</span><wbr></wbr><span><span>Release</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1670621935%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-pre-release.html"><span class="token function">nextPreRelease</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its PRE-RELEASE identifier or produces the next pre-release of a stable version. The <a href="next-pre-release.html">preRelease</a> parameter's value is used for setting the pre-release identity when the version is stable or has a different pre-release name. If the version is already pre-release and the first identifier matches with the <a href="next-pre-release.html">preRelease</a> parameter, a simple incrementation will apply.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="next-pre-release.html"><span class="token function">nextPreRelease</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preRelease<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Increments the version by its PRE-RELEASE identifier or produces the next pre-release of a stable version. The <a href="next-pre-release.html">preRelease</a> parameter's value is used for setting the pre-release identity when the version is stable or has a different pre-release name. If the version is already pre-release and the first identifier matches with the <a href="next-pre-release.html">preRelease</a> parameter, a simple incrementation will apply.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1110667077%2FFunctions%2F788909594" anchor-label="satisfies" id="-1110667077%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="satisfies.html"><span><span>satisfies</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="satisfies.html"><span><span>satisfies</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1110667077%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies.html"><span class="token function">satisfies</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraint<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies a <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> or not.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies.html"><span class="token function">satisfies</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraint<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies a <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> or not.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-402966836%2FFunctions%2F788909594" anchor-label="satisfiesAll" id="-402966836%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="satisfies-all.html"><span>satisfies</span><wbr></wbr><span><span>All</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="satisfies-all.html"><span>satisfies</span><wbr></wbr><span><span>All</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-402966836%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies-all.html"><span class="token function">satisfiesAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraints<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies each <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> in a collection or not.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies-all.html"><span class="token function">satisfiesAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraints<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies each <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> in a collection or not.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1041691935%2FFunctions%2F788909594" anchor-label="satisfiesAny" id="-1041691935%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="satisfies-any.html"><span>satisfies</span><wbr></wbr><span><span>Any</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="satisfies-any.html"><span>satisfies</span><wbr></wbr><span><span>Any</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1041691935%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies-any.html"><span class="token function">satisfiesAny</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraints<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies at least one <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> in a collection or not.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="satisfies-any.html"><span class="token function">satisfiesAny</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">constraints<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-version/index.html">Version</a> satisfies at least one <a href="../io.github.z4kn4fein.semver.constraints/-constraint/index.html">Constraint</a> in a collection or not.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1067138623%2FFunctions%2F788909594" anchor-label="toVersion" id="-1067138623%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="to-version.html"><span>to</span><wbr></wbr><span><span>Version</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-version.html"><span>to</span><wbr></wbr><span><span>Version</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1067138623%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version.html"><span class="token function">toVersion</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">strict<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or throws a <a href="-version-format-exception/index.html">VersionFormatException</a> if the string is not a valid representation of a semantic version.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version.html"><span class="token function">toVersion</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">strict<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or throws a <a href="-version-format-exception/index.html">VersionFormatException</a> if the string is not a valid representation of a semantic version.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-147234901%2FFunctions%2F788909594" anchor-label="toVersionOrNull" id="-147234901%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="to-version-or-null.html"><span>to</span><wbr></wbr><span>Version</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-version-or-null.html"><span>to</span><wbr></wbr><span>Version</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-147234901%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version-or-null.html"><span class="token function">toVersionOrNull</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">strict<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or null if the string is not a valid representation of a semantic version.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-version-or-null.html"><span class="token function">toVersionOrNull</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">strict<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Parses the string as a <a href="-version/index.html">Version</a> and returns the result or null if the string is not a valid representation of a semantic version.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1807189348%2FFunctions%2F788909594" anchor-label="withoutSuffixes" id="-1807189348%2FFunctions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="without-suffixes.html"><span>without</span><wbr></wbr><span><span>Suffixes</span></span></a></div>
+          <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="without-suffixes.html"><span>without</span><wbr></wbr><span><span>Suffixes</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1807189348%2FFunctions%2F788909594"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="without-suffixes.html"><span class="token function">withoutSuffixes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Produces a copy of the <a href="-version/index.html">Version</a> without the PRE-RELEASE and BUILD METADATA identities.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-version/index.html">Version</a><span class="token punctuation">.</span><a href="without-suffixes.html"><span class="token function">withoutSuffixes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-version/index.html">Version</a></div><div class="brief "><p class="paragraph">Produces a copy of the <a href="-version/index.html">Version</a> without the PRE-RELEASE and BUILD METADATA identities.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -308,11 +322,12 @@
   </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>
