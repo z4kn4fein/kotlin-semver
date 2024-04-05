@@ -268,3 +268,7 @@ signing {
         sign(publishing.publications)
     }
 }
+
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(tasks.withType<Sign>())
+}
