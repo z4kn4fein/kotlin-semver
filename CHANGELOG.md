@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-04-05
+### Changed
+- Kotlin version to `1.9.23`.
+
+### Added
+- `wasmJs`, `wasmWasi`, `androidNativeArm32`, `androidNativeArm64`, `androidNativeX86`, `androidNativeX64`, `watchosDeviceArm64` targets.
+
+### Removed
+- Not supported `mingwX86`, `watchosX86`, `iosArm32` targets.
+
 ## [1.4.2] - 2023-01-24
 - No code has been changed; just republishing due to a new signing key.
 
@@ -58,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2022-01-09
 - First stable release
 
+[2.0.0]: https://github.com/z4kn4fein/kotlin-semver/compare/1.4.2...2.0.0
 [1.4.2]: https://github.com/z4kn4fein/kotlin-semver/compare/1.4.1...1.4.2
 [1.4.1]: https://github.com/z4kn4fein/kotlin-semver/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/z4kn4fein/kotlin-semver/compare/1.3.3...1.4.0
