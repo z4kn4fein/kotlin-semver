@@ -222,7 +222,7 @@ jobs:
       run: ./gradlew dokkaHtml --stacktrace
       shell: bash
     - name: Deploy docs to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.7.1
+      uses: JamesIves/github-pages-deploy-action@v4.7.2
       with:
         branch: gh-pages
         folder: build/dokka
