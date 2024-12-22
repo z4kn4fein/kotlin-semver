@@ -10,18 +10,17 @@ repositories {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.sonarqube)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.9.20"
-    id("org.sonarqube") version "5.0.0.4638"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
-    id("org.jetbrains.kotlinx.kover") version "0.7.6"
-    id("io.gitlab.arturbosch.detekt") version "1.23.6"
 }
 
-val kotlinxSerializationVersion: String by project
 val buildNumber: String get() = System.getenv("BUILD_NUMBER") ?: ""
 val isSnapshot: Boolean get() = System.getProperty("snapshot") != null
 
@@ -96,14 +95,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
+                implementation(libs.serialization.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+                implementation(libs.kotlin.test)
+                implementation(libs.serialization.json)
             }
         }
     }
