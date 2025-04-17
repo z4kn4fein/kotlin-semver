@@ -133,7 +133,7 @@ tasks.getByName<DokkaTask>("dokkaHtml") {
                     text = text.replace(
                         "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1/dist/playground.min.js\" async=\"async\"></script>",
                         "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" " +
-                                "data-server=\"https://pcsajtai-kotlin-compiler.onrender.com\"></script>"
+                                "data-server=\"https://kotlin-compiler-4own5.ondigitalocean.app\"></script>"
                     )
                 }
                 file.writeText(
