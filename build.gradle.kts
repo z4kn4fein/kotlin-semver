@@ -118,11 +118,12 @@ dokka {
     }
 
     pluginsConfiguration.html {
-        customStyleSheets.from("assets/custom.css")
+        customStyleSheets.from("docs/styles.css")
+        templatesDir.set(file("docs/templates"))
     }
 }
 
-tasks.register("postProcessDokkaGeneratedDocs") {
+tasks.register("buildDocs") {
     dependsOn("dokkaGenerate")
     doLast {
         fileTree(layout.buildDirectory.dir("dokka"))
@@ -185,6 +186,8 @@ mavenPublishing {
         javadocJar = JavadocJar.Dokka("dokkaGenerate"),
         sourcesJar = true
     ))
+
+    coordinates(group as String?, "semver", version as String?)
 
     pom {
         name.set("Kotlin Semantic Versioning")

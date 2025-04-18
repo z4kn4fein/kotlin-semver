@@ -32,3 +32,27 @@ jobs:
       - name: Run all tests
         run: ./gradlew allTests --stacktrace
         shell: bash
+
+  deploy-snapshot:
+    needs: [ test ]
+    runs-on: macos-latest
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSPHRASE }}
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: zulu
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Deploy snapshot
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository -Dsnapshot=true --stacktrace
+        shell: bash
