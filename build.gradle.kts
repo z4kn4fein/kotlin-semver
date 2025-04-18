@@ -123,8 +123,8 @@ dokka {
     }
 }
 
-tasks.register("buildDocs") {
-    dependsOn("dokkaGenerate")
+val buildDocs by tasks.registering {
+    dependsOn(tasks.dokkaGenerate)
     doLast {
         fileTree(layout.buildDirectory.dir("dokka"))
             .filter { it.extension == "html" }
@@ -180,10 +180,13 @@ sonarqube {
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    signAllPublications()
+    if (providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKey").isPresent &&
+        providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword").isPresent) {
+        signAllPublications()
+    }
 
     configure(KotlinMultiplatform(
-        javadocJar = JavadocJar.Dokka("dokkaGenerate"),
+        javadocJar = JavadocJar.Dokka(buildDocs.name),
         sourcesJar = true
     ))
 
