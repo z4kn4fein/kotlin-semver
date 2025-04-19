@@ -186,7 +186,7 @@ mavenPublishing {
     }
 
     configure(KotlinMultiplatform(
-        javadocJar = JavadocJar.Dokka(buildDocs.name),
+        javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
         sourcesJar = true
     ))
 
