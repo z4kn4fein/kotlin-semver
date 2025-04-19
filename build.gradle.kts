@@ -124,7 +124,8 @@ dokka {
 }
 
 val buildDocs by tasks.registering {
-    dependsOn(tasks.dokkaGenerate)
+    dependsOn(tasks.dokkaGeneratePublicationHtml)
+    outputs.dir(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
     doLast {
         fileTree(layout.buildDirectory.dir("dokka"))
             .filter { it.extension == "html" }
@@ -186,11 +187,11 @@ mavenPublishing {
     }
 
     configure(KotlinMultiplatform(
-        javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
+        javadocJar = JavadocJar.Dokka(buildDocs.name),
         sourcesJar = true
     ))
 
-    coordinates(group as String?, "semver", version as String?)
+    coordinates(project.group as String?, project.name, project.version as String?)
 
     pom {
         name.set("Kotlin Semantic Versioning")

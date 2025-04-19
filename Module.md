@@ -14,8 +14,6 @@ repositories {
 
 Then, you can add the package to your dependencies.
 ```kotlin
-val semverVersion: String by project
-
 dependencies {
     implementation("io.github.z4kn4fein:semver:$semverVersion")
 }
@@ -24,8 +22,6 @@ dependencies {
 
 In case of a multiplatform project, you can simply reference the package in your `commonMain` source set.
 ```kotlin
-val semverVersion: String by project
-
 kotlin {
     sourceSets {
         val commonMain by getting {
