@@ -1,14 +1,10 @@
-.fa-github {
-    margin-right: 10px;
-}
-
 .gh-link {
     height: 40px;
     font-size: 22px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 20px;
+    margin: 0 18px;
     color: white;
 }
 
@@ -16,6 +12,7 @@
     font-size: 12px;
     font-weight: 500;
     margin-top: 2px;
+    margin-left: 10px;
 }
 
 @media (max-width: 520px) {
@@ -24,6 +21,7 @@
     }
 
     .gh-link {
-        margin-right: 0px;
+        width: 52px;
+        margin: 0;
     }
 }

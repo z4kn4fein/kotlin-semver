@@ -73,4 +73,3 @@ $dokka.location:io.github.z4kn4fein.semver/VersionSerializer/deserialize/#kotlin
 $dokka.location:io.github.z4kn4fein.semver/VersionSerializer/serialize/#kotlinx.serialization.encoding.Encoder#io.github.z4kn4fein.semver.Version/PointingToDeclaration/semver/io.github.z4kn4fein.semver/-version-serializer/serialize.html
 io.github.z4kn4fein.semver
 io.github.z4kn4fein.semver.constraints
-
