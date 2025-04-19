@@ -175,8 +175,8 @@ sonarqube {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/commonMain/kotlin/io/github/z4kn4fein/semver")
         property("sonar.tests", "src/commonTest/kotlin/io/github/z4kn4fein/semver")
-        property("sonar.kotlin.detekt.reportPaths", layout.buildDirectory.file("build/reports/detekt/detekt.xml"))
-        property("sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.file("build/reports/kover/report.xml"))
+        property("sonar.kotlin.detekt.reportPaths", "detekt.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "report.xml")
     }
 }
 

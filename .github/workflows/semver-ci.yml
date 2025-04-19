@@ -143,12 +143,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: coverage-report
-        path: build/reports/kover
     - name: Download analysis report
       uses: actions/download-artifact@v4
       with:
         name: analysis-report
-        path: build/reports/detekt
     - name: Upload reports to SonarCloud
       run: ./gradlew sonar --stacktrace
       shell: bash
