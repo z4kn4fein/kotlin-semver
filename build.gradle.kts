@@ -120,6 +120,7 @@ dokka {
     pluginsConfiguration.html {
         customStyleSheets.from("docs/styles.css")
         templatesDir.set(file("docs/templates"))
+        footerMessage.set("Copyright © 2025 Peter Csajtai")
     }
 }
 
