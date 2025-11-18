@@ -140,11 +140,11 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Download coverage report
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: coverage-report
     - name: Download analysis report
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: analysis-report
     - name: Upload reports to SonarCloud
