@@ -130,7 +130,7 @@ jobs:
         java-version: 17
         distribution: zulu
     - name: SonarCloud cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
