@@ -50,11 +50,23 @@ internal object Patterns {
     internal const val VERSION_REGEX: String = "^$CORE_VERSION$PRE_RELEASE?$BUILD?\$"
 
     // Prefixed version parsing pattern: v1.2-alpha+build
-    internal const val LOOSE_VERSION_REGEX: String = "^v?$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?\$"
+    internal const val LOOSE_VERSION_REGEX: String = "^v?$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?$"
 
     // Operator condition: >=1.2.*
     internal const val OPERATOR_CONDITION_REGEX = "($ALLOWED_OPERATORS)\\s*v?(?:$X_RANGE_VERSION)"
 
     // Hyphen range condition: 1.2.* - 2.0.0
     internal const val HYPHEN_CONDITION_REGEX = "\\s*v?(?:$X_RANGE_VERSION)\\s+-\\s+v?(?:$X_RANGE_VERSION)\\s*"
+
+    // Maven lower range operators
+    private const val MAVEN_OPERATOR_LOWER = "[\\[\\(]"
+
+    // Maven higher range operators
+    private const val MAVEN_OPERATOR_HIGHER = "[\\]\\)]"
+
+    // Prefixed version parsing pattern: v1.2-alpha+build
+    internal const val MAVEN_VERSION_REGEX: String = "$LOOSE_CORE_VERSION$PRE_RELEASE?$BUILD?"
+
+    // Maven range: (1.2.3, 2.0.0]
+    internal const val MAVEN_RANGE_REGEX = "($MAVEN_OPERATOR_LOWER)?\\s*(?:$MAVEN_VERSION_REGEX)?\\s*(,)?\\s*(?:$MAVEN_VERSION_REGEX)?\\s*($MAVEN_OPERATOR_HIGHER)?"
 }

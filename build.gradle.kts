@@ -2,8 +2,8 @@
 
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import io.gitlab.arturbosch.detekt.Detekt
 import com.vanniktech.maven.publish.SonatypeHost
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -21,6 +21,10 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.mavenPublish)
+}
+
+dependencies {
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-playground-samples-plugin")
 }
 
 val buildNumber: String get() = System.getenv("BUILD_NUMBER") ?: ""
@@ -117,29 +121,15 @@ dokka {
         }
     }
 
-    pluginsConfiguration.html {
-        customStyleSheets.from("docs/styles.css")
-        templatesDir.set(file("docs/templates"))
-        footerMessage.set("Copyright © 2025 Peter Csajtai")
-    }
-}
-
-val buildDocs by tasks.registering {
-    dependsOn(tasks.dokkaGeneratePublicationHtml)
-    outputs.dir(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
-    doLast {
-        fileTree(layout.buildDirectory.dir("dokka"))
-            .filter { it.extension == "html" }
-            .forEach { file ->
-                var text = file.readText()
-                if (!(file.parent?.endsWith("dokka") ?: false)) {
-                    file.writeText(text.replace(
-                        "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1/dist/playground.min.js\" async=\"async\"></script>",
-                        "<script type=\"text/javascript\" src=\"https://unpkg.com/kotlin-playground@1\" data-selector=\"code\" " +
-                                "data-server=\"https://kotlin-compiler-4own5.ondigitalocean.app\"></script>"
-                    ))
-                }
-            }
+    pluginsConfiguration {
+        kotlinPlaygroundSamples {
+            kotlinPlaygroundServer = "https://kotlin-compiler-4own5.ondigitalocean.app"
+        }
+        html {
+            customStyleSheets.from("docs/styles.css")
+            templatesDir.set(file("docs/templates"))
+            footerMessage.set("Copyright © 2026 Peter Csajtai")
+        }
     }
 }
 
@@ -183,14 +173,17 @@ sonarqube {
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     if (providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKey").isPresent &&
-        providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword").isPresent) {
+        providers.environmentVariable("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword").isPresent
+    ) {
         signAllPublications()
     }
 
-    configure(KotlinMultiplatform(
-        javadocJar = JavadocJar.Dokka(buildDocs.name),
-        sourcesJar = true
-    ))
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
+            sourcesJar = true,
+        ),
+    )
 
     coordinates(project.group as String?, project.name, project.version as String?)
 
@@ -198,8 +191,8 @@ mavenPublishing {
         name.set("Kotlin Semantic Versioning")
         description.set(
             "Semantic Versioning library for Kotlin Multiplatform. It implements the full semantic version " +
-                    "2.0.0 specification and provides the ability to parse, compare, and increment semantic " +
-                    "versions along with validation against constraints.",
+                "2.0.0 specification and provides the ability to parse, compare, and increment semantic " +
+                "versions along with validation against constraints.",
         )
         url.set("https://z4kn4fein.github.io/kotlin-semver")
 

@@ -1,14 +1,16 @@
 package io.github.z4kn4fein.semver
 
-import io.github.z4kn4fein.semver.constraints.Condition
 import io.github.z4kn4fein.semver.constraints.ConstraintFormatException
 import io.github.z4kn4fein.semver.constraints.Op
-import io.github.z4kn4fein.semver.constraints.Range
+import io.github.z4kn4fein.semver.constraints.OperatorCondition
+import io.github.z4kn4fein.semver.constraints.RangeCondition
 import io.github.z4kn4fein.semver.constraints.VersionDescriptor
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
+import io.github.z4kn4fein.semver.constraints.toMavenConstraint
+import io.github.z4kn4fein.semver.constraints.toMavenFormat
 import io.github.z4kn4fein.semver.constraints.toOperator
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -45,7 +47,7 @@ class ConstraintTests {
         assertEquals(">1.0".toConstraint(), "> 1.0".toConstraint())
         assertEquals(">=1.1.0-0".toConstraint(), ">1.0".toConstraint())
         assertEquals(">=1.0.0 <2.1.0-0".toConstraint(), "1.0 - 2.0".toConstraint())
-        assertEquals("<1.0.0 || >=1.1.0-0".toConstraint(), "!=1.0".toConstraint())
+        assertEquals(">=1.1.0-0 || <1.0.0".toConstraint(), "!=1.0".toConstraint())
     }
 
     @Test
@@ -86,38 +88,20 @@ class ConstraintTests {
     @Test
     fun testCondition() {
         val version = "1.0.0".toVersion()
-        assertEquals("${Op.NOT_EQUAL}1.0.0", Condition(Op.EQUAL, version).opposite())
-        assertEquals("${Op.EQUAL}1.0.0", Condition(Op.NOT_EQUAL, version).opposite())
-        assertEquals("${Op.GREATER_THAN_OR_EQUAL}1.0.0", Condition(Op.LESS_THAN, version).opposite())
-        assertEquals("${Op.GREATER_THAN}1.0.0", Condition(Op.LESS_THAN_OR_EQUAL, version).opposite())
-        assertEquals("${Op.LESS_THAN_OR_EQUAL}1.0.0", Condition(Op.GREATER_THAN, version).opposite())
-        assertEquals("${Op.LESS_THAN}1.0.0", Condition(Op.GREATER_THAN_OR_EQUAL, version).opposite())
-
-        assertTrue(Condition(Op.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
-        assertTrue(Condition(Op.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()))
-        assertTrue(Condition(Op.LESS_THAN, version).isSatisfiedBy("0.1.0".toVersion()))
-        assertTrue(Condition(Op.LESS_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
-        assertTrue(Condition(Op.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()))
-        assertTrue(Condition(Op.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(OperatorCondition(Op.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(OperatorCondition(Op.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()))
+        assertTrue(OperatorCondition(Op.LESS_THAN, version).isSatisfiedBy("0.1.0".toVersion()))
+        assertTrue(OperatorCondition(Op.LESS_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(OperatorCondition(Op.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()))
+        assertTrue(OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
     }
 
     @Test
     fun testRange() {
-        val start = Condition(Op.GREATER_THAN, "1.0.0".toVersion())
-        val end = Condition(Op.LESS_THAN, "1.1.0".toVersion())
-        assertEquals("<=1.0.0 || >=1.1.0", Range(start, end, Op.EQUAL).opposite())
-        assertEquals(">1.0.0 <1.1.0", Range(start, end, Op.NOT_EQUAL).opposite())
-        assertEquals(">1.0.0", Range(start, end, Op.LESS_THAN).opposite())
-        assertEquals(">=1.1.0", Range(start, end, Op.LESS_THAN_OR_EQUAL).opposite())
-        assertEquals("<1.1.0", Range(start, end, Op.GREATER_THAN).opposite())
-        assertEquals("<=1.0.0", Range(start, end, Op.GREATER_THAN_OR_EQUAL).opposite())
-
-        assertTrue(Range(start, end, Op.EQUAL).isSatisfiedBy("1.0.1".toVersion()))
-        assertTrue(Range(start, end, Op.NOT_EQUAL).isSatisfiedBy("1.2.0".toVersion()))
-        assertFalse(Range(start, end, Op.LESS_THAN).isSatisfiedBy("1.1.1".toVersion()))
-        assertTrue(Range(start, end, Op.LESS_THAN_OR_EQUAL).isSatisfiedBy("1.0.0".toVersion()))
-        assertTrue(Range(start, end, Op.GREATER_THAN).isSatisfiedBy("1.2.0".toVersion()))
-        assertTrue(Range(start, end, Op.GREATER_THAN_OR_EQUAL).isSatisfiedBy("1.0.1".toVersion()))
+        val start = OperatorCondition(Op.GREATER_THAN, "1.0.0".toVersion())
+        val end = OperatorCondition(Op.LESS_THAN, "1.1.0".toVersion())
+        assertTrue(RangeCondition(start, end).isSatisfiedBy("1.0.1".toVersion()))
+        assertFalse(RangeCondition(start, end).isSatisfiedBy("1.1.1".toVersion()))
     }
 
     @Test
@@ -625,7 +609,7 @@ class ConstraintTests {
                 Pair("<1", "<1.0.0"),
                 Pair("< 1", "<1.0.0"),
                 Pair("= 1", ">=1.0.0 <2.0.0-0"),
-                Pair("!= 1", "<1.0.0 || >=2.0.0-0"),
+                Pair("!= 1", ">=2.0.0-0 || <1.0.0"),
                 Pair(">=1", ">=1.0.0"),
                 Pair(">= 1", ">=1.0.0"),
                 Pair("<1.2", "<1.2.0"),
@@ -741,7 +725,7 @@ class ConstraintTests {
                 Pair("<v1", "<1.0.0"),
                 Pair("< v1", "<1.0.0"),
                 Pair("= v1", ">=1.0.0 <2.0.0-0"),
-                Pair("!= v1", "<1.0.0 || >=2.0.0-0"),
+                Pair("!= v1", ">=2.0.0-0 || <1.0.0"),
                 Pair(">=v1", ">=1.0.0"),
                 Pair(">= v1", ">=1.0.0"),
                 Pair("<v1.2", "<1.2.0"),
@@ -764,6 +748,60 @@ class ConstraintTests {
 
         data.forEach {
             assertEquals(it.second, it.first.toConstraint().toString())
+        }
+    }
+
+    @Test
+    fun testMavenParse() {
+        val data: List<Pair<String, String>> =
+            listOf(
+                Pair("1.0", ">=1.0.0"),
+                Pair("(,1.0]", "<=1.0.0"),
+                Pair("(,1.0)", "<1.0.0"),
+                Pair("(,1.2.3]", "<=1.2.3"),
+                Pair("(,1.2.3)", "<1.2.3"),
+                Pair("[1.0]", "=1.0.0"),
+                Pair("[1.0,)", ">=1.0.0"),
+                Pair("(1.0,)", ">1.0.0"),
+                Pair("[1.2.3,)", ">=1.2.3"),
+                Pair("(1.2.3,)", ">1.2.3"),
+                Pair("(1.0,2.0)", ">1.0.0 <2.0.0"),
+                Pair("(1.2.3,4.5.6)", ">1.2.3 <4.5.6"),
+                Pair("(1.2.3,4.5.6]", ">1.2.3 <=4.5.6"),
+                Pair("[1.2.3,4.5.6)", ">=1.2.3 <4.5.6"),
+                Pair("[1.2.3,4.5.6]", ">=1.2.3 <=4.5.6"),
+                Pair("[1.0,2.0]", ">=1.0.0 <=2.0.0"),
+                Pair("[1.0-a,2.0-b]", ">=1.0.0-a <=2.0.0-b"),
+                Pair("(,1.0],[1.2,)", "<=1.0.0 || >=1.2.0"),
+                Pair("(,1.1),(1.1,)", "<1.1.0 || >1.1.0"),
+            )
+
+        data.forEach {
+            assertEquals(it.second, it.first.toMavenConstraint().toString())
+        }
+    }
+
+    @Test
+    fun testMavenFormat() {
+        val data: List<Pair<String, String>> =
+            listOf(
+                Pair("1.2.3", "[1.2.3]"),
+                Pair("=1.2.3", "[1.2.3]"),
+                Pair(">=1.2.3", "[1.2.3,)"),
+                Pair(">1.2.3", "(1.2.3,)"),
+                Pair("<=1.2.3", "(,1.2.3]"),
+                Pair("<1.2.3", "(,1.2.3)"),
+                Pair("^1.2.3", "[1.2.3,2.0.0-0)"),
+                Pair("~1.2.3", "[1.2.3,1.3.0-0)"),
+                Pair("<1.0 || >=1.2.3", "(,1.0.0),[1.2.3,)"),
+                Pair("<=1.2.3 >1.0.0", "(1.0.0,1.2.3]"),
+                Pair("<=1.2.3 >1.0.0 =1.1.1", "[1.1.1]"),
+                Pair("<=1.2.3 >1.0.0 >1.1.1", "(1.1.1,1.2.3]"),
+                Pair("<=1.2.3 >1.0.0 ^1.1.3", "[1.1.3,1.2.3]"),
+            )
+
+        data.forEach {
+            assertEquals(it.second, it.first.toConstraint().toMavenFormat())
         }
     }
 }

@@ -152,7 +152,7 @@ val range = "1.0.0".toVersion().."1.1.0".toVersion()
 ```
 
 ## Constraints
-With constraints, it's possible to validate whether a version satisfies a set of rules or not.
+With constraints, it's possible to validate whether a version satisfies a set of rules.
 A constraint can be described as one or more conditions combined with logical `OR` and `AND` operators.
 
 ### Conditions
@@ -226,7 +226,7 @@ The following options are available to construct a [`Constraint`](https://z4kn4f
    ">=1.2.0".toConstraint()
    ```  
 
-Let's see how we can determine whether a version [`satisfies`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies.html) a constraint or not.
+Let's see how we can determine whether a version [`satisfies`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/satisfies.html) a constraint.
 ```kotlin
 val constraint = ">=1.2.0".toConstraint()
 val version = "1.2.1".toVersion()
@@ -259,6 +259,86 @@ constraint satisfiedByAny versions       // true
 ```
 > With [`satisfiedByAll`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-all.html) the constraint must be satisfied by each version within the collection. 
 > With [`satisfiedByAny`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/satisfied-by-any.html) it must be satisfied by at least one version to pass the validation.
+
+### Maven-style constraints
+
+The library also supports **Maven-compatible** constraint formatting and parsing.
+
+You can format an existing constraint into Maven-compatible range notation with [`toMavenFormat()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-maven-format.html):
+
+```kotlin
+"1.2.3".toConstraint().toMavenFormat()               // [1.2.3]
+"=1.2.3".toConstraint().toMavenFormat()              // [1.2.3]
+">=1.2.3".toConstraint().toMavenFormat()             // [1.2.3,)
+">1.2.3".toConstraint().toMavenFormat()              // (1.2.3,)
+"<=1.2.3".toConstraint().toMavenFormat()             // (,1.2.3]
+"<1.2.3".toConstraint().toMavenFormat()              // (,1.2.3)
+"^1.2.3".toConstraint().toMavenFormat()              // [1.2.3,2.0.0-0)
+"~1.2.3".toConstraint().toMavenFormat()              // [1.2.3,1.3.0-0)
+">=1.2.3 <2.0.0".toConstraint().toMavenFormat()      // [1.2.3,2.0.0)
+"<1.0 || >=1.2.3".toConstraint().toMavenFormat()     // (,1.0.0),[1.2.3,)
+```
+
+You can also parse Maven-style version ranges with [`toMavenConstraint()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-maven-constraint.html) or [`toMavenConstraintOrNull()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver.constraints/to-maven-constraint-or-null.html):
+
+```kotlin
+val constraint = "[1.2.3,2.0.0)".toMavenConstraint()
+```
+
+### Extendibility
+The constraint API is designed to be extensible, so you can adapt it to your own notation and output format without changing the core library.
+
+#### Custom condition parsing
+
+You can implement a custom `ConditionParser` when you want to accept a different constraint syntax during parsing.
+
+```kotlin
+class MyConditionParser : ConditionParser {
+    override val separator: String = "<or-separator>" 
+    override val regex: Regex = "<regex-to-match-syntax>".toRegex()
+
+    override fun parseConditionMatch(match: MatchResult): Condition {
+        // convert a matched token into a Condition
+        TODO("implement custom parsing")
+    }
+}
+```
+
+Then parse a constraint with your parser:
+
+```kotlin
+val constraint = Constraint.parseFormat("<constraint-string>", MyConditionParser())
+```
+
+For a complete example, see the [`MavenConditionParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L132).
+
+#### Custom constraint formatting
+You can implement a custom `ConstraintFormatter` when you want to control how constraints are rendered back to text.
+
+```kotlin
+class MyConstraintFormatter : ConstraintFormatter() { 
+    override val orSeparator: String = "<or-separator>"
+  
+    override fun formatConditions(conditions: List<Condition>): String {
+        return conditions.joinToString("<and-separator>") { condition ->
+            when (condition) {
+                is OperatorCondition -> "${condition.operator}${condition.version}"
+                is RangeCondition -> "${condition.start.version}..${condition.end.version}"
+                else -> ""
+            } 
+        }
+    }
+}
+```
+
+Then format a constraint with your formatter:
+
+```kotlin
+val constraint = ">=1.2.3 <2.0.0".toConstraint() 
+val formatted = constraint.format(MyConstraintFormatter())
+```
+
+For a complete example, see the [`MavenConstraintFormatter`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/Formatter.kt#L56).
 
 ## Increment
 `Version` objects can produce incremented versions of themselves with the [`nextMajor()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-major.html),

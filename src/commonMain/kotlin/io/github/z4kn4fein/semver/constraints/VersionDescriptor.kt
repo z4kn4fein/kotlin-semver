@@ -37,33 +37,31 @@ internal data class VersionDescriptor(
         patchString?.toIntOrNull()
             ?: throw ConstraintFormatException("Invalid PATCH number in: $this")
 
-    fun toComparator(operator: Op = Op.EQUAL): VersionComparator {
+    fun toCondition(operator: Op = Op.EQUAL): Condition {
         return when {
             isMajorWildcard ->
                 when (operator) {
                     Op.GREATER_THAN, Op.LESS_THAN, Op.NOT_EQUAL ->
-                        Condition(Op.LESS_THAN, Version.min.copy(preRelease = ""))
-                    else -> VersionComparator.greaterThanMin
+                        OperatorCondition(Op.LESS_THAN, Version.min.copy(preRelease = ""))
+                    else -> Condition.greaterThanMin
                 }
             isMinorWildcard -> {
                 val version = Version(major = major, preRelease = preRelease, buildMetadata = buildMetadata)
-                Range(
-                    start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
-                    operator,
+                RangeCondition(
+                    start = OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version),
+                    end = OperatorCondition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
                 )
             }
             isPatchWildcard -> {
                 val version =
                     Version(major = major, minor = minor, preRelease = preRelease, buildMetadata = buildMetadata)
-                Range(
-                    start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
-                    operator,
+                RangeCondition(
+                    start = OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version),
+                    end = OperatorCondition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
                 )
             }
             else ->
-                Condition(
+                OperatorCondition(
                     operator,
                     Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
                 )

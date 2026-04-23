@@ -32,3 +32,104 @@ jobs:
       - name: Run all tests
         run: ./gradlew allTests --stacktrace
         shell: bash
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: zulu
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Run format check
+        run: ./gradlew ktlintCheck --stacktrace
+        shell: bash
+
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: zulu
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Run code analysis
+        run: ./gradlew detekt --stacktrace
+        shell: bash
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: build/reports/detekt/detekt.sarif
+      - name: Upload analysis report
+        uses: actions/upload-artifact@v6
+        with:
+          name: analysis-report
+          path: build/reports/detekt
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: zulu
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Calculate coverage
+        run: ./gradlew koverXmlReport --stacktrace
+        shell: bash
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v6
+        with:
+          name: coverage-report
+          path: build/reports/kover
+
+  upload-reports:
+    needs: [ test, lint, analysis, coverage ]
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: zulu
+      - name: SonarCloud cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Konan
+        uses: ./.github/actions/cache-konan
+      - name: Cache Gradle
+        uses: ./.github/actions/cache-gradle
+      - name: Download coverage report
+        uses: actions/download-artifact@v7
+        with:
+          name: coverage-report
+      - name: Download analysis report
+        uses: actions/download-artifact@v7
+        with:
+          name: analysis-report
+      - name: Upload reports to SonarCloud
+        run: ./gradlew sonar --stacktrace
+        shell: bash
