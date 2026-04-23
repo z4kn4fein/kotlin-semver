@@ -8,7 +8,7 @@ import io.github.z4kn4fein.semver.Version
  * Implementations of this interface define specific rules that determine whether a version
  * meets the condition.
  */
-public interface Condition {
+public fun interface Condition {
     /**
      * Evaluates whether the specified [Version] satisfies the condition defined by the implementation.
      *

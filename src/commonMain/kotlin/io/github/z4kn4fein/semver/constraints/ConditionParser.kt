@@ -135,6 +135,7 @@ public class MavenConditionParser : PreProcessingConditionParser {
 
     override val regex: Regex = Patterns.MAVEN_RANGE_REGEX.toRegex()
 
+    @Suppress("MagicNumber")
     override fun parseConditionMatch(match: MatchResult): Condition {
         val lowerOperator = match.groups[1]?.value ?: ""
         val upperOperator = match.groups[13]?.value ?: ""
