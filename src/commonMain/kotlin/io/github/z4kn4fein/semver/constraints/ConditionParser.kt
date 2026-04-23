@@ -130,7 +130,7 @@ internal class HyphenConditionParser : ConditionParser {
  * @constructor Creates an instance of the [MavenConditionParser].
  */
 public class MavenConditionParser : PreProcessingConditionParser {
-    private val separatorPreprocessingBracketRegex = Regex("]\\s*,")
+    private val separatorPreprocessingBracketRegex = Regex("\\]\\s*,")
     private val separatorPreprocessingParenthesisRegex = Regex("\\)\\s*,")
 
     override val regex: Regex = Patterns.MAVEN_RANGE_REGEX.toRegex()
