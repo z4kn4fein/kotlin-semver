@@ -10,6 +10,7 @@ import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
 import io.github.z4kn4fein.semver.constraints.toMavenConstraint
+import io.github.z4kn4fein.semver.constraints.toMavenConstraintOrNull
 import io.github.z4kn4fein.semver.constraints.toMavenFormat
 import io.github.z4kn4fein.semver.constraints.toOperator
 import kotlin.test.Test
@@ -803,5 +804,12 @@ class ConstraintTests {
         data.forEach {
             assertEquals(it.second, it.first.toConstraint().toMavenFormat())
         }
+    }
+
+    @Test
+    fun testMavenInvalid() {
+        assertFailsWith<ConstraintFormatException> { ">=1.2.3".toMavenConstraint() }
+        assertNull(">=1.2.3".toMavenConstraintOrNull())
+        assertFailsWith<ConstraintFormatException> { ">=1.2.3 <1.0.0".toConstraint().toMavenFormat() }
     }
 }

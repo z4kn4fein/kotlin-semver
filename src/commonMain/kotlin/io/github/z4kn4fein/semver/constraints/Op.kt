@@ -71,15 +71,6 @@ public enum class Op(private val stringValue: String) {
      * @return true if the operator is an upper bound, false otherwise.
      */
     public fun isUpperBound(): Boolean = this == LESS_THAN || this == LESS_THAN_OR_EQUAL
-
-    /**
-     * Determines whether the current operator represents an equality comparison.
-     *
-     * An equality comparison operator is defined as either [EQUAL] or [NOT_EQUAL].
-     *
-     * @return true if the operator is [EQUAL] or [NOT_EQUAL], false otherwise.
-     */
-    public fun isEquality(): Boolean = this == EQUAL || this == NOT_EQUAL
 }
 
 internal fun String.toOperator(): Op =

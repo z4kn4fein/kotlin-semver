@@ -64,6 +64,11 @@ public class RangeCondition(
 /**
  * Represents a composite condition that evaluates whether at least one of two given conditions is satisfied.
  *
+ * It's only used for the internal construction of the [Constraint] instance.
+ * Whenever it's returned from the parser, the second operand is added to the next OR segment of the built [Constraint].
+ *
+ * It can be ignored in custom formatters.
+ *
  * @property operandA The first condition to evaluate.
  * @property operandB The second condition to evaluate.
  */
