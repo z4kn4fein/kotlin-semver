@@ -285,47 +285,46 @@ You can also parse Maven-style version ranges with [`toMavenConstraint()`](https
 val constraint = "[1.2.3,2.0.0)".toMavenConstraint()
 ```
 
-### Extendibility
-The constraint API is designed to be extensible, so you can adapt it to your own notation and output format without changing the core library.
+## Extendibility
+The constraint API is designed to be extensible, so you can adapt it to other constraint formats.
 
-#### Custom condition parsing
+### Custom constraint parsing
 
-You can implement a custom `ConditionParser` when you want to accept a different constraint syntax during parsing.
+You can implement a custom `ConditionParser` when you want to parse a constraint syntax that this library doesn't support by default.
 
 ```kotlin
-class MyConditionParser : ConditionParser {
-    override val separator: String = "<or-separator>" 
-    override val regex: Regex = "<regex-to-match-syntax>".toRegex()
+class MyParser : ConditionParser {
+  override val orSeparator: String = "<or-separator>"
+  override val regex: Regex = "<regex-to-match-a-condition>".toRegex()
 
-    override fun parseConditionMatch(match: MatchResult): Condition {
-        // convert a matched token into a Condition
-        TODO("implement custom parsing")
-    }
+  override fun parseCondition(match: MatchResult): Condition {
+    // convert a matched token into a Condition
+    TODO("implement custom parsing")
+  }
 }
 ```
 
 Then parse a constraint with your parser:
 
 ```kotlin
-val constraint = Constraint.parseFormat("<constraint-string>", MyConditionParser())
+val constraint = Constraint.parseFormat("<constraint-string>", MyParser())
 ```
 
-For a complete example, see the [`MavenConditionParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L132).
+For a complete example, see the [`MavenStyleParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L132).
 
-#### Custom constraint formatting
-You can implement a custom `ConstraintFormatter` when you want to control how constraints are rendered back to text.
+### Custom constraint formatting
+You can implement a custom `ConditionFormatter` when you want to format a constraint with a syntax that this library doesn't support by default.
+The library passes all the conditions to the formatter one by one and joins them with the formatter's `orSeparator`.
 
 ```kotlin
-class MyConstraintFormatter : ConstraintFormatter() { 
+class MyFormatter : ConditionFormatter() { 
     override val orSeparator: String = "<or-separator>"
   
-    override fun formatConditions(conditions: List<Condition>): String {
-        return conditions.joinToString("<and-separator>") { condition ->
-            when (condition) {
-                is OperatorCondition -> "${condition.operator}${condition.version}"
-                is RangeCondition -> "${condition.start.version}..${condition.end.version}"
-                else -> ""
-            } 
+    override fun formatCondition(condition: Condition): String {
+        when (condition) {
+            is OperatorCondition -> "${condition.operator}${condition.version}"
+            is RangeCondition -> "${condition.start.version}..${condition.end.version}"
+            else -> ""
         }
     }
 }
@@ -335,10 +334,10 @@ Then format a constraint with your formatter:
 
 ```kotlin
 val constraint = ">=1.2.3 <2.0.0".toConstraint() 
-val formatted = constraint.format(MyConstraintFormatter())
+val formatted = constraint.format(MyFormatter())
 ```
 
-For a complete example, see the [`MavenConstraintFormatter`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/Formatter.kt#L56).
+For a complete example, see the [`MavenStyleFormatter`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/Formatter.kt#L43).
 
 ## Increment
 `Version` objects can produce incremented versions of themselves with the [`nextMajor()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-major.html),

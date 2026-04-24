@@ -22,7 +22,7 @@ public interface ConditionParser {
     /**
      * The separator used to split the OR segments of a constraint expression.
      */
-    public val separator: String get() = "|"
+    public val orSeparator: String get() = "|"
 
     /**
      * Parses the given [MatchResult] into a corresponding [Condition] instance.
@@ -31,7 +31,7 @@ public interface ConditionParser {
      *              It is the result of applying the [regex] property of the parser.
      * @return a [Condition] instance derived from the parsed match.
      */
-    public fun parseConditionMatch(match: MatchResult): Condition
+    public fun parseCondition(match: MatchResult): Condition
 }
 
 /**
@@ -64,7 +64,7 @@ internal class OperatorConditionParser : ConditionParser {
         )
 
     @Suppress("MagicNumber")
-    override fun parseConditionMatch(match: MatchResult): Condition {
+    override fun parseCondition(match: MatchResult): Condition {
         val operator = match.groups[1]?.value ?: ""
         val major = match.groups[2]?.value ?: ""
         val minor = match.groups[3]?.value
@@ -88,7 +88,7 @@ internal class HyphenConditionParser : ConditionParser {
     override val regex: Regex = Patterns.HYPHEN_CONDITION_REGEX.toRegex()
 
     @Suppress("MagicNumber")
-    override fun parseConditionMatch(match: MatchResult): Condition {
+    override fun parseCondition(match: MatchResult): Condition {
         val startCondition =
             VersionDescriptor(
                 majorString = match.groups[1]?.value ?: "",
@@ -127,16 +127,16 @@ internal class HyphenConditionParser : ConditionParser {
  * - Parsing range constraints (e.g., "[1.0.0,2.0.0)")
  * - Parsing multiple constraints (e.g., "[1.0.0,2.0.0),[3.0.0]")
  *
- * @constructor Creates an instance of the [MavenConditionParser].
+ * @constructor Creates an instance of the [MavenStyleParser].
  */
-public class MavenConditionParser : PreProcessingConditionParser {
+public class MavenStyleParser : PreProcessingConditionParser {
     private val separatorPreprocessingBracketRegex = Regex("\\]\\s*,")
     private val separatorPreprocessingParenthesisRegex = Regex("\\)\\s*,")
 
     override val regex: Regex = Patterns.MAVEN_RANGE_REGEX.toRegex()
 
     @Suppress("MagicNumber")
-    override fun parseConditionMatch(match: MatchResult): Condition {
+    override fun parseCondition(match: MatchResult): Condition {
         val lowerOperator = match.groups[1]?.value ?: ""
         val upperOperator = match.groups[13]?.value ?: ""
         val lowerMajor = match.groups[2]?.value?.toIntOrNull()

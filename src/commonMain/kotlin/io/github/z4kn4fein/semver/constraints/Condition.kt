@@ -78,11 +78,12 @@ public class OrCondition(public val operandA: OperatorCondition, public val oper
 
 /**
  * Finds the min upper bound from a list of conditions.
- * Used to determine whether there is an intersection among multiple range conditions.
+ * Used upon reducing conditions by determining whether there is an intersection among them.
  *
- * @return The [OperatorCondition] with the smallest version that represents an upper bound.
+ * @return The [OperatorCondition] with the smallest version that represents an upper bound, or null when there's no
+ * condition in the list with an upper bound.
  */
-public fun List<Condition>.minUpperBound(): OperatorCondition =
+public fun List<Condition>.minUpperBound(): OperatorCondition? =
     this.mapNotNull {
         when (it) {
             is OperatorCondition ->
@@ -90,18 +91,24 @@ public fun List<Condition>.minUpperBound(): OperatorCondition =
                     it.operator.isUpperBound() -> it
                     else -> null
                 }
-            is RangeCondition -> it.end
+            is RangeCondition ->
+                when {
+                    it.start.operator.isUpperBound() -> it.start
+                    it.end.operator.isUpperBound() -> it.end
+                    else -> null
+                }
             else -> null
         }
-    }.minBy { it.version }
+    }.minByOrNull { it.version }
 
 /**
  * Determines the maximum lower bound among a list of conditions.
- * Used to determine whether there is an intersection among multiple range conditions.
+ * Used upon reducing conditions by determining whether there is an intersection among them.
  *
- * @return The [OperatorCondition] representing the maximum lower bound among the given conditions.
+ * @return The [OperatorCondition] with the largest version that represents a lower bound, or null when there's
+ * no condition in the list with a lower bound.
  */
-public fun List<Condition>.maxLowerBound(): OperatorCondition =
+public fun List<Condition>.maxLowerBound(): OperatorCondition? =
     this.mapNotNull {
         when (it) {
             is OperatorCondition ->
@@ -109,10 +116,15 @@ public fun List<Condition>.maxLowerBound(): OperatorCondition =
                     it.operator.isLowerBound() -> it
                     else -> null
                 }
-            is RangeCondition -> it.start
+            is RangeCondition ->
+                when {
+                    it.start.operator.isLowerBound() -> it.start
+                    it.end.operator.isLowerBound() -> it.end
+                    else -> null
+                }
             else -> null
         }
-    }.maxBy { it.version }
+    }.maxByOrNull { it.version }
 
 /**
  * Converts an equality or inequality condition into a corresponding range condition.
@@ -166,11 +178,34 @@ public fun Condition.rangeToEquality(): Condition =
                     when {
                         this.start.operator == Op.GREATER_THAN_OR_EQUAL &&
                             this.end.operator == Op.LESS_THAN_OR_EQUAL -> OperatorCondition(Op.EQUAL, this.start.version)
-                        this.start.operator == Op.LESS_THAN &&
-                            this.end.operator == Op.GREATER_THAN -> OperatorCondition(Op.NOT_EQUAL, this.start.version)
+                        (this.start.operator == Op.LESS_THAN && this.end.operator == Op.GREATER_THAN) ||
+                            (this.start.operator == Op.GREATER_THAN && this.end.operator == Op.LESS_THAN) ->
+                            OperatorCondition(Op.NOT_EQUAL, this.start.version)
                         else -> this
                     }
                 else -> this
             }
         else -> this
     }
+
+internal fun List<Condition>.reduce(): Condition {
+    if (this.size == 1) {
+        return this[0]
+    }
+
+    val transformed = this.map { it.equalityToRange() }
+    val maxLowerBound = transformed.maxLowerBound()
+    val minUpperBound = transformed.minUpperBound()
+
+    return when {
+        maxLowerBound != null && minUpperBound != null -> {
+            if (maxLowerBound.version > minUpperBound.version) {
+                throw ConstraintFormatException("Constraint produces an invalid range: ${maxLowerBound.version}..${minUpperBound.version}")
+            }
+            RangeCondition(maxLowerBound, minUpperBound).rangeToEquality()
+        }
+        maxLowerBound == null && minUpperBound != null -> minUpperBound
+        maxLowerBound != null && minUpperBound == null -> maxLowerBound
+        else -> throw ConstraintFormatException("Invalid constraint.")
+    }
+}

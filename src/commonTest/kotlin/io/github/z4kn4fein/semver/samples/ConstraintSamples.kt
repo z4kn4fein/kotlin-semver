@@ -2,9 +2,9 @@ package io.github.z4kn4fein.semver.samples
 
 import io.github.z4kn4fein.semver.constraints.Constraint
 import io.github.z4kn4fein.semver.constraints.ConstraintSerializer
-import io.github.z4kn4fein.semver.constraints.MavenConditionParser
-import io.github.z4kn4fein.semver.constraints.MavenConstraintFormatter
 import io.github.z4kn4fein.semver.constraints.MavenConstraintSerializer
+import io.github.z4kn4fein.semver.constraints.MavenStyleFormatter
+import io.github.z4kn4fein.semver.constraints.MavenStyleParser
 import io.github.z4kn4fein.semver.constraints.satisfiedBy
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
@@ -39,7 +39,7 @@ class ConstraintSamples {
     }
 
     fun parseFormat() {
-        print(Constraint.parseFormat("[1.2,)", MavenConditionParser()))
+        print(Constraint.parseFormat("[1.2,)", MavenStyleParser()))
     }
 
     fun format() {
@@ -56,7 +56,7 @@ class ConstraintSamples {
                 ">=v2.3",
             )
 
-        constraints.forEach { println("$it => ${it.toConstraint().format(MavenConstraintFormatter())}") }
+        constraints.forEach { println("$it => ${it.toConstraint().format(MavenStyleFormatter())}") }
     }
 
     fun toMavenFormat() {

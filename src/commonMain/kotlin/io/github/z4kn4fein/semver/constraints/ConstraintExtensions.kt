@@ -36,7 +36,7 @@ public infix fun Constraint.satisfiedByAny(versions: Iterable<Version>): Boolean
  *
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.toMavenFormat
  */
-public fun Constraint.toMavenFormat(): String = this.format(MavenConstraintFormatter())
+public fun Constraint.toMavenFormat(): String = this.format(MavenStyleFormatter())
 
 /**
  * Parses the string as a [Constraint] and returns the result or throws a [ConstraintFormatException]
@@ -67,7 +67,7 @@ public fun String.toConstraintOrNull(): Constraint? =
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.toMavenConstraint
  */
 @Throws(ConstraintFormatException::class)
-public fun String.toMavenConstraint(): Constraint = Constraint.parseFormat(this, MavenConditionParser())
+public fun String.toMavenConstraint(): Constraint = Constraint.parseFormat(this, MavenStyleParser())
 
 /**
  * Parses a maven range string as a [Constraint] and returns the result or null

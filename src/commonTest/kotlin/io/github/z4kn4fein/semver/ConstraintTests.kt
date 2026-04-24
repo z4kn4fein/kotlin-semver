@@ -30,6 +30,7 @@ class ConstraintTests {
         assertFailsWith<ConstraintFormatException> { ">0-alpha".toConstraint() }
         assertFailsWith<ConstraintFormatException> { ">=0.0-0".toConstraint() }
         assertFailsWith<ConstraintFormatException> { ">=1.2a".toConstraint() }
+        assertFailsWith<ConstraintFormatException> { ">=1.2.3 <1.0.0".toConstraint() }
     }
 
     @Test
@@ -41,6 +42,7 @@ class ConstraintTests {
         assertNull(">0-alpha".toConstraintOrNull())
         assertNull(">=0.0-0".toConstraintOrNull())
         assertNull(">=1.2a".toConstraintOrNull())
+        assertNull(">=1.2.3 <1.0.0".toConstraintOrNull())
     }
 
     @Test
@@ -616,7 +618,7 @@ class ConstraintTests {
                 Pair("<1.2", "<1.2.0"),
                 Pair("< 1.2", "<1.2.0"),
                 Pair("1", ">=1.0.0 <2.0.0-0"),
-                Pair("^ 1.2 ^ 1", ">=1.2.0 <2.0.0-0 >=1.0.0 <2.0.0-0"),
+                Pair("^ 1.2 ^ 1", ">=1.2.0 <2.0.0-0"),
                 Pair("1.2 - 3.4.5", ">=1.2.0 <=3.4.5"),
                 Pair("1.2.3 - 3.4", ">=1.2.3 <3.5.0-0"),
                 Pair("1.2 - 3.4", ">=1.2.0 <3.5.0-0"),
@@ -732,7 +734,7 @@ class ConstraintTests {
                 Pair("<v1.2", "<1.2.0"),
                 Pair("< v1.2", "<1.2.0"),
                 Pair("v1", ">=1.0.0 <2.0.0-0"),
-                Pair("^ v1.2 ^ v1", ">=1.2.0 <2.0.0-0 >=1.0.0 <2.0.0-0"),
+                Pair("^ v1.2 ^ v1", ">=1.2.0 <2.0.0-0"),
                 Pair("v1.2 - v3.4.5", ">=1.2.0 <=3.4.5"),
                 Pair("v1.2.3 - v3.4", ">=1.2.3 <3.5.0-0"),
                 Pair("v1.2 - v3.4", ">=1.2.0 <3.5.0-0"),
@@ -745,6 +747,11 @@ class ConstraintTests {
                 Pair("<=v*", ">=0.0.0"),
                 Pair("=v*", ">=0.0.0"),
                 Pair("^7|^8", ">=7.0.0 <8.0.0-0 || >=8.0.0 <9.0.0-0"),
+                Pair(">1.1.0 <2.0.0 >1.0.0", ">1.1.0 <2.0.0"),
+                Pair(">1.1.0 <1.1.0", "!=1.1.0"),
+                Pair("<1.1.0 >1.1.0", "!=1.1.0"),
+                Pair("<=1.1.0 >=1.1.0", "=1.1.0"),
+                Pair(">=1.1.0 <=1.1.0", "=1.1.0"),
             )
 
         data.forEach {
@@ -810,6 +817,5 @@ class ConstraintTests {
     fun testMavenInvalid() {
         assertFailsWith<ConstraintFormatException> { ">=1.2.3".toMavenConstraint() }
         assertNull(">=1.2.3".toMavenConstraintOrNull())
-        assertFailsWith<ConstraintFormatException> { ">=1.2.3 <1.0.0".toConstraint().toMavenFormat() }
     }
 }

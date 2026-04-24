@@ -11,21 +11,21 @@ import kotlinx.serialization.Serializable
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
  */
 @Serializable(with = ConstraintSerializer::class)
-public class Constraint private constructor(private val conditions: List<List<Condition>>) {
+public class Constraint private constructor(private val conditions: List<Condition>) {
     /**
      * Determines whether the [Constraint] is satisfied by a [Version].
      *
      * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.satisfiedBy
      */
-    public fun isSatisfiedBy(version: Version): Boolean =
-        conditions.any { comparator -> comparator.all { condition -> condition.isSatisfiedBy(version) } }
+    public fun isSatisfiedBy(version: Version): Boolean = conditions.any { condition -> condition.isSatisfiedBy(version) }
 
     /**
-     * Formats the [Constraint] using the provided [ConstraintFormatter].
+     * Formats the [Constraint] using the provided [ConditionFormatter].
      *
      * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.format
      */
-    public fun format(formatter: ConstraintFormatter): String = formatter.format(conditions)
+    public fun format(formatter: ConditionFormatter): String =
+        conditions.joinToString(formatter.orSeparator) { formatter.formatCondition(it) }
 
     override fun toString(): String = format(defaultFormatter)
 
@@ -39,7 +39,7 @@ public class Constraint private constructor(private val conditions: List<List<Co
 
     /** Companion object of [Constraint]. */
     public companion object {
-        private val default: Constraint = Constraint(listOf(listOf(Condition.greaterThanMin)))
+        private val default: Constraint = Constraint(listOf(Condition.greaterThanMin))
         private val conditionParsers =
             arrayOf(
                 HyphenConditionParser(),
@@ -47,9 +47,9 @@ public class Constraint private constructor(private val conditions: List<List<Co
             )
 
         /**
-         * Default [ConstraintFormatter] used for formatting [Constraint] instances.
+         * Default [ConditionFormatter] used for formatting [Constraint] instances.
          */
-        public val defaultFormatter: ConstraintFormatter = DefaultConstraintFormatter()
+        public val defaultFormatter: ConditionFormatter = DefaultFormatter()
 
         /**
          * Parses the [constraintString] as a [Constraint] and returns the result or throws
@@ -64,17 +64,17 @@ public class Constraint private constructor(private val conditions: List<List<Co
                 return default
             }
             val orParts = constraintString.split("|").filter { part -> part.isNotBlank() }
-            val orSegments = mutableListOf<List<Condition>>()
+            val orSegments = mutableListOf<Condition>()
             for (or in orParts) {
                 val andSegments = mutableListOf<Condition>()
                 var processed = or
                 conditionParsers.forEach { parser ->
                     processed =
                         processed.replace(parser.regex) { match ->
-                            when (val result = parser.parseConditionMatch(match)) {
+                            when (val result = parser.parseCondition(match)) {
                                 is OrCondition -> {
                                     andSegments.add(result.operandA)
-                                    orSegments.add(mutableListOf(result.operandB))
+                                    orSegments.add(result.operandB)
                                 }
                                 else -> andSegments.add(result)
                             }
@@ -83,12 +83,11 @@ public class Constraint private constructor(private val conditions: List<List<Co
                 }
                 when {
                     processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
-                    else -> orSegments.add(andSegments)
+                    else -> orSegments.add(andSegments.reduce())
                 }
             }
             return when {
-                orSegments.isEmpty() || orSegments.all { it.isEmpty() } ->
-                    throw ConstraintFormatException("Invalid constraint: $constraintString")
+                orSegments.isEmpty() -> throw ConstraintFormatException("Invalid constraint: $constraintString")
                 else -> Constraint(orSegments)
             }
         }
@@ -113,16 +112,16 @@ public class Constraint private constructor(private val conditions: List<List<Co
             if (parser is PreProcessingConditionParser) {
                 constraint = parser.preProcessConstraint(constraintString)
             }
-            val orParts = constraint.split(parser.separator).filter { part -> part.isNotBlank() }
-            val orSegments = mutableListOf<List<Condition>>()
+            val orParts = constraint.split(parser.orSeparator).filter { part -> part.isNotBlank() }
+            val orSegments = mutableListOf<Condition>()
             for (or in orParts) {
                 val andSegments = mutableListOf<Condition>()
                 val processed =
                     or.replace(parser.regex) { match ->
-                        when (val result = parser.parseConditionMatch(match)) {
+                        when (val result = parser.parseCondition(match)) {
                             is OrCondition -> {
                                 andSegments.add(result.operandA)
-                                orSegments.add(mutableListOf(result.operandB))
+                                orSegments.add(result.operandB)
                             }
                             else -> andSegments.add(result)
                         }
@@ -130,12 +129,11 @@ public class Constraint private constructor(private val conditions: List<List<Co
                     }
                 when {
                     processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
-                    else -> orSegments.add(andSegments)
+                    else -> orSegments.add(andSegments.reduce())
                 }
             }
             return when {
-                orSegments.isEmpty() || orSegments.all { it.isEmpty() } ->
-                    throw ConstraintFormatException("Invalid constraint: $constraintString")
+                orSegments.isEmpty() -> throw ConstraintFormatException("Invalid constraint: $constraintString")
                 else -> Constraint(orSegments)
             }
         }
