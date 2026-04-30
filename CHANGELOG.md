@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - 2026-04-24
+## [3.1.0] - 2026-05-01
 ### Added
 - Support for Maven-style constraint parsing and formatting.
 - Ability to extend constraint parsing and formatting with custom `ConditionParser` and `ConditionFormatter` implementations.
@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Constraint parsing now reduces the constructed conditions by removing redundancies. 
 For example `>1.0.0 <2.0.0 >1.1.0` is now reduced to `>1.1.0 <2.0.0`, or `>1.1.0 <1.1.0` is reduced to `!=1.1.0`.
 - Constraint parsing now validates the constructed conditions, 
-for example, parsing `>2.0.0 <1.0.0` now results in a `ConstraintFormatException` because it's impossible to satisfy.
+for example, parsing `>2.0.0 <1.0.0` or `>2.3.4 <2.3.7 !=2.3` now results in a `ConstraintFormatException` because they are impossible to satisfy.
 
 ## [3.0.0] - 2025-04-19
 ### Changed

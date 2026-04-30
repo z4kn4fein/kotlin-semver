@@ -57,25 +57,24 @@ public class MavenStyleFormatter : ConditionFormatter {
 
     private fun formatOperatorCondition(operatorCondition: OperatorCondition): String =
         when (operatorCondition.operator) {
-            Op.EQUAL -> "[${operatorCondition.version}]"
-            Op.NOT_EQUAL -> "(,${operatorCondition.version}),(${operatorCondition.version},)"
-            Op.LESS_THAN -> "(,${operatorCondition.version})"
-            Op.LESS_THAN_OR_EQUAL -> "(,${operatorCondition.version}]"
-            Op.GREATER_THAN -> "(${operatorCondition.version},)"
-            Op.GREATER_THAN_OR_EQUAL -> "[${operatorCondition.version},)"
-        }
-
-    private fun lowerBoundFromOp(op: Op): String =
-        when (op) {
-            Op.GREATER_THAN -> "("
-            Op.GREATER_THAN_OR_EQUAL -> "["
+            EqualityOp.EQUAL -> "[${operatorCondition.version}]"
+            EqualityOp.NOT_EQUAL -> "(,${operatorCondition.version}),(${operatorCondition.version},)"
+            UpperBoundOp.LESS_THAN -> "(,${operatorCondition.version})"
+            UpperBoundOp.LESS_THAN_OR_EQUAL -> "(,${operatorCondition.version}]"
+            LowerBoundOp.GREATER_THAN -> "(${operatorCondition.version},)"
+            LowerBoundOp.GREATER_THAN_OR_EQUAL -> "[${operatorCondition.version},)"
             else -> ""
         }
 
-    private fun upperBoundFromOp(op: Op): String =
+    private fun lowerBoundFromOp(op: LowerBoundOp): String =
         when (op) {
-            Op.LESS_THAN -> ")"
-            Op.LESS_THAN_OR_EQUAL -> "]"
-            else -> ""
+            LowerBoundOp.GREATER_THAN -> "("
+            LowerBoundOp.GREATER_THAN_OR_EQUAL -> "["
+        }
+
+    private fun upperBoundFromOp(op: UpperBoundOp): String =
+        when (op) {
+            UpperBoundOp.LESS_THAN -> ")"
+            UpperBoundOp.LESS_THAN_OR_EQUAL -> "]"
         }
 }

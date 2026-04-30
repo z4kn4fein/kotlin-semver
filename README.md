@@ -306,7 +306,7 @@ Then parse a constraint with your parser:
 val constraint = Constraint.parseFormat("<constraint-string>", MyConditionParser())
 ```
 
-For a complete example, see the [`MavenStyleParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L132).
+For a complete example, see the [`MavenStyleParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L131).
 
 ### Custom constraint formatting
 You can implement a custom `ConditionFormatter` when you want to format a constraint with a syntax that this library doesn't support by default.

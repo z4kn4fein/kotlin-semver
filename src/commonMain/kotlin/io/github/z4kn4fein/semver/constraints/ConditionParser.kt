@@ -78,7 +78,7 @@ internal class OperatorConditionParser : ConditionParser {
             }
         }
         throw ConstraintFormatException(
-            "Invalid constraint operator: " +
+            "Invalid operator: " +
                 "$operator in $descriptor",
         )
     }
@@ -96,7 +96,7 @@ internal class HyphenConditionParser : ConditionParser {
                 patchString = match.groups[3]?.value,
                 preRelease = match.groups[4]?.value,
                 buildMetadata = match.groups[5]?.value,
-            ).toCondition(Op.GREATER_THAN_OR_EQUAL)
+            ).toCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL)
         val endCondition =
             VersionDescriptor(
                 majorString = match.groups[6]?.value ?: "",
@@ -104,18 +104,17 @@ internal class HyphenConditionParser : ConditionParser {
                 patchString = match.groups[8]?.value,
                 preRelease = match.groups[9]?.value,
                 buildMetadata = match.groups[10]?.value,
-            ).toCondition(Op.LESS_THAN_OR_EQUAL)
-        val start =
-            when (startCondition) {
-                is RangeCondition -> startCondition.start
-                else -> startCondition as OperatorCondition
-            }
-        val end =
-            when (endCondition) {
-                is RangeCondition -> endCondition.end
-                else -> endCondition as OperatorCondition
-            }
-        return RangeCondition(start, end)
+            ).toCondition(UpperBoundOp.LESS_THAN_OR_EQUAL)
+
+        return when {
+            startCondition is RangeCondition && endCondition is RangeCondition -> RangeCondition(startCondition.start, endCondition.end)
+            startCondition is LowerBoundCondition && endCondition is UpperBoundCondition -> RangeCondition(startCondition, endCondition)
+            startCondition is LowerBoundCondition && endCondition is RangeCondition -> RangeCondition(startCondition, endCondition.end)
+            startCondition is RangeCondition && endCondition is UpperBoundCondition -> RangeCondition(startCondition.start, endCondition)
+            startCondition is LowerBoundCondition && endCondition is LowerBoundCondition -> startCondition
+            startCondition is RangeCondition && endCondition is LowerBoundCondition -> startCondition.start
+            else -> throw ConstraintFormatException("Invalid condition.")
+        }
     }
 }
 
@@ -155,12 +154,12 @@ public class MavenStyleParser : PreProcessingConditionParser {
             !hasComma -> {
                 val version =
                     when {
-                        lowerMajor == null -> throw ConstraintFormatException("Invalid constraint.")
+                        lowerMajor == null -> throw ConstraintFormatException("Invalid condition.")
                         else -> Version(lowerMajor, lowerMinor, lowerPatch, lowerPreRelease, lowerBuildMetadata)
                     }
                 when {
-                    lowerOperator == "[" -> OperatorCondition(Op.EQUAL, version)
-                    else -> OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version)
+                    lowerOperator == "[" -> EqualityCondition(EqualityOp.EQUAL, version)
+                    else -> LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version)
                 }
             }
             else -> {
@@ -178,12 +177,12 @@ public class MavenStyleParser : PreProcessingConditionParser {
                 when {
                     start != null && end != null ->
                         RangeCondition(
-                            OperatorCondition(opFromLowerOperator(lowerOperator), start),
-                            OperatorCondition(opFromUpperOperator(upperOperator), end),
+                            LowerBoundCondition(opFromLowerOperator(lowerOperator), start),
+                            UpperBoundCondition(opFromUpperOperator(upperOperator), end),
                         )
-                    start != null && end == null -> OperatorCondition(opFromLowerOperator(lowerOperator), start)
-                    start == null && end != null -> OperatorCondition(opFromUpperOperator(upperOperator), end)
-                    else -> throw ConstraintFormatException("Invalid constraint.")
+                    start != null && end == null -> LowerBoundCondition(opFromLowerOperator(lowerOperator), start)
+                    start == null && end != null -> UpperBoundCondition(opFromUpperOperator(upperOperator), end)
+                    else -> throw ConstraintFormatException("Invalid condition.")
                 }
             }
         }
@@ -194,17 +193,17 @@ public class MavenStyleParser : PreProcessingConditionParser {
             .replace(separatorPreprocessingBracketRegex, "]|")
     }
 
-    private fun opFromLowerOperator(operator: String): Op =
+    private fun opFromLowerOperator(operator: String): LowerBoundOp =
         when (operator) {
-            "[" -> Op.GREATER_THAN_OR_EQUAL
-            "(" -> Op.GREATER_THAN
+            "[" -> LowerBoundOp.GREATER_THAN_OR_EQUAL
+            "(" -> LowerBoundOp.GREATER_THAN
             else -> throw ConstraintFormatException("Invalid operator: $operator")
         }
 
-    private fun opFromUpperOperator(operator: String): Op =
+    private fun opFromUpperOperator(operator: String): UpperBoundOp =
         when (operator) {
-            "]" -> Op.LESS_THAN_OR_EQUAL
-            ")" -> Op.LESS_THAN
+            "]" -> UpperBoundOp.LESS_THAN_OR_EQUAL
+            ")" -> UpperBoundOp.LESS_THAN
             else -> throw ConstraintFormatException("Invalid operator: $operator")
         }
 }

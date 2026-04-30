@@ -71,19 +71,13 @@ public class Constraint private constructor(private val conditions: List<Conditi
                 conditionParsers.forEach { parser ->
                     processed =
                         processed.replace(parser.regex) { match ->
-                            when (val result = parser.parseCondition(match)) {
-                                is OrCondition -> {
-                                    andSegments.add(result.operandA)
-                                    orSegments.add(result.operandB)
-                                }
-                                else -> andSegments.add(result)
-                            }
+                            andSegments.add(parser.parseCondition(match))
                             ""
                         }
                 }
                 when {
                     processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
-                    else -> orSegments.add(andSegments.reduce())
+                    else -> orSegments.addAll(andSegments.reduce().map { it.rangeToEquality() })
                 }
             }
             return when {
@@ -118,18 +112,12 @@ public class Constraint private constructor(private val conditions: List<Conditi
                 val andSegments = mutableListOf<Condition>()
                 val processed =
                     or.replace(parser.regex) { match ->
-                        when (val result = parser.parseCondition(match)) {
-                            is OrCondition -> {
-                                andSegments.add(result.operandA)
-                                orSegments.add(result.operandB)
-                            }
-                            else -> andSegments.add(result)
-                        }
+                        andSegments.add(parser.parseCondition(match))
                         ""
                     }
                 when {
                     processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
-                    else -> orSegments.add(andSegments.reduce())
+                    else -> orSegments.addAll(andSegments.reduce().map { it.rangeToEquality() })
                 }
             }
             return when {

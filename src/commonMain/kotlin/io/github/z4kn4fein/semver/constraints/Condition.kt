@@ -8,7 +8,7 @@ import io.github.z4kn4fein.semver.Version
  * Implementations of this interface define specific rules that determine whether a version
  * meets the condition.
  */
-public fun interface Condition {
+public interface Condition {
     /**
      * Evaluates whether the specified [Version] satisfies the condition defined by the implementation.
      *
@@ -24,188 +24,322 @@ public fun interface Condition {
         /**
          * A predefined condition that checks if a given [Version] is greater than or equal to the minimum version.
          */
-        public val greaterThanMin: OperatorCondition = OperatorCondition(Op.GREATER_THAN_OR_EQUAL, Version.min)
+        public val greaterThanMin: LowerBoundCondition = LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, Version.min)
     }
 }
 
 /**
- * Represents a condition that applies an operator to compare a specified version against another version.
+ * Represents a condition that compares a specific semantic version against a constraint
+ * defined by an operator and a target version.
  *
- * @property operator The operator used for comparison, such as [Op.EQUAL], [Op.NOT_EQUAL], [Op.LESS_THAN], etc.
- * @property version The version to compare against using the specified operator.
+ * @property operator The comparison operator used to evaluate the condition.
+ * @property version The target semantic version to be compared using the operator.
  */
-public class OperatorCondition(public val operator: Op, public val version: Version) : Condition {
-    override fun isSatisfiedBy(version: Version): Boolean {
-        return when (operator) {
-            Op.EQUAL -> version == this.version
-            Op.NOT_EQUAL -> version != this.version
-            Op.LESS_THAN -> version < this.version
-            Op.LESS_THAN_OR_EQUAL -> version <= this.version
-            Op.GREATER_THAN -> version > this.version
-            Op.GREATER_THAN_OR_EQUAL -> version >= this.version
+public interface OperatorCondition : Condition {
+    /**
+     * Returns the comparison operator used to evaluate the condition.
+     */
+    public val operator: Operator
+
+    /**
+     * Returns the target semantic version to be compared using the operator.
+     */
+    public val version: Version
+}
+
+/**
+ * Represents a condition with a defined boundary for semantic version constraints.
+ * This interface extends the behavior of [OperatorCondition] by adding comparability.
+ */
+public interface BoundCondition : OperatorCondition, Comparable<BoundCondition>
+
+/**
+ * Represents an entity that can be negated to form its logical opposite.
+ *
+ * Classes implementing this interface provide the ability to transform a condition
+ * into its negated equivalent.
+ *
+ * @param T The specific type of condition that this interface operates on.
+ */
+public interface Negatable<T : Condition> {
+    /**
+     * Returns a new condition that represents the negation of the current condition.
+     */
+    public fun negate(): T
+}
+
+/**
+ * Represents a condition that checks for equality or inequality of a version
+ * using the specified equality operator.
+ *
+ * @constructor Creates an instance of [EqualityCondition] with the given operator and version.
+ * @property operator The equality operator to be used for comparison.
+ * @property version The version to be compared against.
+ */
+public class EqualityCondition(
+    public override val operator: EqualityOp,
+    public override val version: Version,
+) : OperatorCondition, Negatable<EqualityCondition> {
+    override fun isSatisfiedBy(version: Version): Boolean =
+        when (operator) {
+            EqualityOp.EQUAL -> version == this.version
+            EqualityOp.NOT_EQUAL -> version != this.version
         }
-    }
+
+    override fun negate(): EqualityCondition =
+        when (operator) {
+            EqualityOp.EQUAL -> EqualityCondition(EqualityOp.NOT_EQUAL, version)
+            EqualityOp.NOT_EQUAL -> EqualityCondition(EqualityOp.EQUAL, version)
+        }
+}
+
+/**
+ * Represents a condition that checks if a version is greater than or equal to a specified version.
+ *
+ * @constructor Creates an instance of [LowerBoundCondition] with the given operator and version.
+ * @property operator The lower-bound operator to be used for comparison.
+ * @property version The version to be compared against.
+ */
+public class LowerBoundCondition(
+    public override val operator: LowerBoundOp,
+    public override val version: Version,
+) : BoundCondition, Negatable<UpperBoundCondition> {
+    override fun isSatisfiedBy(version: Version): Boolean =
+        when (operator) {
+            LowerBoundOp.GREATER_THAN -> version > this.version
+            LowerBoundOp.GREATER_THAN_OR_EQUAL -> version >= this.version
+        }
+
+    override fun negate(): UpperBoundCondition =
+        when (operator) {
+            LowerBoundOp.GREATER_THAN -> UpperBoundCondition(UpperBoundOp.LESS_THAN_OR_EQUAL, version)
+            LowerBoundOp.GREATER_THAN_OR_EQUAL -> UpperBoundCondition(UpperBoundOp.LESS_THAN, version)
+        }
+
+    override fun compareTo(other: BoundCondition): Int =
+        when {
+            version == other.version ->
+                when (other) {
+                    is UpperBoundCondition -> 1
+                    is LowerBoundCondition ->
+                        when {
+                            operator == LowerBoundOp.GREATER_THAN && other.operator == LowerBoundOp.GREATER_THAN_OR_EQUAL -> 1
+                            operator == LowerBoundOp.GREATER_THAN_OR_EQUAL && other.operator == LowerBoundOp.GREATER_THAN -> -1
+                            else -> 0
+                        }
+                    else -> 0
+                }
+            else -> version.compareTo(other.version)
+        }
+}
+
+/**
+ * Represents a condition that checks if a version is less than or equal to a specified version.
+ *
+ * @constructor Creates an instance of [UpperBoundCondition] with the given operator and version.
+ * @property operator The upper-bound operator to be used for comparison.
+ * @property version The version to be compared against.
+ */
+public class UpperBoundCondition(
+    public override val operator: UpperBoundOp,
+    public override val version: Version,
+) : BoundCondition, Negatable<LowerBoundCondition> {
+    override fun isSatisfiedBy(version: Version): Boolean =
+        when (operator) {
+            UpperBoundOp.LESS_THAN -> version < this.version
+            UpperBoundOp.LESS_THAN_OR_EQUAL -> version <= this.version
+        }
+
+    override fun negate(): LowerBoundCondition =
+        when (operator) {
+            UpperBoundOp.LESS_THAN -> LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version)
+            UpperBoundOp.LESS_THAN_OR_EQUAL -> LowerBoundCondition(LowerBoundOp.GREATER_THAN, version)
+        }
+
+    override fun compareTo(other: BoundCondition): Int =
+        when {
+            version == other.version ->
+                when (other) {
+                    is LowerBoundCondition -> -1
+                    is UpperBoundCondition ->
+                        when {
+                            operator == UpperBoundOp.LESS_THAN && other.operator == UpperBoundOp.LESS_THAN_OR_EQUAL -> -1
+                            operator == UpperBoundOp.LESS_THAN_OR_EQUAL && other.operator == UpperBoundOp.LESS_THAN -> 1
+                            else -> 0
+                        }
+                    else -> 0
+                }
+            else -> version.compareTo(other.version)
+        }
 }
 
 /**
  * Represents a composite condition that evaluates whether a [Version] falls within a specific range
- * defined by two [OperatorCondition] instances: a start condition and an end condition.
+ * defined by a [LowerBoundCondition] and an [UpperBoundCondition].
  *
  * @property start The condition representing the lower bound of the range.
  * @property end The condition representing the upper bound of the range.
  */
 public class RangeCondition(
-    public val start: OperatorCondition,
-    public val end: OperatorCondition,
+    public val start: LowerBoundCondition,
+    public val end: UpperBoundCondition,
 ) : Condition {
     override fun isSatisfiedBy(version: Version): Boolean = start.isSatisfiedBy(version) && end.isSatisfiedBy(version)
 }
 
 /**
- * Represents a composite condition that evaluates whether at least one of two given conditions is satisfied.
+ * Represents a non-intersecting range condition where bounds are pointing in opposite directions.
  *
- * It's only used for the internal construction of the [Constraint] instance.
- * Whenever it's returned from the parser, the second operand is added to the next OR segment of the built [Constraint].
- *
- * It can be ignored in custom formatters.
- *
- * @property operandA The first condition to evaluate.
- * @property operandB The second condition to evaluate.
+ * @constructor Creates an instance of [NonIntersectingRangeCondition] with the specified lower and upper bounds.
+ * @property lower The lower-bound condition to be evaluated.
+ * @property upper The upper-bound condition to be evaluated.
  */
-public class OrCondition(public val operandA: OperatorCondition, public val operandB: OperatorCondition) : Condition {
-    override fun isSatisfiedBy(version: Version): Boolean = operandA.isSatisfiedBy(version) || operandB.isSatisfiedBy(version)
+public class NonIntersectingRangeCondition(public val lower: LowerBoundCondition, public val upper: UpperBoundCondition) : Condition {
+    override fun isSatisfiedBy(version: Version): Boolean = lower.isSatisfiedBy(version) || upper.isSatisfiedBy(version)
 }
 
-/**
- * Finds the min upper bound from a list of conditions.
- * Used upon reducing conditions by determining whether there is an intersection among them.
- *
- * @return The [OperatorCondition] with the smallest version that represents an upper bound, or null when there's no
- * condition in the list with an upper bound.
- */
-public fun List<Condition>.minUpperBound(): OperatorCondition? =
-    this.mapNotNull {
-        when (it) {
-            is OperatorCondition ->
-                when {
-                    it.operator.isUpperBound() -> it
-                    else -> null
-                }
-            is RangeCondition ->
-                when {
-                    it.start.operator.isUpperBound() -> it.start
-                    it.end.operator.isUpperBound() -> it.end
-                    else -> null
-                }
-            else -> null
+internal fun List<Condition>.reduce(): List<Condition> {
+    if (this.size == 1) {
+        val condition = this[0]
+        return when {
+            condition is NonIntersectingRangeCondition && condition.lower.version != condition.upper.version ->
+                mutableListOf(condition.lower, condition.upper)
+            else -> mutableListOf(condition)
         }
-    }.minByOrNull { it.version }
-
-/**
- * Determines the maximum lower bound among a list of conditions.
- * Used upon reducing conditions by determining whether there is an intersection among them.
- *
- * @return The [OperatorCondition] with the largest version that represents a lower bound, or null when there's
- * no condition in the list with a lower bound.
- */
-public fun List<Condition>.maxLowerBound(): OperatorCondition? =
-    this.mapNotNull {
-        when (it) {
-            is OperatorCondition ->
-                when {
-                    it.operator.isLowerBound() -> it
-                    else -> null
-                }
-            is RangeCondition ->
-                when {
-                    it.start.operator.isLowerBound() -> it.start
-                    it.end.operator.isLowerBound() -> it.end
-                    else -> null
-                }
-            else -> null
-        }
-    }.maxByOrNull { it.version }
-
-/**
- * Converts an equality or inequality condition into a corresponding range condition.
- *
- * This method transforms an [OperatorCondition] with an equality operator ([Op.EQUAL] or [Op.NOT_EQUAL])
- * into a [RangeCondition] that expresses the equivalent range using logical bounds.
- * If the condition is already a range or does not use an equality-related operator,
- * it is returned unchanged.
- *
- * @return A modified [Condition] that represents a range for equality-based operators,
- *         or the original condition if no transformation is needed.
- */
-public fun Condition.equalityToRange(): Condition =
-    when (this) {
-        is OperatorCondition ->
-            when (this.operator) {
-                Op.EQUAL ->
-                    RangeCondition(
-                        OperatorCondition(Op.GREATER_THAN_OR_EQUAL, this.version),
-                        OperatorCondition(Op.LESS_THAN_OR_EQUAL, this.version),
-                    )
-                Op.NOT_EQUAL ->
-                    RangeCondition(
-                        OperatorCondition(Op.LESS_THAN, this.version),
-                        OperatorCondition(Op.GREATER_THAN, this.version),
-                    )
-                else -> this
-            }
-        else -> this
     }
 
-/**
- * Transforms a [RangeCondition] into an equivalent [OperatorCondition] if the range can be expressed
- * as a single equality or inequality condition.
- *
- * Specifically:
- * - Converts a range where the start operator is [Op.GREATER_THAN_OR_EQUAL] and the end operator is [Op.LESS_THAN_OR_EQUAL]
- *   for the same version into an [Op.EQUAL] condition.
- * - Converts a range where the start operator is [Op.LESS_THAN] and the end operator is [Op.GREATER_THAN]
- *   for the same version into a [Op.NOT_EQUAL] condition.
- *
- * If the condition does not match these cases, the original condition is returned unchanged.
- *
- * @return A simplified [OperatorCondition] if the range can be converted into equality condition, or the original [Condition] if no such simplification is possible.
- */
-public fun Condition.rangeToEquality(): Condition =
+    val nonIntersectingRanges = this.filterIsInstance<NonIntersectingRangeCondition>()
+    return when {
+        nonIntersectingRanges.isNotEmpty() -> {
+            val reduced = this.reduceConditions()
+            val bounds = reduced.toBounds()
+            nonIntersectingRanges.forEach {
+                when (reduced) {
+                    is LowerBoundCondition -> {
+                        if (it.lower > reduced) bounds.add(it.lower)
+                        if (it.upper > reduced) bounds.add(it.upper)
+                    }
+                    is UpperBoundCondition -> {
+                        if (it.lower < reduced) bounds.add(it.lower)
+                        if (it.upper < reduced) bounds.add(it.upper)
+                    }
+                    is RangeCondition -> {
+                        if (reduced.start < it.lower && reduced.end > it.lower) bounds.add(it.lower)
+                        if (reduced.start < it.upper && reduced.end > it.upper) bounds.add(it.upper)
+                        if (reduced.start > it.upper && reduced.end < it.lower) {
+                            throw ConstraintFormatException(
+                                "Conflicting range conditions: " +
+                                    "(${reduced.start.operator}${reduced.start.version} " +
+                                    "${reduced.end.operator}${reduced.end.version}) && " +
+                                    "(${it.lower.operator}${it.lower.version} || ${it.upper.operator}${it.upper.version})",
+                            )
+                        }
+                    }
+                }
+            }
+
+            when {
+                bounds.size == 1 -> bounds
+                else -> {
+                    val orConditions = mutableListOf<Condition>()
+                    var currentLowerBound: LowerBoundCondition? = null
+                    var minUpperBound: UpperBoundCondition? = null
+                    bounds.sorted().forEach {
+                        when {
+                            it is LowerBoundCondition -> currentLowerBound = it
+                            else ->
+                                when {
+                                    currentLowerBound != null -> {
+                                        orConditions.add(RangeCondition(currentLowerBound, it as UpperBoundCondition))
+                                        currentLowerBound = null
+                                        minUpperBound = null
+                                    }
+                                    minUpperBound == null -> minUpperBound = it as UpperBoundCondition
+                                }
+                        }
+                    }
+                    when {
+                        currentLowerBound != null -> orConditions.add(currentLowerBound)
+                        minUpperBound != null -> orConditions.add(minUpperBound)
+                    }
+                    orConditions
+                }
+            }
+        }
+        else -> mutableListOf(this.reduceConditions())
+    }
+}
+
+internal fun Condition.toBounds(): MutableList<BoundCondition> {
+    val bounds = mutableListOf<BoundCondition>()
+    when (this) {
+        is RangeCondition -> {
+            bounds.add(this.start)
+            bounds.add(this.end)
+        }
+        is BoundCondition -> bounds.add(this)
+    }
+    return bounds
+}
+
+internal fun Condition.rangeToEquality(): Condition =
     when (this) {
         is RangeCondition ->
             when {
-                this.start.version == this.end.version ->
-                    when {
-                        this.start.operator == Op.GREATER_THAN_OR_EQUAL &&
-                            this.end.operator == Op.LESS_THAN_OR_EQUAL -> OperatorCondition(Op.EQUAL, this.start.version)
-                        (this.start.operator == Op.LESS_THAN && this.end.operator == Op.GREATER_THAN) ||
-                            (this.start.operator == Op.GREATER_THAN && this.end.operator == Op.LESS_THAN) ->
-                            OperatorCondition(Op.NOT_EQUAL, this.start.version)
-                        else -> this
-                    }
+                this.start.version == this.end.version && this.start.operator == LowerBoundOp.GREATER_THAN_OR_EQUAL &&
+                    this.end.operator == UpperBoundOp.LESS_THAN_OR_EQUAL -> EqualityCondition(EqualityOp.EQUAL, this.start.version)
+                this.start.version == this.end.version && this.start.operator == LowerBoundOp.GREATER_THAN &&
+                    this.end.operator == UpperBoundOp.LESS_THAN -> EqualityCondition(EqualityOp.NOT_EQUAL, this.start.version)
+                else -> this
+            }
+        is NonIntersectingRangeCondition ->
+            when {
+                this.lower.version == this.upper.version && this.lower.operator == LowerBoundOp.GREATER_THAN &&
+                    this.upper.operator == UpperBoundOp.LESS_THAN -> EqualityCondition(EqualityOp.NOT_EQUAL, this.lower.version)
                 else -> this
             }
         else -> this
     }
 
-internal fun List<Condition>.reduce(): Condition {
+internal fun List<Condition>.reduceConditions(): Condition {
     if (this.size == 1) {
         return this[0]
     }
 
-    val transformed = this.map { it.equalityToRange() }
-    val maxLowerBound = transformed.maxLowerBound()
-    val minUpperBound = transformed.minUpperBound()
+    val maxLowerBound = this.maxLowerBoundWithoutNonIntersecting()
+    val minUpperBound = this.minUpperBoundWithoutNonIntersecting()
 
     return when {
         maxLowerBound != null && minUpperBound != null -> {
             if (maxLowerBound.version > minUpperBound.version) {
-                throw ConstraintFormatException("Constraint produces an invalid range: ${maxLowerBound.version}..${minUpperBound.version}")
+                throw ConstraintFormatException(
+                    "Condition produces an invalid range: " +
+                        "${maxLowerBound.operator}${maxLowerBound.version} ${minUpperBound.operator}${minUpperBound.version}",
+                )
             }
-            RangeCondition(maxLowerBound, minUpperBound).rangeToEquality()
+            RangeCondition(maxLowerBound, minUpperBound)
         }
+
         maxLowerBound == null && minUpperBound != null -> minUpperBound
         maxLowerBound != null && minUpperBound == null -> maxLowerBound
-        else -> throw ConstraintFormatException("Invalid constraint.")
+        else -> throw ConstraintFormatException("Invalid condition.")
     }
 }
+
+internal fun List<Condition>.minUpperBoundWithoutNonIntersecting(): UpperBoundCondition? =
+    this.mapNotNull {
+        when (it) {
+            is UpperBoundCondition -> it
+            is RangeCondition -> it.end
+            else -> null
+        }
+    }.minOrNull()
+
+internal fun List<Condition>.maxLowerBoundWithoutNonIntersecting(): LowerBoundCondition? =
+    this.mapNotNull {
+        when (it) {
+            is LowerBoundCondition -> it
+            is RangeCondition -> it.start
+            else -> null
+        }
+    }.maxOrNull()

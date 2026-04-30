@@ -1,9 +1,13 @@
 package io.github.z4kn4fein.semver
 
 import io.github.z4kn4fein.semver.constraints.ConstraintFormatException
-import io.github.z4kn4fein.semver.constraints.Op
-import io.github.z4kn4fein.semver.constraints.OperatorCondition
+import io.github.z4kn4fein.semver.constraints.EqualityCondition
+import io.github.z4kn4fein.semver.constraints.EqualityOp
+import io.github.z4kn4fein.semver.constraints.LowerBoundCondition
+import io.github.z4kn4fein.semver.constraints.LowerBoundOp
 import io.github.z4kn4fein.semver.constraints.RangeCondition
+import io.github.z4kn4fein.semver.constraints.UpperBoundCondition
+import io.github.z4kn4fein.semver.constraints.UpperBoundOp
 import io.github.z4kn4fein.semver.constraints.VersionDescriptor
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
@@ -31,6 +35,7 @@ class ConstraintTests {
         assertFailsWith<ConstraintFormatException> { ">=0.0-0".toConstraint() }
         assertFailsWith<ConstraintFormatException> { ">=1.2a".toConstraint() }
         assertFailsWith<ConstraintFormatException> { ">=1.2.3 <1.0.0".toConstraint() }
+        assertFailsWith<ConstraintFormatException> { "<4.5.7 >4.5.6 <4.5.8 !=4.5".toConstraint() }
     }
 
     @Test
@@ -77,32 +82,32 @@ class ConstraintTests {
 
     @Test
     fun testToOperator() {
-        assertEquals(Op.EQUAL, "=".toOperator())
-        assertEquals(Op.NOT_EQUAL, "!=".toOperator())
-        assertEquals(Op.GREATER_THAN, ">".toOperator())
-        assertEquals(Op.LESS_THAN, "<".toOperator())
-        assertEquals(Op.GREATER_THAN_OR_EQUAL, ">=".toOperator())
-        assertEquals(Op.GREATER_THAN_OR_EQUAL, "=>".toOperator())
-        assertEquals(Op.LESS_THAN_OR_EQUAL, "<=".toOperator())
-        assertEquals(Op.LESS_THAN_OR_EQUAL, "=<".toOperator())
-        assertEquals(Op.EQUAL, "non-existing".toOperator())
+        assertEquals(EqualityOp.EQUAL, "=".toOperator())
+        assertEquals(EqualityOp.NOT_EQUAL, "!=".toOperator())
+        assertEquals(LowerBoundOp.GREATER_THAN, ">".toOperator())
+        assertEquals(UpperBoundOp.LESS_THAN, "<".toOperator())
+        assertEquals(LowerBoundOp.GREATER_THAN_OR_EQUAL, ">=".toOperator())
+        assertEquals(LowerBoundOp.GREATER_THAN_OR_EQUAL, "=>".toOperator())
+        assertEquals(UpperBoundOp.LESS_THAN_OR_EQUAL, "<=".toOperator())
+        assertEquals(UpperBoundOp.LESS_THAN_OR_EQUAL, "=<".toOperator())
+        assertFailsWith<ConstraintFormatException> { "non-existing".toOperator() }
     }
 
     @Test
     fun testCondition() {
         val version = "1.0.0".toVersion()
-        assertTrue(OperatorCondition(Op.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
-        assertTrue(OperatorCondition(Op.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()))
-        assertTrue(OperatorCondition(Op.LESS_THAN, version).isSatisfiedBy("0.1.0".toVersion()))
-        assertTrue(OperatorCondition(Op.LESS_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
-        assertTrue(OperatorCondition(Op.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()))
-        assertTrue(OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(EqualityCondition(EqualityOp.EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(EqualityCondition(EqualityOp.NOT_EQUAL, version).isSatisfiedBy("1.2.0".toVersion()))
+        assertTrue(UpperBoundCondition(UpperBoundOp.LESS_THAN, version).isSatisfiedBy("0.1.0".toVersion()))
+        assertTrue(UpperBoundCondition(UpperBoundOp.LESS_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
+        assertTrue(LowerBoundCondition(LowerBoundOp.GREATER_THAN, version).isSatisfiedBy("1.0.1".toVersion()))
+        assertTrue(LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version).isSatisfiedBy("1.0.0".toVersion()))
     }
 
     @Test
     fun testRange() {
-        val start = OperatorCondition(Op.GREATER_THAN, "1.0.0".toVersion())
-        val end = OperatorCondition(Op.LESS_THAN, "1.1.0".toVersion())
+        val start = LowerBoundCondition(LowerBoundOp.GREATER_THAN, "1.0.0".toVersion())
+        val end = UpperBoundCondition(UpperBoundOp.LESS_THAN, "1.1.0".toVersion())
         assertTrue(RangeCondition(start, end).isSatisfiedBy("1.0.1".toVersion()))
         assertFalse(RangeCondition(start, end).isSatisfiedBy("1.1.1".toVersion()))
     }
@@ -752,6 +757,13 @@ class ConstraintTests {
                 Pair("<1.1.0 >1.1.0", "!=1.1.0"),
                 Pair("<=1.1.0 >=1.1.0", "=1.1.0"),
                 Pair(">=1.1.0 <=1.1.0", "=1.1.0"),
+                Pair(">=1.1.0 <2.0.0 !=1.1.1", ">=1.1.0 <1.1.1 || >1.1.1 <2.0.0"),
+                Pair(">=1.1.0 <2.0.0 !=1.1.1 !=1.1.5 !=1.1.6", ">=1.1.0 <1.1.1 || >1.1.1 <1.1.5 || >1.1.5 <1.1.6 || >1.1.6 <2.0.0"),
+                Pair(">=1.1.0 <4.0.0 !=2.1 !=2.1.5 !=2.3.0", ">=1.1.0 <2.1.0 || >=2.2.0-0 <2.3.0 || >2.3.0 <4.0.0"),
+                Pair("<4.5.6 !=4.5", "<4.5.0"),
+                Pair(">4.5.6 !=4.5", ">=4.6.0-0"),
+                Pair("<=1.2.3 !=1.2.3", "<1.2.3"),
+                Pair(">=1.2.3 !=1.2.3", ">1.2.3"),
             )
 
         data.forEach {

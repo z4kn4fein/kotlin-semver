@@ -25,16 +25,31 @@ internal class OperatorConditionBuilder : ConditionBuilder {
         return when (val condition = versionDescriptor.toCondition(operator)) {
             is RangeCondition ->
                 when (operator) {
-                    Op.EQUAL -> condition
-                    Op.NOT_EQUAL ->
-                        OrCondition(
-                            OperatorCondition(condition.start.operator.negate(), condition.start.version),
-                            OperatorCondition(condition.end.operator.negate(), condition.end.version),
+                    EqualityOp.NOT_EQUAL ->
+                        NonIntersectingRangeCondition(
+                            condition.end.negate(),
+                            condition.start.negate(),
                         )
-                    Op.LESS_THAN -> OperatorCondition(condition.start.operator.negate(), condition.start.version)
-                    Op.LESS_THAN_OR_EQUAL -> condition.end
-                    Op.GREATER_THAN -> OperatorCondition(condition.end.operator.negate(), condition.end.version)
-                    Op.GREATER_THAN_OR_EQUAL -> condition.start
+                    UpperBoundOp.LESS_THAN -> condition.start.negate()
+                    UpperBoundOp.LESS_THAN_OR_EQUAL -> condition.end
+                    LowerBoundOp.GREATER_THAN -> condition.end.negate()
+                    LowerBoundOp.GREATER_THAN_OR_EQUAL -> condition.start
+                    else -> condition
+                }
+            is EqualityCondition ->
+                when (operator) {
+                    EqualityOp.NOT_EQUAL ->
+                        NonIntersectingRangeCondition(
+                            LowerBoundCondition(LowerBoundOp.GREATER_THAN, condition.version),
+                            UpperBoundCondition(UpperBoundOp.LESS_THAN, condition.version),
+                        )
+
+                    EqualityOp.EQUAL ->
+                        RangeCondition(
+                            LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, condition.version),
+                            UpperBoundCondition(UpperBoundOp.LESS_THAN_OR_EQUAL, condition.version),
+                        )
+                    else -> condition
                 }
             else -> condition
         }
@@ -60,8 +75,8 @@ internal class TildeConditionBuilder : ConditionBuilder {
                         versionDescriptor.buildMetadata,
                     )
                 RangeCondition(
-                    start = OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = OperatorCondition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
+                    start = LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version),
+                    end = UpperBoundCondition(UpperBoundOp.LESS_THAN, version.nextMinor(preRelease = "")),
                 )
             }
         }
@@ -95,8 +110,8 @@ internal class CaretConditionBuilder : ConditionBuilder {
                         else -> Version(patch = 1, preRelease = "") // ^0.0.0 -> <0.0.1-0
                     }
                 RangeCondition(
-                    start = OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = OperatorCondition(Op.LESS_THAN, endVersion),
+                    start = LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version),
+                    end = UpperBoundCondition(UpperBoundOp.LESS_THAN, endVersion),
                 )
             }
         }
@@ -106,7 +121,7 @@ internal class CaretConditionBuilder : ConditionBuilder {
             "0" ->
                 RangeCondition(
                     Condition.greaterThanMin,
-                    OperatorCondition(Op.LESS_THAN, Version(major = 1, preRelease = "")),
+                    UpperBoundCondition(UpperBoundOp.LESS_THAN, Version(major = 1, preRelease = "")),
                 )
             else -> versionDescriptor.toCondition()
         }
@@ -116,13 +131,13 @@ internal class CaretConditionBuilder : ConditionBuilder {
             versionDescriptor.majorString == "0" && versionDescriptor.minorString == "0" ->
                 RangeCondition(
                     Condition.greaterThanMin,
-                    OperatorCondition(Op.LESS_THAN, Version(minor = 1, preRelease = "")),
+                    UpperBoundCondition(UpperBoundOp.LESS_THAN, Version(minor = 1, preRelease = "")),
                 )
             versionDescriptor.majorString != "0" -> {
                 val version = Version(major = versionDescriptor.major, minor = versionDescriptor.minor)
                 RangeCondition(
-                    OperatorCondition(Op.GREATER_THAN_OR_EQUAL, version),
-                    OperatorCondition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
+                    LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version),
+                    UpperBoundCondition(UpperBoundOp.LESS_THAN, version.nextMajor(preRelease = "")),
                 )
             }
             else -> versionDescriptor.toCondition()
