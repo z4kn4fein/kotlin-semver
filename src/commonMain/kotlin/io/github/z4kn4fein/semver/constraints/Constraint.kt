@@ -11,16 +11,23 @@ import kotlinx.serialization.Serializable
  * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.constraint
  */
 @Serializable(with = ConstraintSerializer::class)
-public class Constraint private constructor(private val comparators: List<List<VersionComparator>>) {
+public class Constraint private constructor(private val conditions: List<Condition>) {
     /**
-     * Determines whether a [Constraint] is satisfied by a [Version] or not.
+     * Determines whether the [Constraint] is satisfied by a [Version].
      *
      * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.satisfiedBy
      */
-    public fun isSatisfiedBy(version: Version): Boolean =
-        comparators.any { comparator -> comparator.all { condition -> condition.isSatisfiedBy(version) } }
+    public fun isSatisfiedBy(version: Version): Boolean = conditions.any { condition -> condition.isSatisfiedBy(version) }
 
-    override fun toString(): String = comparators.joinToString(" || ") { it.joinToString(" ") }
+    /**
+     * Formats the [Constraint] using the provided [ConditionFormatter].
+     *
+     * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.format
+     */
+    public fun format(formatter: ConditionFormatter): String =
+        conditions.joinToString(formatter.orSeparator) { formatter.formatCondition(it) }
+
+    override fun toString(): String = format(defaultFormatter)
 
     public override fun equals(other: Any?): Boolean =
         when (val constraint = other as? Constraint) {
@@ -32,44 +39,90 @@ public class Constraint private constructor(private val comparators: List<List<V
 
     /** Companion object of [Constraint]. */
     public companion object {
-        private val default: Constraint = Constraint(listOf(listOf(VersionComparator.greaterThanMin)))
-        private val conditionProcessors =
+        private val default: Constraint = Constraint(listOf(Condition.greaterThanMin))
+        private val conditionParsers =
             arrayOf(
-                HyphenConditionProcessor(),
-                OperatorConditionProcessor(),
+                HyphenConditionParser(),
+                OperatorConditionParser(),
             )
+
+        /**
+         * Default [ConditionFormatter] used for formatting [Constraint] instances.
+         */
+        public val defaultFormatter: ConditionFormatter = DefaultFormatter()
 
         /**
          * Parses the [constraintString] as a [Constraint] and returns the result or throws
          * a [ConstraintFormatException] if the string is not a valid representation of a constraint.
          *
+         * @throws ConstraintFormatException if the [constraintString] is not a valid constraint representation.
          * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.parse
          */
+        @Throws(ConstraintFormatException::class)
         public fun parse(constraintString: String): Constraint {
             if (constraintString.isBlank()) {
                 return default
             }
             val orParts = constraintString.split("|").filter { part -> part.isNotBlank() }
-            val comparators =
-                orParts.map { comparator ->
-                    val conditionsResult = mutableListOf<VersionComparator>()
-                    var processed = comparator
-                    conditionProcessors.forEach { processor ->
-                        processed =
-                            processed.replace(processor.regex) { condition ->
-                                conditionsResult.add(processor.processCondition(condition))
-                                ""
-                            }
-                    }
-                    when {
-                        processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $comparator")
-                        else -> conditionsResult
-                    }
+            val orSegments = mutableListOf<Condition>()
+            for (or in orParts) {
+                val andSegments = mutableListOf<Condition>()
+                var processed = or
+                conditionParsers.forEach { parser ->
+                    processed =
+                        processed.replace(parser.regex) { match ->
+                            andSegments.add(parser.parseCondition(match))
+                            ""
+                        }
                 }
+                when {
+                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
+                    else -> orSegments.addAll(andSegments.reduce().map { it.rangeToEquality() })
+                }
+            }
             return when {
-                comparators.isEmpty() || comparators.all { it.isEmpty() } ->
-                    throw ConstraintFormatException("Invalid constraint: $constraintString")
-                else -> Constraint(comparators)
+                orSegments.isEmpty() -> throw ConstraintFormatException("Invalid constraint: $constraintString")
+                else -> Constraint(orSegments)
+            }
+        }
+
+        /**
+         * Parses the [constraintString] as a [Constraint] using the provided [parser] and returns
+         * the result or throws a [ConstraintFormatException] if the string is not a valid representation
+         * of a constraint.
+         *
+         * @throws ConstraintFormatException if the [constraintString] is not a valid constraint representation.
+         * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.parseFormat
+         */
+        @Throws(ConstraintFormatException::class)
+        public fun parseFormat(
+            constraintString: String,
+            parser: ConditionParser,
+        ): Constraint {
+            if (constraintString.isBlank()) {
+                return default
+            }
+            var constraint = constraintString
+            if (parser is PreProcessingConditionParser) {
+                constraint = parser.preProcessConstraint(constraintString)
+            }
+            val orParts = constraint.split(parser.orSeparator).filter { part -> part.isNotBlank() }
+            val orSegments = mutableListOf<Condition>()
+            for (or in orParts) {
+                val andSegments = mutableListOf<Condition>()
+                val processed =
+                    or.replace(parser.regex) { match ->
+                        andSegments.add(parser.parseCondition(match))
+                        ""
+                    }
+                when {
+                    processed.isNotBlank() -> throw ConstraintFormatException("Invalid constraint: $or")
+                    else -> orSegments.addAll(andSegments.reduce().map { it.rangeToEquality() })
+                }
+            }
+            return when {
+                orSegments.isEmpty() -> throw ConstraintFormatException("Invalid constraint: $constraintString")
+                else -> Constraint(orSegments)
             }
         }
     }

@@ -110,14 +110,14 @@ public fun Version.inc(
 public fun Version.withoutSuffixes(): Version = this.copy(preRelease = null, buildMetadata = null)
 
 /**
- * Determines whether a [Version] satisfies a [Constraint] or not.
+ * Determines whether the [Version] satisfies the given [Constraint].
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfies
  */
 public infix fun Version.satisfies(constraint: Constraint): Boolean = constraint satisfiedBy this
 
 /**
- * Determines whether a [Version] satisfies each [Constraint] in a collection or not.
+ * Determines whether the [Version] satisfies each [Constraint] in the given collection.
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfiesAll
  */
@@ -125,7 +125,7 @@ public infix fun Version.satisfiesAll(constraints: Iterable<Constraint>): Boolea
     constraints.all { constraint -> constraint satisfiedBy this }
 
 /**
- * Determines whether a [Version] satisfies at least one [Constraint] in a collection or not.
+ * Determines whether the [Version] satisfies at least one [Constraint] in the given collection.
  *
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.satisfiesAny
  */

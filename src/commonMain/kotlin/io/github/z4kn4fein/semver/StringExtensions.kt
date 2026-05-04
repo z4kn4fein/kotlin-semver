@@ -10,6 +10,7 @@ package io.github.z4kn4fein.semver
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.toVersionStrict
  * @sample io.github.z4kn4fein.semver.samples.VersionSamples.toVersionLoose
  */
+@Throws(VersionFormatException::class)
 public fun String.toVersion(strict: Boolean = true): Version = Version.parse(this, strict)
 
 /**

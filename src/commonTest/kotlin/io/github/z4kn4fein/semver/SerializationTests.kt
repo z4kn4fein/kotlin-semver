@@ -1,6 +1,7 @@
 package io.github.z4kn4fein.semver
 
 import io.github.z4kn4fein.semver.constraints.Constraint
+import io.github.z4kn4fein.semver.constraints.MavenConstraintSerializer
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -21,6 +22,12 @@ class SerializationTests {
 
     @Serializable
     data class ToConstraintSerialize(val constraint: Constraint)
+
+    @Serializable
+    data class ToMavenConstraintSerialize(
+        @Serializable(with = MavenConstraintSerializer::class)
+        val constraint: Constraint,
+    )
 
     @Test
     fun testVersionSerialization() {
@@ -82,6 +89,19 @@ class SerializationTests {
     @Test
     fun testMemberConstraintDeserialization() {
         val decoded = Json.decodeFromString<ToConstraintSerialize>("{\"constraint\":\"> 1.2.3\"}")
+        assertEquals("> 1.2.3".toConstraint(), decoded.constraint)
+    }
+
+    @Test
+    fun testMemberConstraintMavenSerialization() {
+        val obj = ToMavenConstraintSerialize(constraint = "> 1.2.3".toConstraint())
+        val encoded = Json.encodeToString(obj)
+        assertEquals("{\"constraint\":\"(1.2.3,)\"}", encoded)
+    }
+
+    @Test
+    fun testMemberConstraintMavenDeserialization() {
+        val decoded = Json.decodeFromString<ToMavenConstraintSerialize>("{\"constraint\":\"(1.2.3,)\"}")
         assertEquals("> 1.2.3".toConstraint(), decoded.constraint)
     }
 }

@@ -37,36 +37,48 @@ internal data class VersionDescriptor(
         patchString?.toIntOrNull()
             ?: throw ConstraintFormatException("Invalid PATCH number in: $this")
 
-    fun toComparator(operator: Op = Op.EQUAL): VersionComparator {
+    fun toCondition(operator: Operator = EqualityOp.EQUAL): Condition {
         return when {
             isMajorWildcard ->
                 when (operator) {
-                    Op.GREATER_THAN, Op.LESS_THAN, Op.NOT_EQUAL ->
-                        Condition(Op.LESS_THAN, Version.min.copy(preRelease = ""))
-                    else -> VersionComparator.greaterThanMin
+                    LowerBoundOp.GREATER_THAN, UpperBoundOp.LESS_THAN, EqualityOp.NOT_EQUAL ->
+                        UpperBoundCondition(UpperBoundOp.LESS_THAN, Version.min.copy(preRelease = ""))
+                    else -> Condition.greaterThanMin
                 }
             isMinorWildcard -> {
                 val version = Version(major = major, preRelease = preRelease, buildMetadata = buildMetadata)
-                Range(
-                    start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LESS_THAN, version.nextMajor(preRelease = "")),
-                    operator,
+                RangeCondition(
+                    start = LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version),
+                    end = UpperBoundCondition(UpperBoundOp.LESS_THAN, version.nextMajor(preRelease = "")),
                 )
             }
             isPatchWildcard -> {
                 val version =
                     Version(major = major, minor = minor, preRelease = preRelease, buildMetadata = buildMetadata)
-                Range(
-                    start = Condition(Op.GREATER_THAN_OR_EQUAL, version),
-                    end = Condition(Op.LESS_THAN, version.nextMinor(preRelease = "")),
-                    operator,
+                RangeCondition(
+                    start = LowerBoundCondition(LowerBoundOp.GREATER_THAN_OR_EQUAL, version),
+                    end = UpperBoundCondition(UpperBoundOp.LESS_THAN, version.nextMinor(preRelease = "")),
                 )
             }
             else ->
-                Condition(
-                    operator,
-                    Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
-                )
+                when (operator) {
+                    is EqualityOp ->
+                        EqualityCondition(
+                            operator,
+                            Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
+                        )
+                    is LowerBoundOp ->
+                        LowerBoundCondition(
+                            operator,
+                            Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
+                        )
+                    is UpperBoundOp ->
+                        UpperBoundCondition(
+                            operator,
+                            Version(major = major, minor = minor, patch = patch, preRelease, buildMetadata),
+                        )
+                    else -> throw ConstraintFormatException("Invalid operator: $operator")
+                }
         }
     }
 

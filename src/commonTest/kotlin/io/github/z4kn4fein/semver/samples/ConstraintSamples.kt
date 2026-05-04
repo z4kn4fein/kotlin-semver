@@ -2,11 +2,17 @@ package io.github.z4kn4fein.semver.samples
 
 import io.github.z4kn4fein.semver.constraints.Constraint
 import io.github.z4kn4fein.semver.constraints.ConstraintSerializer
+import io.github.z4kn4fein.semver.constraints.MavenConstraintSerializer
+import io.github.z4kn4fein.semver.constraints.MavenStyleFormatter
+import io.github.z4kn4fein.semver.constraints.MavenStyleParser
 import io.github.z4kn4fein.semver.constraints.satisfiedBy
 import io.github.z4kn4fein.semver.constraints.satisfiedByAll
 import io.github.z4kn4fein.semver.constraints.satisfiedByAny
 import io.github.z4kn4fein.semver.constraints.toConstraint
 import io.github.z4kn4fein.semver.constraints.toConstraintOrNull
+import io.github.z4kn4fein.semver.constraints.toMavenConstraint
+import io.github.z4kn4fein.semver.constraints.toMavenConstraintOrNull
+import io.github.z4kn4fein.semver.constraints.toMavenFormat
 import io.github.z4kn4fein.semver.toVersion
 import kotlinx.serialization.json.Json
 
@@ -32,13 +38,60 @@ class ConstraintSamples {
         print(Constraint.parse(">=1.0.0 || <5.x"))
     }
 
+    fun parseFormat() {
+        print(Constraint.parseFormat("[1.2,)", MavenStyleParser()))
+    }
+
+    fun format() {
+        val constraints =
+            listOf(
+                "1.0.0",
+                "!=1.0.0",
+                "~1.0",
+                "^1.x",
+                "1.1.0 - 1.2.*",
+                ">=1.1.0 <3 || =0.1 || 5 - 6",
+                "v1",
+                "v3 - v4",
+                ">=v2.3",
+            )
+
+        constraints.forEach { println("$it => ${it.toConstraint().format(MavenStyleFormatter())}") }
+    }
+
+    fun toMavenFormat() {
+        val constraints =
+            listOf(
+                "1.0.0",
+                "!=1.0.0",
+                "~1.0",
+                "^1.x",
+                "1.1.0 - 1.2.*",
+                ">=1.1.0 <3 || =0.1 || 5 - 6",
+                "v1",
+                "v3 - v4",
+                ">=v2.3",
+            )
+
+        constraints.forEach { println("$it => ${it.toConstraint().toMavenFormat()}") }
+    }
+
     fun toConstraint() {
         print(">=1.0".toConstraint())
+    }
+
+    fun toMavenConstraint() {
+        print("[1.2,)".toMavenConstraint())
     }
 
     fun toConstraintOrNull() {
         println(">=1.2".toConstraintOrNull())
         println(">=1.2a".toConstraintOrNull())
+    }
+
+    fun toMavenConstraintOrNull() {
+        println("[1.2,)".toMavenConstraintOrNull())
+        println("[1.2a,)".toMavenConstraintOrNull())
     }
 
     fun exception() {
@@ -69,6 +122,15 @@ class ConstraintSamples {
 
     fun deserialization() {
         val decoded = Json.decodeFromString(ConstraintSerializer, "\">1.2\"")
+        print(decoded)
+    }
+
+    fun mavenSerialization() {
+        print(Json.encodeToString(MavenConstraintSerializer, ">1.2".toConstraint()))
+    }
+
+    fun mavenDeserialization() {
+        val decoded = Json.decodeFromString(MavenConstraintSerializer, "\"[1.2,)\"")
         print(decoded)
     }
 }

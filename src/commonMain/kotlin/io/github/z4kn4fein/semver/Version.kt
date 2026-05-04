@@ -46,12 +46,12 @@ public class Version private constructor(
     public val preRelease: String? = parsedPreRelease?.toString()
 
     /**
-     * Determines whether the version is pre-release or not.
+     * Determines whether the version is pre-release.
      */
     public val isPreRelease: Boolean = parsedPreRelease != null
 
     /**
-     * Determines whether the version is considered stable or not.
+     * Determines whether the version is considered stable.
      * Stable versions have a positive major number and no pre-release identifier.
      */
     public val isStable: Boolean = major > 0 && parsedPreRelease == null
@@ -143,6 +143,7 @@ public class Version private constructor(
          * @sample io.github.z4kn4fein.semver.samples.VersionSamples.parseLoose
          */
         @Suppress("MagicNumber")
+        @Throws(VersionFormatException::class)
         public fun parse(
             versionString: String,
             strict: Boolean = true,
