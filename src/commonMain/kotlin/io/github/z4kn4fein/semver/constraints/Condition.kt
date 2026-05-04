@@ -212,41 +212,24 @@ internal fun List<Condition>.reduce(): List<Condition> {
     return when {
         nonIntersectingRanges.isNotEmpty() -> {
             val reduced = this.reduceConditions()
-            val bounds = reduced.toBounds()
-            nonIntersectingRanges.forEach {
-                when (reduced) {
-                    is LowerBoundCondition -> {
-                        if (it.lower > reduced) bounds.add(it.lower)
-                        if (it.upper > reduced) bounds.add(it.upper)
-                    }
-                    is UpperBoundCondition -> {
-                        if (it.lower < reduced) bounds.add(it.lower)
-                        if (it.upper < reduced) bounds.add(it.upper)
-                    }
-                    is RangeCondition -> {
-                        if (reduced.start < it.lower && reduced.end > it.lower) bounds.add(it.lower)
-                        if (reduced.start < it.upper && reduced.end > it.upper) bounds.add(it.upper)
-                        if (reduced.start > it.upper && reduced.end < it.lower) {
-                            throw ConstraintFormatException(
-                                "Conflicting range conditions: " +
-                                    "(${reduced.start.operator}${reduced.start.version} " +
-                                    "${reduced.end.operator}${reduced.end.version}) && " +
-                                    "(${it.lower.operator}${it.lower.version} || ${it.upper.operator}${it.upper.version})",
-                            )
-                        }
-                    }
-                }
-            }
+            val allBounds = nonIntersectingRanges.getIntersectingBounds(reduced)
+            val validBounds = allBounds.filter { !it.isInIgnoreRange(nonIntersectingRanges) }
 
             when {
-                bounds.size == 1 -> bounds
+                validBounds.size == 1 -> validBounds
                 else -> {
                     val orConditions = mutableListOf<Condition>()
                     var currentLowerBound: LowerBoundCondition? = null
                     var minUpperBound: UpperBoundCondition? = null
-                    bounds.sorted().forEach {
+                    validBounds.sorted().forEach {
                         when {
-                            it is LowerBoundCondition -> currentLowerBound = it
+                            it is LowerBoundCondition -> {
+                                currentLowerBound = it
+                                if (minUpperBound != null) {
+                                    orConditions.add(minUpperBound)
+                                    minUpperBound = null
+                                }
+                            }
                             else ->
                                 when {
                                     currentLowerBound != null -> {
@@ -270,17 +253,52 @@ internal fun List<Condition>.reduce(): List<Condition> {
     }
 }
 
-internal fun Condition.toBounds(): MutableList<BoundCondition> {
+internal fun List<NonIntersectingRangeCondition>.getIntersectingBounds(condition: Condition): List<BoundCondition> {
     val bounds = mutableListOf<BoundCondition>()
-    when (this) {
-        is RangeCondition -> {
-            bounds.add(this.start)
-            bounds.add(this.end)
+    this.forEach {
+        when (condition) {
+            is LowerBoundCondition -> {
+                if (it.lower > condition) bounds.add(it.lower)
+                if (it.upper > condition) bounds.add(it.upper)
+            }
+
+            is UpperBoundCondition -> {
+                if (it.lower < condition) bounds.add(it.lower)
+                if (it.upper < condition) bounds.add(it.upper)
+            }
+
+            is RangeCondition -> {
+                if (condition.start < it.lower && condition.end > it.lower) bounds.add(it.lower)
+                if (condition.start < it.upper && condition.end > it.upper) bounds.add(it.upper)
+                if (condition.start > it.upper && condition.end < it.lower) {
+                    throw ConstraintFormatException(
+                        "Conflicting range conditions: " +
+                            "(${condition.start.operator}${condition.start.version} " +
+                            "${condition.end.operator}${condition.end.version}) && " +
+                            "(${it.lower.operator}${it.lower.version} || ${it.upper.operator}${it.upper.version})",
+                    )
+                }
+            }
         }
-        is BoundCondition -> bounds.add(this)
+    }
+    when (condition) {
+        is BoundCondition -> bounds.add(condition)
+        is RangeCondition -> {
+            bounds.add(condition.start)
+            bounds.add(condition.end)
+        }
     }
     return bounds
 }
+
+internal fun Condition.isInIgnoreRange(nonIntersectingRanges: List<NonIntersectingRangeCondition>): Boolean =
+    when (this) {
+        is BoundCondition -> nonIntersectingRanges.any { it.lower > this && it.upper < this }
+        is RangeCondition -> {
+            nonIntersectingRanges.any { (it.lower > this.start && it.upper < this.start) || (it.lower > this.end && it.upper < this.end) }
+        }
+        else -> false
+    }
 
 internal fun Condition.rangeToEquality(): Condition =
     when (this) {

@@ -36,6 +36,7 @@ class ConstraintTests {
         assertFailsWith<ConstraintFormatException> { ">=1.2a".toConstraint() }
         assertFailsWith<ConstraintFormatException> { ">=1.2.3 <1.0.0".toConstraint() }
         assertFailsWith<ConstraintFormatException> { "<4.5.7 >4.5.6 <4.5.8 !=4.5".toConstraint() }
+        assertFailsWith<ConstraintFormatException> { "=1.2.3 !=1.2.3".toConstraint() }
     }
 
     @Test
@@ -48,6 +49,8 @@ class ConstraintTests {
         assertNull(">=0.0-0".toConstraintOrNull())
         assertNull(">=1.2a".toConstraintOrNull())
         assertNull(">=1.2.3 <1.0.0".toConstraintOrNull())
+        assertNull("<4.5.7 >4.5.6 <4.5.8 !=4.5".toConstraintOrNull())
+        assertNull("=1.2.3 !=1.2.3".toConstraintOrNull())
     }
 
     @Test
@@ -764,6 +767,13 @@ class ConstraintTests {
                 Pair(">4.5.6 !=4.5", ">=4.6.0-0"),
                 Pair("<=1.2.3 !=1.2.3", "<1.2.3"),
                 Pair(">=1.2.3 !=1.2.3", ">1.2.3"),
+                Pair("!=1.5 >1.5.6 <1.6.5", ">=1.6.0-0 <1.6.5"),
+                Pair("!=1.5 >1.5.6 >1.4.5", ">=1.6.0-0"),
+                Pair("!=5.0.0 >4.5.6 !=4.5", ">=4.6.0-0 <5.0.0 || >5.0.0"),
+                Pair("!=1.5 <1.5.6 >1.4.5", ">1.4.5 <1.5.0"),
+                Pair("!=3.0.0 <4.5.6 !=4.5", "<3.0.0 || >3.0.0 <4.5.0"),
+                Pair("!=3.0.0 <4.5.6", "<3.0.0 || >3.0.0 <4.5.6"),
+                Pair("!=3.0.6 !=3.0 <4.5.6", "<3.0.0 || >=3.1.0-0 <4.5.6"),
             )
 
         data.forEach {
