@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>io.github.z4kn4fein.semver.constraints</title>
         <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="Stylesheet">
-    <script>var pathToRoot = "../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+        <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://kotlin-compiler-4own5.ondigitalocean.app"></script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/kotlin-playground-samples.js" async="async"></script>
+<link href="../../styles/kotlin-playground-samples.css" rel="Stylesheet">
 <script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../styles/style.css" rel="Stylesheet">
 <link href="../../styles/main.css" rel="Stylesheet">
 <link href="../../styles/prism.css" rel="Stylesheet">
 <link href="../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer="defer"></script>
-<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 <link href="../../styles/styles.css" rel="Stylesheet">
 </head>
 <body>
-    <div class="root">
+<div class="root">
     <nav class="navigation theme-dark" id="navigation-wrapper">
             <a class="library-name--link" href="../../index.html">
                     semver
@@ -48,10 +48,10 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-3.0.0        </div>
+3.1.0        </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active=""
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
                         data-filter=":/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
@@ -61,9 +61,9 @@
                         aria-expanded="false"
                         aria-label="Toggle source sets"
                 ></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -78,7 +78,7 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link">
                 <i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span>
             </a>
@@ -90,25 +90,27 @@
             </div>
         </div>
     </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
-                        data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     semver
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="package" id="content" pageIds="semver::io.github.z4kn4fein.semver.constraints////PointingToDeclaration//1558683979">
   <div class="breadcrumbs"><a href="../../index.html">semver</a><span class="delimiter">/</span><span class="current">io.github.z4kn4fein.semver.constraints</span></div>
   <div class="cover ">
@@ -118,9 +120,69 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="TYPE">
-        <h2 class="">Types</h2>
-        <div class="table"><a data-name="-1274729077%2FClasslikes%2F1558683979" anchor-label="Constraint" id="-1274729077%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-1671394645%2FClasslikes%2F1558683979" anchor-label="BoundCondition" id="-1671394645%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-bound-condition/index.html"><span>Bound</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1671394645%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-bound-condition/index.html">BoundCondition</a> : <a href="-operator-condition/index.html">OperatorCondition</a>, <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparable/index.html">Comparable</a><span class="token operator">&lt;</span><a href="-bound-condition/index.html">BoundCondition</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents a condition with a defined boundary for semantic version constraints. This interface extends the behavior of <a href="-operator-condition/index.html">OperatorCondition</a> by adding comparability.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-169438209%2FClasslikes%2F1558683979" anchor-label="Condition" id="-169438209%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-condition/index.html"><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-169438209%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-condition/index.html">Condition</a></div><div class="brief "><p class="paragraph">Represents a condition that can evaluate whether a given <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> satisfies certain criteria.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1737874759%2FClasslikes%2F1558683979" anchor-label="ConditionFormatter" id="-1737874759%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-condition-formatter/index.html"><span>Condition</span><wbr></wbr><span><span>Formatter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1737874759%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-condition-formatter/index.html">ConditionFormatter</a></div><div class="brief "><p class="paragraph">Interface that provides a framework for formatting constraints represented by a list of conditions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1135660576%2FClasslikes%2F1558683979" anchor-label="ConditionParser" id="1135660576%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-condition-parser/index.html"><span>Condition</span><wbr></wbr><span><span>Parser</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1135660576%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-condition-parser/index.html">ConditionParser</a></div><div class="brief "><p class="paragraph">Interface for parsing conditional expressions into <a href="-condition/index.html">Condition</a> instances.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1274729077%2FClasslikes%2F1558683979" anchor-label="Constraint" id="-1274729077%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-constraint/index.html"><span><span>Constraint</span></span></a></div>
@@ -135,7 +197,7 @@
             </div>
           </div>
 <a data-name="-328855393%2FClasslikes%2F1558683979" anchor-label="ConstraintFormatException" id="-328855393%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-constraint-format-exception/index.html"><span>Constraint</span><wbr></wbr><span>Format</span><wbr></wbr><span><span>Exception</span></span></a></div>
@@ -150,7 +212,7 @@
             </div>
           </div>
 <a data-name="2078728089%2FClasslikes%2F1558683979" anchor-label="ConstraintSerializer" id="2078728089%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-constraint-serializer/index.html"><span>Constraint</span><wbr></wbr><span><span>Serializer</span></span></a></div>
@@ -159,7 +221,247 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-constraint-serializer/index.html">ConstraintSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><a href="-constraint/index.html">Constraint</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in <span data-unresolved-link="kotlinx.serialization////PointingToDeclaration/">kotlinx.serialization</span> serializer that encodes and decodes <a href="-constraint/index.html">Constraint</a> as its string representation.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-constraint-serializer/index.html">ConstraintSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><a href="-constraint/index.html">Constraint</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in kotlinx.serialization serializer that encodes and decodes a <a href="-constraint/index.html">Constraint</a> as its string representation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1334789089%2FClasslikes%2F1558683979" anchor-label="DefaultFormatter" id="-1334789089%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-default-formatter/index.html"><span>Default</span><wbr></wbr><span><span>Formatter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1334789089%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-default-formatter/index.html">DefaultFormatter</a> : <a href="-condition-formatter/index.html">ConditionFormatter</a></div><div class="brief "><p class="paragraph">The default formatter used to format <a href="-constraint/index.html">Constraint</a> instances.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1151521383%2FClasslikes%2F1558683979" anchor-label="EqualityCondition" id="-1151521383%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-equality-condition/index.html"><span>Equality</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1151521383%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-equality-condition/index.html">EqualityCondition</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>operator<span class="token operator">: </span><a href="-equality-op/index.html">EqualityOp</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>version<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a></span></span><span class="token punctuation">)</span> : <a href="-operator-condition/index.html">OperatorCondition</a>, <a href="-negatable/index.html">Negatable</a><span class="token operator">&lt;</span><a href="-equality-condition/index.html">EqualityCondition</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents a condition that checks for equality or inequality of a version using the specified equality operator.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1374136493%2FClasslikes%2F1558683979" anchor-label="EqualityOp" id="1374136493%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-equality-op/index.html"><span>Equality</span><wbr></wbr><span><span>Op</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1374136493%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-equality-op/index.html">EqualityOp</a> : <a href="-operator/index.html">Operator</a>, <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-equality-op/index.html">EqualityOp</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Defines equality comparison operators that can be used to evaluate version constraints.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2059792228%2FClasslikes%2F1558683979" anchor-label="LowerBoundCondition" id="-2059792228%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-lower-bound-condition/index.html"><span>Lower</span><wbr></wbr><span>Bound</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2059792228%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-lower-bound-condition/index.html">LowerBoundCondition</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>operator<span class="token operator">: </span><a href="-lower-bound-op/index.html">LowerBoundOp</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>version<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a></span></span><span class="token punctuation">)</span> : <a href="-bound-condition/index.html">BoundCondition</a>, <a href="-negatable/index.html">Negatable</a><span class="token operator">&lt;</span><a href="-upper-bound-condition/index.html">UpperBoundCondition</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents a condition that checks if a version is greater than or equal to a specified version.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1449864438%2FClasslikes%2F1558683979" anchor-label="LowerBoundOp" id="-1449864438%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-lower-bound-op/index.html"><span>Lower</span><wbr></wbr><span>Bound</span><wbr></wbr><span><span>Op</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1449864438%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-lower-bound-op/index.html">LowerBoundOp</a> : <a href="-operator/index.html">Operator</a>, <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-lower-bound-op/index.html">LowerBoundOp</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Enum representing lower-bound comparison operators used in version constraints.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-536818048%2FClasslikes%2F1558683979" anchor-label="MavenConstraintSerializer" id="-536818048%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-maven-constraint-serializer/index.html"><span>Maven</span><wbr></wbr><span>Constraint</span><wbr></wbr><span><span>Serializer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-536818048%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-maven-constraint-serializer/index.html">MavenConstraintSerializer</a> : <span data-unresolved-link="kotlinx.serialization/KSerializer///PointingToDeclaration/">KSerializer</span><span class="token operator">&lt;</span><a href="-constraint/index.html">Constraint</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Built-in kotlinx.serialization serializer that encodes and decodes a <a href="-constraint/index.html">Constraint</a> in Maven-style string representation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="427587958%2FClasslikes%2F1558683979" anchor-label="MavenStyleFormatter" id="427587958%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-maven-style-formatter/index.html"><span>Maven</span><wbr></wbr><span>Style</span><wbr></wbr><span><span>Formatter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="427587958%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-maven-style-formatter/index.html">MavenStyleFormatter</a> : <a href="-condition-formatter/index.html">ConditionFormatter</a></div><div class="brief "><p class="paragraph">A formatter for Maven-style version constraints. This class transforms conditions into a string representation that adheres to the Maven format for version ranges.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1631897469%2FClasslikes%2F1558683979" anchor-label="MavenStyleParser" id="-1631897469%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-maven-style-parser/index.html"><span>Maven</span><wbr></wbr><span>Style</span><wbr></wbr><span><span>Parser</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1631897469%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-maven-style-parser/index.html">MavenStyleParser</a> : <a href="-pre-processing-condition-parser/index.html">PreProcessingConditionParser</a></div><div class="brief "><p class="paragraph">A parser that converts Maven-style version range expressions into <a href="-condition/index.html">Condition</a> objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1475979709%2FClasslikes%2F1558683979" anchor-label="Negatable" id="1475979709%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-negatable/index.html"><span><span>Negatable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1475979709%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-negatable/index.html">Negatable</a><span class="token operator">&lt;</span><a href="-negatable/index.html">T</a><span class="token operator"> : </span><a href="-condition/index.html">Condition</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Represents an entity that can be negated to form its logical opposite.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="71560108%2FClasslikes%2F1558683979" anchor-label="NonIntersectingRangeCondition" id="71560108%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-non-intersecting-range-condition/index.html"><span>Non</span><wbr></wbr><span>Intersecting</span><wbr></wbr><span>Range</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="71560108%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-non-intersecting-range-condition/index.html">NonIntersectingRangeCondition</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>lower<span class="token operator">: </span><a href="-lower-bound-condition/index.html">LowerBoundCondition</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>upper<span class="token operator">: </span><a href="-upper-bound-condition/index.html">UpperBoundCondition</a></span></span><span class="token punctuation">)</span> : <a href="-condition/index.html">Condition</a></div><div class="brief "><p class="paragraph">Represents a non-intersecting range condition where bounds are pointing in opposite directions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-412503452%2FClasslikes%2F1558683979" anchor-label="Operator" id="-412503452%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-operator/index.html"><span><span>Operator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-412503452%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-operator/index.html">Operator</a></div><div class="brief "><p class="paragraph">Represents a comparison operator for version constraints.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-194873661%2FClasslikes%2F1558683979" anchor-label="OperatorCondition" id="-194873661%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-operator-condition/index.html"><span>Operator</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-194873661%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-operator-condition/index.html">OperatorCondition</a> : <a href="-condition/index.html">Condition</a></div><div class="brief "><p class="paragraph">Represents a condition that compares a specific semantic version against a constraint defined by an operator and a target version.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-407131804%2FClasslikes%2F1558683979" anchor-label="PreProcessingConditionParser" id="-407131804%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-pre-processing-condition-parser/index.html"><span>Pre</span><wbr></wbr><span>Processing</span><wbr></wbr><span>Condition</span><wbr></wbr><span><span>Parser</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-407131804%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-pre-processing-condition-parser/index.html">PreProcessingConditionParser</a> : <a href="-condition-parser/index.html">ConditionParser</a></div><div class="brief "><p class="paragraph">An interface extending <a href="-condition-parser/index.html">ConditionParser</a>, designed for parsing and preprocessing constraints in conditional expressions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1988961622%2FClasslikes%2F1558683979" anchor-label="RangeCondition" id="-1988961622%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-range-condition/index.html"><span>Range</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1988961622%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-range-condition/index.html">RangeCondition</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>start<span class="token operator">: </span><a href="-lower-bound-condition/index.html">LowerBoundCondition</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>end<span class="token operator">: </span><a href="-upper-bound-condition/index.html">UpperBoundCondition</a></span></span><span class="token punctuation">)</span> : <a href="-condition/index.html">Condition</a></div><div class="brief "><p class="paragraph">Represents a composite condition that evaluates whether a <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> falls within a specific range defined by a <a href="-lower-bound-condition/index.html">LowerBoundCondition</a> and an <a href="-upper-bound-condition/index.html">UpperBoundCondition</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="285655003%2FClasslikes%2F1558683979" anchor-label="UpperBoundCondition" id="285655003%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-upper-bound-condition/index.html"><span>Upper</span><wbr></wbr><span>Bound</span><wbr></wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="285655003%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-upper-bound-condition/index.html">UpperBoundCondition</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>operator<span class="token operator">: </span><a href="-upper-bound-op/index.html">UpperBoundOp</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>version<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a></span></span><span class="token punctuation">)</span> : <a href="-bound-condition/index.html">BoundCondition</a>, <a href="-negatable/index.html">Negatable</a><span class="token operator">&lt;</span><a href="-lower-bound-condition/index.html">LowerBoundCondition</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents a condition that checks if a version is less than or equal to a specified version.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-20104021%2FClasslikes%2F1558683979" anchor-label="UpperBoundOp" id="-20104021%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-upper-bound-op/index.html"><span>Upper</span><wbr></wbr><span>Bound</span><wbr></wbr><span><span>Op</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-20104021%2FClasslikes%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-upper-bound-op/index.html">UpperBoundOp</a> : <a href="-operator/index.html">Operator</a>, <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-upper-bound-op/index.html">UpperBoundOp</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents the upper-bound comparison operator for version constraints.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -167,9 +469,9 @@
         </div>
       </div>
       <div data-togglable="EXTENSION_FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-1171843681%2FFunctions%2F1558683979" anchor-label="satisfiedBy" id="-1171843681%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="satisfied-by.html"><span>satisfied</span><wbr></wbr><span><span>By</span></span></a></div>
@@ -178,13 +480,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by.html"><span class="token function">satisfiedBy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">version<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-constraint/index.html">Constraint</a> is satisfied by a <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> or not.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by.html"><span class="token function">satisfiedBy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">version<span class="token operator">: </span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether the <a href="-constraint/index.html">Constraint</a> is satisfied by a <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a>.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1565356658%2FFunctions%2F1558683979" anchor-label="satisfiedByAll" id="-1565356658%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="satisfied-by-all.html"><span>satisfied</span><wbr></wbr><span>By</span><wbr></wbr><span><span>All</span></span></a></div>
@@ -193,13 +495,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by-all.html"><span class="token function">satisfiedByAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">versions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-constraint/index.html">Constraint</a> is satisfied by each <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> in a collection or not.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by-all.html"><span class="token function">satisfiedByAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">versions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether the <a href="-constraint/index.html">Constraint</a> is satisfied by each <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> in a collection.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="2090885539%2FFunctions%2F1558683979" anchor-label="satisfiedByAny" id="2090885539%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="satisfied-by-any.html"><span>satisfied</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Any</span></span></a></div>
@@ -208,13 +510,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by-any.html"><span class="token function">satisfiedByAny</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">versions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether a <a href="-constraint/index.html">Constraint</a> is satisfied by at least one <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> in a collection or not.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="satisfied-by-any.html"><span class="token function">satisfiedByAny</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">versions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Determines whether the <a href="-constraint/index.html">Constraint</a> is satisfied by at least one <a href="../io.github.z4kn4fein.semver/-version/index.html">Version</a> in a collection.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-2119528101%2FFunctions%2F1558683979" anchor-label="toConstraint" id="-2119528101%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="to-constraint.html"><span>to</span><wbr></wbr><span><span>Constraint</span></span></a></div>
@@ -229,7 +531,7 @@
             </div>
           </div>
 <a data-name="-717271675%2FFunctions%2F1558683979" anchor-label="toConstraintOrNull" id="-717271675%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="to-constraint-or-null.html"><span>to</span><wbr></wbr><span>Constraint</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></a></div>
@@ -243,23 +545,72 @@
               </div>
             </div>
           </div>
+<a data-name="-1382543836%2FFunctions%2F1558683979" anchor-label="toMavenConstraint" id="-1382543836%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-maven-constraint.html"><span>to</span><wbr></wbr><span>Maven</span><wbr></wbr><span><span>Constraint</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1382543836%2FFunctions%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-maven-constraint.html"><span class="token function">toMavenConstraint</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-constraint/index.html">Constraint</a></div><div class="brief "><p class="paragraph">Parses a maven range string as a <a href="-constraint/index.html">Constraint</a> and returns the result or throws a <a href="-constraint-format-exception/index.html">ConstraintFormatException</a> if the string is not a valid representation of a constraint.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1461432434%2FFunctions%2F1558683979" anchor-label="toMavenConstraintOrNull" id="-1461432434%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-maven-constraint-or-null.html"><span>to</span><wbr></wbr><span>Maven</span><wbr></wbr><span>Constraint</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1461432434%2FFunctions%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-maven-constraint-or-null.html"><span class="token function">toMavenConstraintOrNull</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-constraint/index.html">Constraint</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Parses a maven range string as a <a href="-constraint/index.html">Constraint</a> and returns the result or null if the string is not a valid representation of a constraint.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="494279333%2FFunctions%2F1558683979" anchor-label="toMavenFormat" id="494279333%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-maven-format.html"><span>to</span><wbr></wbr><span>Maven</span><wbr></wbr><span><span>Format</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="494279333%2FFunctions%2F1558683979"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-constraint/index.html">Constraint</a><span class="token punctuation">.</span><a href="to-maven-format.html"><span class="token function">toMavenFormat</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Converts the current <a href="-constraint/index.html">Constraint</a> instance into a Maven-compatible string representation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>Copyright © 2025 Peter Csajtai</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright © 2026 Peter Csajtai</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

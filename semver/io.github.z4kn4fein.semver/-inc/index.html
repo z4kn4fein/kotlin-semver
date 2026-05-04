@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Inc</title>
         <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="Stylesheet">
-    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+        <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1" data-selector="code" data-server="https://kotlin-compiler-4own5.ondigitalocean.app"></script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/kotlin-playground-samples.js" async="async"></script>
+<link href="../../../styles/kotlin-playground-samples.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 <link href="../../../styles/styles.css" rel="Stylesheet">
 </head>
 <body>
-    <div class="root">
+<div class="root">
     <nav class="navigation theme-dark" id="navigation-wrapper">
             <a class="library-name--link" href="../../../index.html">
                     semver
@@ -48,10 +48,10 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-3.0.0        </div>
+3.1.0        </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active=""
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
                         data-filter=":/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
@@ -61,9 +61,9 @@
                         aria-expanded="false"
                         aria-label="Toggle source sets"
                 ></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -78,7 +78,7 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <a href="https://github.com/z4kn4fein/kotlin-semver" target="_blank" rel="noopener" class="gh-link">
                 <i class="fa fa-github"></i> <span class="repo-name">z4kn4fein/kotlin-semver</span>
             </a>
@@ -90,30 +90,32 @@
             </div>
         </div>
     </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
-                        data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     semver
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageIds="semver::io.github.z4kn4fein.semver/Inc///PointingToDeclaration//1558683979">
   <div class="breadcrumbs"><a href="../../../index.html">semver</a><span class="delimiter">/</span><a href="../index.html">io.github.z4kn4fein.semver</a><span class="delimiter">/</span><span class="current">Inc</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Inc</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">Inc</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="index.html">Inc</a><span class="token operator">&gt; </span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/Inc.kt#L8">source</a>)</span></span></div><p class="paragraph">Determines by which identifier the given <a href="../-version/index.html">Version</a> should be incremented.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="index.html">Inc</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="index.html">Inc</a><span class="token operator">&gt; </span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/z4kn4fein/kotlin-semver/blob/master/src/commonMain/kotlin/io/github/z4kn4fein/semver/Inc.kt#L8">source</a>)</span></span></div><p class="paragraph">Determines by which identifier the given <a href="../-version/index.html">Version</a> should be incremented.</p><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import io.github.z4kn4fein.semver.Inc
 import io.github.z4kn4fein.semver.LooseVersionSerializer
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.VersionSerializer
@@ -142,15 +144,15 @@ println(version.inc(by = Inc.PRE_RELEASE))
 println(version.inc(by = Inc.MAJOR, preRelease = &quot;&quot;))
 println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;)) 
    //sampleEnd
-}</code></pre></div></div></div>
+}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="ENTRY">Entries</button></div>
     <div class="tabs-section-body">
       <div data-togglable="ENTRY">
-        <h2 class="">Entries</h2>
+        <h2 class="tableheader">Entries</h2>
         <div class="table"><a data-name="1475636268%2FClasslikes%2F1558683979" anchor-label="MAJOR" id="1475636268%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-m-a-j-o-r/index.html">MAJOR</a></div>
@@ -165,7 +167,7 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
             </div>
           </div>
 <a data-name="-2014794456%2FClasslikes%2F1558683979" anchor-label="MINOR" id="-2014794456%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-m-i-n-o-r/index.html">MINOR</a></div>
@@ -180,7 +182,7 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
             </div>
           </div>
 <a data-name="1599225467%2FClasslikes%2F1558683979" anchor-label="PATCH" id="1599225467%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-p-a-t-c-h/index.html">PATCH</a></div>
@@ -195,7 +197,7 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
             </div>
           </div>
 <a data-name="-1229316610%2FClasslikes%2F1558683979" anchor-label="PRE_RELEASE" id="-1229316610%2FClasslikes%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-togglable="ENTRY" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-p-r-e_-r-e-l-e-a-s-e/index.html">PRE_RELEASE</a></div>
@@ -212,9 +214,9 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="-290435889%2FProperties%2F1558683979" anchor-label="entries" id="-290435889%2FProperties%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="entries.html"><span><span>entries</span></span></a></div>
@@ -229,31 +231,31 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
             </div>
           </div>
 <a data-name="-372974862%2FProperties%2F1558683979" anchor-label="name" id="-372974862%2FProperties%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-e_-r-e-l-e-a-s-e/index.html#-372974862%2FProperties%2F1558683979"><span><span>name</span></span></a></div>
+                  <div><a href="../../io.github.z4kn4fein.semver.constraints/-upper-bound-op/-l-e-s-s_-t-h-a-n_-o-r_-e-q-u-a-l/index.html#-372974862%2FProperties%2F1558683979"><span><span>name</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-372974862%2FProperties%2F1558683979"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-e_-r-e-l-e-a-s-e/index.html#-372974862%2FProperties%2F1558683979">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="../../io.github.z4kn4fein.semver.constraints/-upper-bound-op/-l-e-s-s_-t-h-a-n_-o-r_-e-q-u-a-l/index.html#-372974862%2FProperties%2F1558683979">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-739389684%2FProperties%2F1558683979" anchor-label="ordinal" id="-739389684%2FProperties%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-e_-r-e-l-e-a-s-e/index.html#-739389684%2FProperties%2F1558683979"><span><span>ordinal</span></span></a></div>
+                  <div><a href="../../io.github.z4kn4fein.semver.constraints/-upper-bound-op/-l-e-s-s_-t-h-a-n_-o-r_-e-q-u-a-l/index.html#-739389684%2FProperties%2F1558683979"><span><span>ordinal</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-739389684%2FProperties%2F1558683979"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-e_-r-e-l-e-a-s-e/index.html#-739389684%2FProperties%2F1558683979">ordinal</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="../../io.github.z4kn4fein.semver.constraints/-upper-bound-op/-l-e-s-s_-t-h-a-n_-o-r_-e-q-u-a-l/index.html#-739389684%2FProperties%2F1558683979">ordinal</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -261,9 +263,9 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-414377683%2FFunctions%2F1558683979" anchor-label="valueOf" id="-414377683%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="value-of.html"><span>value</span><wbr></wbr><span><span>Of</span></span></a></div>
@@ -278,7 +280,7 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
             </div>
           </div>
 <a data-name="53266681%2FFunctions%2F1558683979" anchor-label="values" id="53266681%2FFunctions%2F1558683979" data-filterable-set=":/commonMain"></a>
-          <div class="table-row" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":/commonMain" data-filterable-set=":/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="values.html"><span><span>values</span></span></a></div>
@@ -298,17 +300,21 @@ println(version.inc(by = Inc.MINOR, preRelease = &quot;beta&quot;))
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>Copyright © 2025 Peter Csajtai</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright © 2026 Peter Csajtai</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
