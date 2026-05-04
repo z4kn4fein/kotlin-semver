@@ -18,7 +18,7 @@ jobs:
     - name: Cache Gradle
       uses: ./.github/actions/cache-gradle
     - name: Generate HTML docs
-      run: ./gradlew buildDocs
+      run: ./gradlew dokkaGenerateHtml
       shell: bash
     - name: Deploy docs to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.8.0
