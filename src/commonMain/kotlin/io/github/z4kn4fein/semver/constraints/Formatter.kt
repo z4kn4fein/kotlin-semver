@@ -11,7 +11,7 @@ public interface ConditionFormatter {
     public val orSeparator: String
 
     /**
-     * Formats a condition into a single string representation.
+     * Formats a condition into its string representation.
      *
      * @param condition The condition to be formatted.
      * @return The formatted string representation of the given condition.
@@ -39,6 +39,8 @@ public class DefaultFormatter : ConditionFormatter {
 /**
  * A formatter for Maven-style version constraints. This class transforms conditions
  * into a string representation that adheres to the Maven format for version ranges.
+ *
+ * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.format
  */
 public class MavenStyleFormatter : ConditionFormatter {
     override val orSeparator: String = ","

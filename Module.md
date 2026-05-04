@@ -288,19 +288,18 @@ val constraint = "[1.2.3,2.0.0)".toMavenConstraint()
 ## Extendibility
 The constraint API is designed to be extensible, so you can adapt it to other constraint formats.
 
-### Custom constraint parsing
+### Parsing
 
 You can implement a custom `ConditionParser` when you want to parse a constraint syntax that this library doesn't support by default.
 
 ```kotlin
-class MyParser : ConditionParser {
-  override val orSeparator: String = "<or-separator>"
-  override val regex: Regex = "<regex-to-match-a-condition>".toRegex()
-
-  override fun parseCondition(match: MatchResult): Condition {
-    // convert a matched token into a Condition
-    TODO("implement custom parsing")
-  }
+class MyParser : ConditionParser { 
+    override val orSeparator: String = "<or-separator>" 
+    override val regex: Regex = "<regex-to-match-a-condition>".toRegex()
+  
+    override fun parseCondition(match: MatchResult): Condition {
+        // convert a matched token into a Condition 
+    }
 }
 ```
 
@@ -310,14 +309,14 @@ Then parse a constraint with your parser:
 val constraint = Constraint.parseFormat("<constraint-string>", MyParser())
 ```
 
-For a complete example, see the [`MavenStyleParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L131).
+For a complete example, see the [`MavenStyleParser`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/ConditionParser.kt#L132).
 
-### Custom constraint formatting
+### Formatting
 You can implement a custom `ConditionFormatter` when you want to format a constraint with a syntax that this library doesn't support by default.
 The library passes all the conditions to the formatter one by one and joins them with the formatter's `orSeparator`.
 
 ```kotlin
-class MyFormatter : ConditionFormatter() { 
+class MyFormatter : ConditionFormatter { 
     override val orSeparator: String = "<or-separator>"
   
     override fun formatCondition(condition: Condition): String {
@@ -337,7 +336,7 @@ val constraint = ">=1.2.3 <2.0.0".toConstraint()
 val formatted = constraint.format(MyFormatter())
 ```
 
-For a complete example, see the [`MavenStyleFormatter`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/Formatter.kt#L43).
+For a complete example, see the [`MavenStyleFormatter`](https://github.com/z4kn4fein/kotlin-semver/blob/main/src/commonMain/kotlin/io/github/z4kn4fein/semver/constraints/Formatter.kt#L45).
 
 ## Increment
 `Version` objects can produce incremented versions of themselves with the [`nextMajor()`](https://z4kn4fein.github.io/kotlin-semver/semver/io.github.z4kn4fein.semver/next-major.html),

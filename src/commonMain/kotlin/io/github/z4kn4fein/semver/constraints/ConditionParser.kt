@@ -127,6 +127,7 @@ internal class HyphenConditionParser : ConditionParser {
  * - Parsing multiple constraints (e.g., "[1.0.0,2.0.0),[3.0.0]")
  *
  * @constructor Creates an instance of the [MavenStyleParser].
+ * @sample io.github.z4kn4fein.semver.samples.ConstraintSamples.parseFormat
  */
 public class MavenStyleParser : PreProcessingConditionParser {
     private val separatorPreprocessingBracketRegex = Regex("\\]\\s*,")
