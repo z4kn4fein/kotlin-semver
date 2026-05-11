@@ -69,7 +69,7 @@ jobs:
         with:
           sarif_file: build/reports/detekt/detekt.sarif
       - name: Upload analysis report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: analysis-report
           path: build/reports/detekt
@@ -91,7 +91,7 @@ jobs:
         run: ./gradlew koverXmlReport --stacktrace
         shell: bash
       - name: Upload coverage report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-report
           path: build/reports/kover
